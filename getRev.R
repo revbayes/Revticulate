@@ -1,11 +1,13 @@
 
+library(tidyverse)
+
 #Path to rb.exe
 
 RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
 
 
 
-CallRev <- function(..., coerce = F, path = RevPath){
+CallRev <- function(..., coerce = TRUE, path = RevPath){
   
   args_ <- c(...)
   
@@ -19,6 +21,13 @@ CallRev <- function(..., coerce = F, path = RevPath){
   out <- system2(path, args = c(tf), stdout = T)
   out <- out[-c(1:13, length(out)-1, length(out))]
   
+  if(file.exists(tf)){
+    file.remove(tf)
+  }
+  
+  if(coerce == FALSE){
+    return(out)
+  }
   
   spl_vec <- function(inp){
     out <- stringr::str_remove_all(inp, ",|\\[|\\]" )
@@ -27,7 +36,7 @@ CallRev <- function(..., coerce = F, path = RevPath){
     return(out)
   }
   count_brackets <- function(string){
-    str_count(string, pattern = "]|\\[")
+    stringr::str_count(string, pattern = "]|\\[")
   }
   test_matrix <- function(output){
     
@@ -35,6 +44,14 @@ CallRev <- function(..., coerce = F, path = RevPath){
     
     if(length(b_vec) == 0 | length(b_vec) == 1 ){
       return(FALSE)
+    }
+    
+    is_matrix <- stringr::str_detect(out , pattern = "] ,")
+    
+    if(length(unique(is_matrix[1:length(is_matrix)-1])) == 1 & is_matrix[length(is_matrix)] == FALSE){
+      if(unique(is_matrix[1:length(is_matrix)-1]) == TRUE){
+      return(TRUE)
+      }
     }
     
     if(length(unique(b_vec[c(1, length(b_vec))])) == 1 & b_vec[1] == 3){
@@ -52,8 +69,7 @@ CallRev <- function(..., coerce = F, path = RevPath){
     }
   }
   test_phylo <- function(out){
-    #if(grep(out, pattern = "\\[&index=") > 0){return(TRUE)}
-    if(any(str_count(out, "\\[&index=")) > 0){return(TRUE)}
+    if(any(stringr::str_count(out, "\\[&index=")) > 0){return(TRUE)}
     else{return(FALSE)}
   }
   
@@ -67,7 +83,7 @@ CallRev <- function(..., coerce = F, path = RevPath){
   
  
   
-  #coerce simple vectors, strings, and numerics
+  #coerce simple vectors, strings, and numerics, as well as single line phylogenies
   if(length(out) == 1){
     
     unlink(tf)
@@ -143,12 +159,19 @@ return(out)}
 
 
 
+l1 <- "kappaAG ~ dnLognormal(0, 1)"
+l2 <- "kappaCT ~ dnLognormal(0, 1)"
+l3 <- "pi ~ dnDirichlet( v(1, 1, 1, 1) )"
+l4 <- "Q := fnTrN(kappaAG, kappaCT, pi)"
+l5 <- 'Q'
 
 
 
+CallRev('Q := fnJC(4)', "Q") 
+CallRev("2*26^7/4")
+CallRev("posteriorPredictiveProbability(v(2), 2)")
+CallRev('"jon"')
+CallRev("simTree(16)") %>% plot()
+CallRev('readTrees("C:/Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/data/Eucladida_MAP.tre")')
 
-
-
-
-
-
+CallRev('diagonalMatrix(4)', coerce = "array")
