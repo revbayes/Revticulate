@@ -51,8 +51,9 @@ CallRev <- function(..., coerce = F, path = RevPath){
       return(FALSE)
     }
   }
-  test_phylo <- function(out = out){
-    if(grep(out, pattern = "\\[&index=") > 0){return(TRUE)}
+  test_phylo <- function(out){
+    #if(grep(out, pattern = "\\[&index=") > 0){return(TRUE)}
+    if(any(str_count(out, "\\[&index=")) > 0){return(TRUE)}
     else{return(FALSE)}
   }
   
@@ -64,17 +65,17 @@ CallRev <- function(..., coerce = F, path = RevPath){
   }
   
   
-  if(test_phylo(out) == TRUE){coerce = "phylo"}
+ 
   
   #coerce simple vectors, strings, and numerics
   if(length(out) == 1){
     
     unlink(tf)
     
-    if(coerce == "phylo"){
+    if(test_phylo(out) == TRUE){
       out <- coerce_phylo(out)
       return(out)
-    }
+     }
     
     if(count_brackets(out) == 2 | count_brackets(out) == 0 ){
       coerce <- "vector"
@@ -94,14 +95,14 @@ CallRev <- function(..., coerce = F, path = RevPath){
   }
   
   #coerce trees
+   if(test_phylo(out) == TRUE){
+      unlink(tf)
+      out <- grep("\\[&index=", out, value = T)
+      out <- coerce_phylo(out)
+      return(out)
+    }
     
-  if(coerce == "phylo"){
-    unlink(tf)
-    out <- coerce_phylo(out)
-  }
-  
   #coerce matrices 
-  
   if(test_matrix(out) == TRUE){coerce = "array"}
   
   if(coerce == "array"){
