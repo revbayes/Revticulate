@@ -1,21 +1,33 @@
 
 library(tidyverse)
 
-#Path to rb.exe
 
+
+InitRev <- function(path){
+  revenv <<- new.env(parent = globalenv())
+  revenv$RevPath <- path
+}
+
+
+
+#Path to rb.exe
 RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
 
 
 
-CallRev <- function(..., coerce = TRUE, path = RevPath){
+CallRev <- function(..., coerce = TRUE, path = revenv$RevPath){
   
-  args_ <- c(...)
+  argu <- c(...)
   
   tf <- tempfile(pattern = "file", tmpdir = paste(getwd(), "/", sep = ""), fileext = ".rev")
   tf <- gsub(pattern = "\\\\", "//", tf)
   
   fopen <- file(tf)
-  writeLines(args_, fopen, sep = "\n")
+  
+  ret <- unlist(lapply(argu, repRevObjects))
+  
+  writeLines(ret, fopen, sep = "\n")
+  
   close(fopen)
   
   out <- system2(path, args = c(tf), stdout = T)
@@ -158,20 +170,3 @@ return(out)}
 
 
 
-
-l1 <- "kappaAG ~ dnLognormal(0, 1)"
-l2 <- "kappaCT ~ dnLognormal(0, 1)"
-l3 <- "pi ~ dnDirichlet( v(1, 1, 1, 1) )"
-l4 <- "Q := fnTrN(kappaAG, kappaCT, pi)"
-l5 <- 'Q'
-
-
-
-CallRev('Q := fnJC(4)', "Q") 
-CallRev("2*26^7/4")
-CallRev("posteriorPredictiveProbability(v(2), 2)")
-CallRev('"jon"')
-CallRev("simTree(16)") %>% plot()
-CallRev('readTrees("C:/Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/data/Eucladida_MAP.tre")')
-
-CallRev('diagonalMatrix(4)', coerce = "array")
