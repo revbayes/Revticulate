@@ -109,7 +109,7 @@ repRevObjects <- function(string){
        
      }
      
-  return(cs)
+  return(string)
 }
 
 
