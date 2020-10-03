@@ -5,7 +5,7 @@
 
 
 
-RevDefine <- function(RevOut){
+RevDefine <- function(RevOut, viewCode = FALSE){
   
   if(stringr::str_detect(RevOut, "=|:=|<-|~")){
     sign <- stringr::str_extract_all(RevOut, "=|:=|<-|~")[[1]]}
@@ -14,8 +14,8 @@ RevDefine <- function(RevOut){
   
   objdef<- stringr::str_squish(objdef)
   
-  output <- CallRev(objdef[2])
-  output.str <- CallRev(objdef[2], coerce = F)
+  output <- CallRev(objdef[2], viewCode = viewCode)
+  output.str <- CallRev(objdef[2], coerce = F, viewCode = F)
   output.str <- stringr::str_squish(output.str[which(stringr::str_count(stringr::str_squish(output.str), "") > 0)])
   
   makeActiveBinding(objdef[1], function() output, revenv)
@@ -85,11 +85,10 @@ repRevObjects <- function(string){
   
   objects <- detectRevObjects(string)
   
-  RObjs <-  sapply(objects, FUN = get, envir = revenv)
+  Rclass <-  class(get(detectRevObjects(string), envir = revenv))
   
-  class <- sapply(RObjs, FUN = class)
   
-  cs <- unique(data.frame(objects, class))
+  cs <- unique(data.frame(objects, Rclass))
   
   revd <- c()
   
@@ -110,7 +109,7 @@ repRevObjects <- function(string){
        
      }
      
-  return(string)
+  return(cs)
 }
 
 
