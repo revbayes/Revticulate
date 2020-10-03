@@ -15,7 +15,7 @@ RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Wi
 
 
 
-CallRev <- function(..., coerce = TRUE, path = revenv$RevPath){
+CallRev <- function(..., coerce = TRUE, path = revenv$RevPath, viewCode = T){
   
   argu <- c(...)
   
@@ -28,10 +28,17 @@ CallRev <- function(..., coerce = TRUE, path = revenv$RevPath){
   
   writeLines(ret, fopen, sep = "\n")
   
-  close(fopen)
-  
   out <- system2(path, args = c(tf), stdout = T)
   out <- out[-c(1:13, length(out)-1, length(out))]
+  
+  cat("Input:\n -->  " %+% ret, file = tf, sep = "\n", append = F)
+  cat("Output:\n -->  " %+% out, file = tf, sep = "\n", append = T)
+  
+  if(viewCode == T){
+  viewOut <- stringr::str_view_all(readLines(tf), pattern = "Error|error|Input:|Output:")
+  capture.output(viewOut)}
+  
+  close(fopen)
   
   if(file.exists(tf)){
     file.remove(tf)
@@ -165,6 +172,7 @@ CallRev <- function(..., coerce = TRUE, path = revenv$RevPath){
   unlink(tf)
   
 return(out)}
+
 
 
 
