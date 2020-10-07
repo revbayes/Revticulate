@@ -9,15 +9,19 @@ InitRev <- function(path){
 }
 
 
-
 #Path to rb.exe
 RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
 
+InitRev(RevPath)
 
-
-CallRev <- function(..., coerce = TRUE, path = revenv$RevPath, viewCode = T){
+CallRev <- function(..., coerce = TRUE, path = revenv$RevPath, viewCode = F){
   
   argu <- c(...)
+  
+  if(any(stringr::str_detect(argu, "<-|=|~|:=")) == TRUE){
+    RevDefine(argu[which(stringr::str_detect(argu, "<-|=|~|:="))])
+  }
+  
   
   tf <- tempfile(pattern = "file", tmpdir = paste(getwd(), "/", sep = ""), fileext = ".rev")
   tf <- gsub(pattern = "\\\\", "//", tf)
@@ -31,8 +35,8 @@ CallRev <- function(..., coerce = TRUE, path = revenv$RevPath, viewCode = T){
   out <- system2(path, args = c(tf), stdout = T)
   out <- out[-c(1:13, length(out)-1, length(out))]
   
-  cat("Input:\n -->  " %+% ret, file = tf, sep = "\n", append = F)
-  cat("Output:\n -->  " %+% out, file = tf, sep = "\n", append = T)
+  cat("Input:\n -->  " %+% ret %+% "\n//", file = tf, sep = "\n", append = F)
+  cat("Output:\n -->  " %+% out %+% "\n//", file = tf, sep = "\n", append = T)
   
   if(viewCode == T){
   viewOut <- stringr::str_view_all(readLines(tf), pattern = "Error|error|Input:|Output:")
@@ -172,6 +176,20 @@ CallRev <- function(..., coerce = TRUE, path = revenv$RevPath, viewCode = T){
   unlink(tf)
   
 return(out)}
+
+
+RepRev <- function(viewCode = F){
+  
+  while(TRUE){
+    ginput <- readline(prompt = ">>>")
+    
+    if(ginput == "quit()"){break}
+    
+    print((CallRev(ginput, viewCode = viewCode)))
+    
+  }
+}
+
 
 
 

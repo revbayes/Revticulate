@@ -26,7 +26,9 @@ RevDefine <- function(RevOut, viewCode = FALSE){
 
 getTS <- function(outTree){
   
-  revSTR <- "readTrees(text = " %+% get(outTree %+% ".str", envir = revenv) %+% ")"
+  
+  
+  revSTR <- "readTrees(" %+% get(outTree, envir = revenv) %+% ")"
 
 return(revSTR)}
 
@@ -113,5 +115,12 @@ repRevObjects <- function(string){
 }
 
 
+
+
+tf <- tempfile(pattern = "file", tmpdir = paste(getwd(), "/", sep = ""), fileext = ".tree")
+tf <- gsub(pattern = "\\\\", "//", tf)
+
+initPhylo <- get(outMatrix %+% ".str", envir = revenv)
+ape::write.tree(myTree, file = tf)
 
 
