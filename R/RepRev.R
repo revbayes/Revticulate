@@ -9,14 +9,14 @@ defs <- c()
 while(TRUE){
         defs <- unique(defs)
         ginput <- readline(prompt = ">>>")
-        RevDefine(ginput)
+        RevR::RevDefine(ginput)
 
         if(ginput == "quit()"){break}
         if(stringr::str_detect(ginput, " <- | = | := | ~ ") == TRUE){
                defs <- append(defs, ginput %+% "\n")
              }
 
-        out <- CallRev(defs, ginput, viewCode = viewCode)
+        out <- RevR::CallRev(defs, ginput, viewCode = viewCode)
         print(out)
     }
 }
