@@ -3,7 +3,7 @@
 #'@param string string vector where rev object names will be located
 #'@return revObjs: Names of objects from revenv found in string
 #'
-#'
+#'@export
 detectRevObjects <- function(string){
 
   markers <- stringr::str_locate_all(string, "#")[[1]][,1]

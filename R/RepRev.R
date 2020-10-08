@@ -4,13 +4,20 @@
 #'
 #' @export
 RepRev <- function(viewCode = F){
+defs <- c()
 
-  while(TRUE){
-    ginput <- readline(prompt = ">>>")
+while(TRUE){
+        defs <- unique(defs)
+        ginput <- readline(prompt = ">>>")
+        RevDefine(ginput)
 
-    if(ginput == "quit()"){break}
+        if(ginput == "quit()"){break}
+        if(stringr::str_detect(ginput, " <- | = | := | ~ ") == TRUE){
+               defs <- append(defs, ginput %+% "\n")
+             }
 
-    print((RevR::CallRev(ginput, viewCode = viewCode)))
-
-  }
+        out <- CallRev(defs, ginput, viewCode = viewCode)
+        print(out)
+    }
 }
+

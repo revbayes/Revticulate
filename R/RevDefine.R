@@ -14,10 +14,8 @@ RevDefine <- function(RevOut, viewCode = FALSE){
 
   objdef<- stringr::str_squish(objdef)
 
-  output <- RevR::CallRev(objdef[2], viewCode = viewCode)
-
-  output.str <- RevR::CallRev(objdef[2], coerce = F, viewCode = F)
-
+  output <- CallRev(objdef[2], viewCode = viewCode)
+  output.str <- CallRev(objdef[2], coerce = F, viewCode = F)
   output.str <- stringr::str_squish(output.str[which(stringr::str_count(stringr::str_squish(output.str), "") > 0)])
 
   makeActiveBinding(objdef[1], function() output, revenv)
