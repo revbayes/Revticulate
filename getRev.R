@@ -1,11 +1,10 @@
 
 library(tidyverse)
 
-
-
 InitRev <- function(path){
-  revenv <<- new.env(parent = globalenv())
-  revenv$RevPath <- path
+  RevEnv <<- new.env(parent = globalenv())
+  RevEnv$RevPath <- path
+  RevEnv$Vars <- c()
 }
 
 
@@ -14,14 +13,11 @@ RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Wi
 
 InitRev(RevPath)
 
-CallRev <- function(..., coerce = TRUE, path = revenv$RevPath, viewCode = F){
+CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F){
   
   argu <- c(...)
   
-  if(any(stringr::str_detect(argu, "<-|=|~|:=")) == TRUE){
-    RevDefine(argu[which(stringr::str_detect(argu, "<-|=|~|:="))])
-  }
-  
+  argu <- c(RevEnv$Vars, argu)
   
   tf <- tempfile(pattern = "file", tmpdir = paste(getwd(), "/", sep = ""), fileext = ".rev")
   tf <- gsub(pattern = "\\\\", "//", tf)
@@ -35,6 +31,7 @@ CallRev <- function(..., coerce = TRUE, path = revenv$RevPath, viewCode = F){
   out <- system2(path, args = c(tf), stdout = T)
   out <- out[-c(1:13, length(out)-1, length(out))]
   
+  
   cat("Input:\n -->  " %+% ret %+% "\n//", file = tf, sep = "\n", append = F)
   cat("Output:\n -->  " %+% out %+% "\n//", file = tf, sep = "\n", append = T)
   
@@ -43,6 +40,12 @@ CallRev <- function(..., coerce = TRUE, path = revenv$RevPath, viewCode = F){
   capture.output(viewOut)}
   
   close(fopen)
+  
+  if(any(stringr::str_detect(out, pattern = "Error:|error|Missing Variable:"))){
+    warning(out)
+    return()
+  }
+ 
   
   if(file.exists(tf)){
     file.remove(tf)
@@ -128,6 +131,9 @@ CallRev <- function(..., coerce = TRUE, path = revenv$RevPath, viewCode = F){
       if(anyNA(as.numeric(out)) == FALSE){
         out <- as.numeric(out)
       }
+      
+      if(stringr::str_squish(out)[1] == "FALSE"){return(1 == 2)}
+      if(stringr::str_squish(out)[1] == "TRUE"){return(1 == 1)}
     }
     
     return(out)
@@ -178,18 +184,39 @@ CallRev <- function(..., coerce = TRUE, path = revenv$RevPath, viewCode = F){
 return(out)}
 
 
-RepRev <- function(viewCode = F){
-  
-  while(TRUE){
+ClearRev <- function(){
+  remove(list = ls(envir = RevEnv)[which(stringr::str_detect(ls(envir = RevEnv),
+  "RevPath", negate = TRUE))], envir = RevEnv)
+}
+
+GetRev <- function(){
+  return(RevEnv$Vars)}
+
+RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE)
+{
+  while (TRUE) {
     ginput <- readline(prompt = ">>>")
     
-    if(ginput == "quit()"){break}
+    if (ginput == "quit()") {
+      break
+    }
     
-    print((CallRev(ginput, viewCode = viewCode)))
+    if (ginput == "ClearRev()"){
+      ClearRev()
+      next
+    }
+    
+    if(ginput == "GetRev()"){
+      print(RevEnv$Vars)
+      next()
+    }
+    
+    else{doRev(ginput, viewCode = viewCode, interactive = TRUE)}
+    
+    RevEnv$Vars <- unique(RevEnv$Vars)
     
   }
 }
-
 
 
 
