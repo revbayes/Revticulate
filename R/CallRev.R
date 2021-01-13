@@ -121,7 +121,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
   coerce_phylo <- function(out){
     out = grep(out, pattern = "\\[&index=", value = T)
-    out = aperead.tree(text = out)
+    out = ape::read.tree(text = out)
 
     return(out)
   }
