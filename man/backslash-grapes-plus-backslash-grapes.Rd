@@ -3,7 +3,7 @@
 \name{\%+\%}
 \alias{\%+\%}
 \alias{\%+\%}
-\title{Operator for concatenation}
+\title{Operator for concatenation.}
 \usage{
 \%+\%(a, b)
 }
@@ -16,5 +16,5 @@
 Wrapper for stringr::str_c()
 }
 \details{
-Wrapper for stringr::str_c() used for quicker pasting of Strings
+Wrapper for stringr::str_c() used for quicker pasting of Strings.
 }
