@@ -48,7 +48,7 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
 
   if(objdefClass == "NULL"){
     message(output)
-    RevEnv$Vars <- head(RevEnv$Vars, length(RevEnv$Vars)-1)
+    RevEnv$Vars <- utils::head(RevEnv$Vars, length(RevEnv$Vars)-1)
     rm(list = c(objdef[1]), envir = RevEnv)
     return()
   }

@@ -20,6 +20,10 @@
 #' CallRev("2^3")
 #' CallRev("2^3", coerce = FALSE, viewcode = T)
 #'
+#'@import ape
+#'@import utils
+#'@import stringr
+#'
 #' @export
 #'
 
@@ -53,7 +57,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
   if(viewCode == T){
     viewOut <- stringr::str_view_all(readLines(tf), pattern = "Error|error|Input:|Output:")
-    capture.output(viewOut)}
+    utils::capture.output(viewOut)}
 
   close(fopen)
 
@@ -117,7 +121,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
   coerce_phylo <- function(out){
     out = grep(out, pattern = "\\[&index=", value = T)
-    out = ape::read.tree(text = out)
+    out = aperead.tree(text = out)
 
     return(out)
   }
