@@ -132,6 +132,21 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
 
   #######Coerce matrices
+  if(sum(str_count(out, "\\[")) == 1 & sum(str_count(out, "\\]")) == 1){
+    out <- stringr::str_flatten(out)
+    out <- stringr::str_remove_all(out, "\\]|\\[")
+    out <- stringr::str_split(out, ",")
+    out <- unlist(out)
+
+    if(!is.na(any(as.numeric(out)))){
+      out <- as.numeric(out)
+    }
+  return(out)
+  }
+
+
+
+
   if(stringr::str_detect(out[1], "\\[\\[") & stringr::str_detect(out[length(out)], "\\]\\]")){
     out <- stringr::str_flatten(out)
     out <- stringi::stri_split_boundaries(out)
