@@ -75,6 +75,10 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
     return(out)
   }
 
+  ###
+  out <- stringr::str_remove_all(out, " ")
+
+
   spl_vec <- function(inp){
     out <- stringr::str_remove_all(inp, ",|\\[|\\]" )
     out <- strsplit(out, " ")
@@ -127,7 +131,39 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
   }
 
 
-
+  #######Coerce matrices
+  if(stringr::str_detect(out[1], "\\[\\[") & stringr::str_detect(out[length(out)], "\\]\\]")){
+    out <- stringr::str_flatten(out)
+    out <- stringi::stri_split_boundaries(out)
+    out <- gsub("\\[|\\]", "", out)
+    out <- stringi::stri_split_boundaries(out)
+    out <- unlist(out)
+    if(stringr::str_sub(out[1],1, 3) == "c(\""){
+      out[1] <- stringr::str_sub(out[1],4, stringr::str_length(out[1]))
+    }
+    if(out[length(out)] == ")")
+      out <- out[-c(length(out))]
+    num_detect <- function(String){
+      detect <- function(char){
+        char <- unlist((stringr::str_split(char, "")))
+        numlist <- which(!is.na(as.numeric(char)))
+        return(numlist)
+      }
+      return(suppressWarnings(detect(String)))
+    }
+    for(i in 1:length(out)){
+      last_num <- max(num_detect(out[i]))
+      first_num <- min(num_detect(out[i]))
+      full_length <- stringr::str_length(out[i])
+      out[i] <- stringr::str_sub(out[i], first_num, last_num)
+    }
+    out <- as.list(out)
+    out <- stringr::str_split(out, ",")
+    for(i in 1:length(out)){
+      out[[i]] <- as.numeric(out[[i]])
+    }
+    return(out)
+  }
 
   #coerce simple vectors, strings, and numerics, as well as single line phylogenies
   if(length(out) == 1){
