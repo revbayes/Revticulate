@@ -203,12 +203,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
     return(out)
   }
 
-  #coerce matrices
-  #  if(all(count_brackets(out)[-c(1, length(out))]) != 1){
-  #    if(all(count_brackets(out)[c(1, length(out))]) == 1){
-  #
-  #    }
-  #  }
+
 
   if(test_matrix(out) == TRUE){coerce = "array"}
 
