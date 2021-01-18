@@ -38,6 +38,7 @@ RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
 {
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
+    timestamp(ginput, prefix = "", suffix = "", quiet = TRUE)
 
     if (ginput == "quit()") {
       break

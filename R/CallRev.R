@@ -43,7 +43,6 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
   fopen <- file(tf)
 
-  #ret <- unlist(lapply(argu, repRevObjects))
   ret <- unlist(argu)
 
   writeLines(ret, fopen, sep = "\n")
@@ -145,8 +144,6 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
   }
 
 
-
-
   if(stringr::str_detect(out[1], "\\[\\[") & stringr::str_detect(out[length(out)], "\\]\\]")){
     out <- stringr::str_flatten(out)
     out <- stringi::stri_split_boundaries(out)
@@ -217,8 +214,6 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
     out <- coerce_phylo(out)
     return(out)
   }
-
-
 
   if(test_matrix(out) == TRUE){coerce = "array"}
 
