@@ -67,7 +67,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
 
   if(file.exists(tf)){
-    file.remove(tf)
+    unlink(tf)
   }
 
   if(coerce == FALSE){
