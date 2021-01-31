@@ -47,7 +47,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
   writeLines(ret, fopen, sep = "\n")
 
-  out <- system2(path, args = c(tf), stdout = T)
+  out <- system2(path, args = c(tf), stdout = T, timeout = 10)
   out <- out[-c(1:13, length(out)-1, length(out))]
 
 
