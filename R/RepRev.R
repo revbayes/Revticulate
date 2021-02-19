@@ -18,6 +18,10 @@
 #'@param use_wd If T, temporary rb.exe session will use the same working directory as
 #'    the active R session. If F, it will use its default. Default is T.
 #'
+#'@param sleep Integer. If a number of seconds are provided, Sys.sleep() will run after user
+#'    rb.exe input is provided for the given number of seconds. This will not occur if sleep is
+#'    NULL. This parameter was mostly made for testing purposes. Default is NULL.
+#'
 #'@examples
 #'--The below example code enters, uses, and exits an interactive rb.exe session. Attempting to use
 #'R code before quit() may cause an error--
