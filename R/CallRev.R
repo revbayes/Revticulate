@@ -60,15 +60,15 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
   close(fopen)
 
+  if(file.exists(tf)){
+    unlink(tf)
+  }
+
   if(any(stringr::str_detect(out, pattern = "Error:|error|Missing Variable:"))){
     message(out)
     return()
   }
 
-
-  if(file.exists(tf)){
-    unlink(tf)
-  }
 
   if(coerce == FALSE){
     return(out)
@@ -140,7 +140,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
     if(!is.na(any(as.numeric(out)))){
       out <- as.numeric(out)
     }
-  return(out)
+    return(out)
   }
 
 
