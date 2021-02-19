@@ -4,7 +4,13 @@
 \alias{RepRev}
 \title{Continuous interactive session with rb.exe}
 \usage{
-RepRev(path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd = T)
+RepRev(
+  path = RevEnv$RevPath,
+  viewCode = F,
+  coerce = TRUE,
+  use_wd = T,
+  sleep = NULL
+)
 }
 \arguments{
 \item{path}{Path to rb.exe. Defaults to RevEnv$RevPath, so

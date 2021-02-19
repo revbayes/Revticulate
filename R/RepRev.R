@@ -34,7 +34,7 @@
 #'quit()
 #'@export
 #'
-RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd = T)
+RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd = T, sleep = NULL)
 {
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
@@ -57,6 +57,10 @@ RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
     else{doRev(ginput, viewCode = viewCode, use_wd = use_wd, interactive = TRUE)}
 
     RevEnv$Vars <- unique(RevEnv$Vars)
+
+    if(!is.null(sleep)){
+      Sys.sleep(sleep)
+    }
 
   }
 }
