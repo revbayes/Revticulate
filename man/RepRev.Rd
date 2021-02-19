@@ -24,6 +24,10 @@ TRUE, RepRev() will attempt to coerce output into a suitable R object. Default i
 
 \item{use_wd}{If T, temporary rb.exe session will use the same working directory as
 the active R session. If F, it will use its default. Default is T.}
+
+\item{sleep}{Integer. If a number of seconds are provided, Sys.sleep() will run after user
+rb.exe input is provided for the given number of seconds. This will not occur if sleep is
+NULL. This parameter was mostly made for testing purposes. Default is NULL.}
 }
 \description{
 Allows user to continuously call rb.exe without having to retype function.
