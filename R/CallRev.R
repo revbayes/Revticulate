@@ -60,8 +60,9 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
   close(fopen)
 
-  if(file.exists(tf)){
-    unlink(tf)
+  RevEnv$temps <- c(RevEnv$temps, tf)
+  for(i in RevEnv$temps){
+    unlink(i)
   }
 
   if(any(stringr::str_detect(out, pattern = "Error:|error|Missing Variable:"))){

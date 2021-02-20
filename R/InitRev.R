@@ -13,5 +13,6 @@ InitRev <- function(path){
   RevEnv$RevPath <- path
   RevEnv$Vars <- c()
   RevEnv$Deterministic <- c()
+  RevEnv$temps <- c()
 }
 
