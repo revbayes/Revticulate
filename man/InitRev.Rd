@@ -4,13 +4,17 @@
 \alias{InitRev}
 \title{Create an environment for interacting with RevBayes}
 \usage{
-InitRev(path)
+InitRev(path = NULL)
 }
 \arguments{
 \item{path}{String path to rb.exe}
 }
 \description{
-Create an environment for interacting with RevBayes
+Creates an environment for interecting with rb.exe. This environment contains the variable
+   RevPath for storing the path to rb.exe. If no path is provided, it will default to trying
+   to use a path stored in RevR/RevPath.txt in .libPaths(). This means the user only has
+   to provide the path to rb.exe once, and can change the path at any time by applying it again
+   in InitRev().
 }
 \examples{
 RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
