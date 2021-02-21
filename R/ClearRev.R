@@ -6,11 +6,11 @@
 #'@export
 ClearRev <- function(){
 
-  NRObjs <- length(RevEnv)-1
+  NRObjs <- length(RevEnv)-2
 
 
-  remove(list = ls(envir = RevEnv)[which(stringr::str_detect(ls(envir = RevEnv),
-                                                             c("RevPath"), negate = T))], envir = RevEnv)
+  remove(list = ls(envir = RevEnv)[which(ls(envir = RevEnv) != "RevPath" & ls(envir = RevEnv) != "temps")],
+         envir = RevEnv)
 
   message("Successfully removed " %+% c(NRObjs) %+% " objects from RevEnv!")
 }
