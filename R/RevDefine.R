@@ -27,7 +27,7 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
     if(stringr::str_detect(RevOut, ":=")){
       RevEnv$Deterministic <- c(RevEnv$Deterministic, RevOut)}
       ###Keep eye on this
-      RevEnv$Deterministic <- unique(RevEnv$Deterministic)
+      #RevEnv$Deterministic <- unique(RevEnv$Deterministic)
   }
 
 
