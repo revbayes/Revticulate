@@ -6,7 +6,7 @@
 #'@export
 KnitRev <- function(){
         knitr::knit_engines$set(rb = function(options) {
-        code <- paste(options$code, collapse = "\n")
+        code <- options$code
         if (options$eval)
           RevR::doRev(code, coerce = F) else code
          })
