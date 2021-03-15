@@ -10,4 +10,6 @@ KnitRev <- function(){
         if (options$eval)
           RevR::doRev(code, coerce = F) else code
          })
+        if(!options$eval)
+          return("")
 }
