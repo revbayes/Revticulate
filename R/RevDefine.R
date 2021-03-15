@@ -25,8 +25,12 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
     sign <- stringr::str_extract_all(RevOut, "=|:=|<-|~")[[1]]
 
     if(stringr::str_detect(RevOut, ":=")){
-      RevEnv$Deterministic <- append(RevEnv$Deterministic, RevOut)}
+      RevEnv$Deterministic <- c(RevEnv$Deterministic, RevOut)}
+      ###Keep eye on this
+      RevEnv$Deterministic <- unique(RevEnv$Deterministic)
   }
+
+
 
   objdef <- unlist(stringr::str_split(RevOut, sign))
 
