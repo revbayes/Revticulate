@@ -29,7 +29,7 @@
 #'@export
 #'
 doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T, knit = FALSE){
-
+  ##
   #group elements by curly braces
   clumpBrackets <- function(stringVector){
 
