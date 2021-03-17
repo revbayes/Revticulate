@@ -138,7 +138,11 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
     out <- stringr::str_split(out, ",")
     out <- unlist(out)
 
-    if(!is.na(any(as.numeric(out)))){
+    ###
+    testForNumbers <- grepl("[-]?[0-9]+[.]?[0-9]*|[-]?[0-9]+[L]?|[-]?[0-9]+[.]?[0-9]*[eE][0-9]+", out)
+    ###
+
+    if(all(testForNumbers)){
       out <- as.numeric(out)
     }
     return(out)

@@ -2,14 +2,14 @@
 % Please edit documentation in R/KnitRev.R
 \name{KnitRev}
 \alias{KnitRev}
-\title{knitr engine for revbayes}
+\title{Knitr engine for RevBayes}
 \usage{
 KnitRev()
 }
 \arguments{
-\item{options}{argument required for knitr engines. options$code coerces the text
-in the code chunk to a string, which is then evaluated with doRev()}
+\item{options}{Argument required for Knitr engines. options$code coerces the text
+in the code chunk to a string, which is then evaluated with doRev().}
 }
 \description{
-knitr engine for revbayes
+Knitr engine for RevBayes
 }
