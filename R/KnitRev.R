@@ -8,6 +8,6 @@ KnitRev <- function(){
         knitr::knit_engines$set(rb = function(options) {
         code <- options$code
         if (options$eval)
-          RevR::doRev(code, coerce = FALSE) else code
+          print(c(RevR::doRev(code, coerce = FALSE))) else code
          })
 }

@@ -30,11 +30,16 @@
 #'
 doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T){
 
+  #group elements by curly braces
   clumpBrackets <- function(stringVector){
 
     #get opening and closing curly braces
     openBraces <- stringr::str_count(stringVector, "\\{")
     closedBraces <- stringr::str_count(stringVector, "\\}")
+
+    if(all(openBraces == 0)){
+      return(stringVector)
+    }
 
     allBraces <- openBraces - closedBraces
     #get indices where there is a net change in the number of open or closed brackets and the net change at
@@ -73,6 +78,8 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
 
     return(finalVector)
   }
+
+
 
   RevOut <- clumpBrackets(c(...))
 
