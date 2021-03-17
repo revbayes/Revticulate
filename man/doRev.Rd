@@ -10,7 +10,8 @@ doRev(
   coerce = TRUE,
   interactive = FALSE,
   Det_Update = TRUE,
-  use_wd = T
+  use_wd = T,
+  knit = FALSE
 )
 }
 \arguments{

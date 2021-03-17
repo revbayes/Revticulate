@@ -7,7 +7,8 @@
 KnitRev <- function(){
         knitr::knit_engines$set(rb = function(options) {
         code <- options$code
+        output <- function() stringr::str_c(RevR::doRev(code, coerce = FALSE, knit = TRUE), sep = " ")
         if (options$eval)
-          print(c(RevR::doRev(code, coerce = FALSE))) else code
-         })
+           output() else code
+        })
 }
