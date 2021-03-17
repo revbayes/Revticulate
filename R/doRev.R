@@ -28,7 +28,7 @@
 #'
 #'@export
 #'
-doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T){
+doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T, knit = FALSE){
 
   #group elements by curly braces
   clumpBrackets <- function(stringVector){
@@ -80,7 +80,6 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
   }
 
 
-
   RevOut <- clumpBrackets(c(...))
 
   outobjs <- list()
@@ -115,6 +114,10 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
 
   if(length(outobjs) == 1){
     outobjs <- outobjs[[1]]
+  }
+
+  if(knit == TRUE){
+    outobjs <- stringr::str_c(outobjs, collapse = " \n")
   }
 
   return(outobjs)
