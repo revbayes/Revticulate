@@ -79,8 +79,13 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
     return(finalVector)
   }
 
-
   RevOut <- clumpBrackets(c(...))
+  RevOut <- stringr::str_squish(RevOut)
+  RevOut <- RevOut[which(RevOut != "")]
+
+  if(knit == TRUE){
+    RevOut == stringr::str_c(RevOut, collapse = "\n")
+  }
 
   outobjs <- list()
 
@@ -119,6 +124,7 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
   if(knit == TRUE){
     outobjs <- stringr::str_c(outobjs, collapse = " \n")
   }
+
 
   return(outobjs)
 }
