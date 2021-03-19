@@ -6,8 +6,12 @@
 #'@export
 ClearRev <- function(){
 
-  NRObjs <- length(RevEnv)-2
+  #prevent temp file list from getting too large
+  if(length(RevEnv$temps) > 50){
+    RevEnv$temps <- c()
+  }
 
+  NRObjs <- length(RevEnv)-2
 
   remove(list = ls(envir = RevEnv)[which(ls(envir = RevEnv) != "RevPath" & ls(envir = RevEnv) != "temps")],
          envir = RevEnv)
