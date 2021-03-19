@@ -30,7 +30,6 @@
 CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use_wd = T){
 
   argu <- c(...)
-
   argu <- c(RevEnv$Vars, argu)
 
   if(use_wd == T){
@@ -248,6 +247,8 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
     return(out)
   }
+
+
 
   #make sure tf is gone
 
