@@ -10,6 +10,6 @@ KnitRev <- function(){
     code <- options$code
     output <- function() stringr::str_c(RevR::doRev(code, coerce = FALSE, knit = TRUE), sep = " ")
     if (options$eval)
-      output() else code
+      stringr::str_c(output(), collapse = " \n") else code
   })
 }
