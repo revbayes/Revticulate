@@ -3,6 +3,7 @@
 export("%+%")
 export(CallRev)
 export(ClearRev)
+export(CoerceRev)
 export(GetRev)
 export(InitRev)
 export(KnitRev)
