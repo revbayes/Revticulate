@@ -79,6 +79,10 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
     return(finalVector)
   }
 
+  if(... == ""){
+    return("")
+  }
+
   if(knit){
     coerce = FALSE}
 
