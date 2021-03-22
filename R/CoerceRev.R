@@ -21,6 +21,9 @@ CoerceRev <- function(out){
 
 
 out <- stringr::str_remove_all(out, " ")
+  if(out == ""){
+    return("")
+  }
 
 
 spl_vec <- function(inp){
