@@ -99,11 +99,14 @@ if(stringr::str_detect(out[1], "\\[\\[") & stringr::str_detect(out[length(out)],
   out <- gsub("\\[|\\]", "", out)
   out <- stringi::stri_split_boundaries(out)
   out <- unlist(out)
+
   if(stringr::str_sub(out[1],1, 3) == "c(\""){
     out[1] <- stringr::str_sub(out[1],4, stringr::str_length(out[1]))
   }
+
   if(out[length(out)] == ")")
     out <- out[-c(length(out))]
+
   num_detect <- function(String){
     detect <- function(char){
       char <- unlist((stringr::str_split(char, "")))
@@ -112,6 +115,7 @@ if(stringr::str_detect(out[1], "\\[\\[") & stringr::str_detect(out[length(out)],
     }
     return(suppressWarnings(detect(String)))
   }
+
   for(i in 1:length(out)){
     last_num <- max(num_detect(out[i]))
     first_num <- min(num_detect(out[i]))
