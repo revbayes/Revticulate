@@ -6,10 +6,8 @@
 \usage{
 KnitRev()
 }
-\arguments{
-\item{options}{Argument required for Knitr engines. options$code coerces the text
-in the code chunk to a string, which is then evaluated with doRev().}
-}
 \description{
-Knitr engine for RevBayes
+Rev code is ran directly in knitr chunks, and using the wrapper functions isn't necessary.
+Any created variables will be put in RevEnv, and defined variables can be used across multiple
+chunks.
 }
