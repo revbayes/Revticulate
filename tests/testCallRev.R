@@ -5,8 +5,7 @@ test_that(
     RevPath = "D://RevBayes_Win_1.1.0//RevBayes_Win_1.1.0//rb.exe"
     RevR::InitRev()
 
-    #testthat::capture_warnings(RevR::CallRev(path = RevPath , "[1, 2, 3]"))
-        testthat::expect_warning(RevR::CallRev(path = RevPath , "[1, 2, 3]"), "coercing argument of type 'double' to logical")
+    testthat::expect_warning(RevR::CallRev(path = RevPath , "[1, 2, 3]"), "coercing argument of type 'double' to logical")
 
     expect_message(RevR::CallRev(path = RevPath , "c(1, 2, 3)"), "Error:	No function named 'c'")
 
