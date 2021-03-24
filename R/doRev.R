@@ -1,3 +1,4 @@
+
 #'Wrapper for CallRev() and RevDefine()
 #'
 #'A wrapper for CallRev() and RevDefine(). If a variable is assigned in the temporary
@@ -79,7 +80,7 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
     return(finalVector)
   }
 
-  if(... == ""){
+  if(stringr::str_c(..., collapse = "") == ""){
     return("")
   }
 
