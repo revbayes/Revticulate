@@ -10,12 +10,12 @@ CoerceRev(out)
 \item{...}{out}
 }
 \value{
-out Coerce output of the RevBayes output string.
+out convert output of the RevBayes output string.
 }
 \description{
 Coerces string of RevBayes output into an equivalent R object.
 Uses the structure of the characters within the string to identify an appropiate R object type (a list, vector,
-or even phylo tree) to coerce the string into.
+or even phylo tree) to convert the string into.
 }
 \examples{
 CoerceRev("[1, 2, 3, 4]")
