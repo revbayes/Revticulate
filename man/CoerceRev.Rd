@@ -4,7 +4,7 @@
 \alias{CoerceRev}
 \title{Coerces string of RevBayes output into an equivalent R object.}
 \usage{
-CoerceRev(out)
+CoerceRev(out, notCoerce = F)
 }
 \arguments{
 \item{...}{out}

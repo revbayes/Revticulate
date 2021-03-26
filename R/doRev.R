@@ -131,7 +131,7 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
   }
 
   if(knit == TRUE){
-    outobjs <- unlist(outobjs)
+    outobjs <- stringr::str_c(unlist(outobjs), collapse = "\n")
   }
 
   return(outobjs)
