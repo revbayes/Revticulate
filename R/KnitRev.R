@@ -11,11 +11,15 @@ KnitRev <- function(){
   knitr::knit_engines$set(rb = function(options) {
 
     code <- options$code
-    output <- stringr::str_c(RevR::doRev(code, coerce = FALSE, knit = TRUE), sep = " ")
+    print("RevBayes Output:")
 
-    if (options$eval)
-      return(stringr::str_c(output, collapse = " \n"))
+    output <- RevR::doRev(code, coerce = FALSE, knit = TRUE)
+
+    if (options$echo){
+      return(stringr::str_c(output, collapse = " \n", sep="\n"))
+    }
+
     else code
-
-  })
+  }
+  )
 }

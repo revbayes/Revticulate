@@ -93,7 +93,7 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
   RevOut <- RevOut[which(RevOut != "")]
 
   if(knit == TRUE){
-    RevOut == stringr::str_c(RevOut, collapse = "\n")
+    RevOut == stringr::str_c(RevOut, sep = "\n")
   }
 
   outobjs <- list()
