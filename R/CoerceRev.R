@@ -17,10 +17,14 @@
 #'
 
 
-CoerceRev <- function(out){
+CoerceRev <- function(out, notCoerce = F){
 
 
   out <- stringr::str_remove_all(out, " ")
+
+  if(notCoerce){
+    return(stringr::str_c(out, collapse = "\n"))
+  }
 
 
   spl_vec <- function(inp){

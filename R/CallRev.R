@@ -71,7 +71,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
 
   if(coerce == FALSE){
-    return(out)
+    return(CoerceRev(out, notCoerce = T))
   }
 
   ###
