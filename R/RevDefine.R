@@ -57,7 +57,7 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
     return()
   }
 
-  if(hideMessage != TRUE){
+  if(!hideMessage){
     message(stringr::str_c(stringr::str_to_title(objdefClass), " object '", objdef[1], "' has been created in RevEnv!"))
   }
 
