@@ -75,6 +75,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
   }
 
   ###
+  out <- stringr::str_c(out, collapse = "\n")
   out <- CoerceRev(out)
 
 
