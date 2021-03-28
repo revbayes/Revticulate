@@ -27,11 +27,12 @@
 #' @export
 #'
 
-CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use_wd = T){
+CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use_wd = T, knit = F){
 
   argu <- c(...)
 
-  clumpBrackets <- function(stringVector){
+  if(!knit){
+    clumpBrackets <- function(stringVector){
 
     #get opening and closing curly braces
     openBraces <- stringr::str_count(stringVector, "\\{")
@@ -79,20 +80,22 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
     return(finalVector)
   }
 
-  if(stringr::str_c(..., collapse = "") == ""){
-    return("")
+    if(stringr::str_c(..., collapse = "") == ""){
+      return("")
+    }
+
+    argu <- clumpBrackets(c(...))
+    argu <- stringr::str_squish(argu)
+    argu <- argu[which(argu != "")]
+
+    RevEnv$Vars <- c(RevEnv$Vars, argu[stringr::str_which(argu, " = |:=|<-|~")])
+
+    copy <- c(RevEnv$Vars, "")
+    copyTwo <- c("", RevEnv$Vars)
+
+    RevEnv$Vars <- copy[which(copy != copyTwo)]
+
   }
-
-  argu <- clumpBrackets(c(...))
-  argu <- stringr::str_squish(argu)
-  argu <- argu[which(argu != "")]
-
-  RevEnv$Vars <- c(RevEnv$Vars, argu[stringr::str_which(argu, " = |:=|<-|~")])
-
-  copy <- c(RevEnv$Vars, "")
-  copyTwo <- c("", RevEnv$Vars)
-
-  RevEnv$Vars <- copy[which(copy != copyTwo)]
 
   argu <- c(RevEnv$Vars, argu)
 
