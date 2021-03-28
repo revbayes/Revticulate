@@ -9,7 +9,7 @@
 KnitRev <- function(){
   knitr::knit_engines$set(rb = function(options) {
     code <- options$code
-    output <- RevR::CallRev(code, coerce = FALSE)
+    output <- RevR::CallRev(code, coerce = FALSE, knit = TRUE)
     return(knitr::engine_output(options, code = options$code, out = output))
   })
 }
