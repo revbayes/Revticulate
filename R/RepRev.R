@@ -44,6 +44,36 @@ RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
     ginput <- readline(prompt = "rb>>>")
     timestamp(ginput, prefix = "", suffix = "", quiet = TRUE)
 
+    numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
+    numberOfClosedBraces <- stringr::str_count(ginput, "\\}")
+
+    numberOfOpenParenthesis <- stringr::str_count(ginput, "\\(")
+    numberOfClosedParenthesis <- stringr::str_count(ginput, "\\)")
+
+    testBraces <- numberOfOpenBraces == numberOfClosedBraces
+    testParenthesis <- numberOfOpenParenthesis == numberOfClosedParenthesis
+
+    while(!(testBraces && testParenthesis)){
+
+      if(
+        (numberOfOpenBraces < numberOfClosedBraces) |
+        (numberOfOpenBraces < numberOfClosedBraces)
+      ) break();
+
+      ginput <- ginput %+% readline()
+
+      numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
+      numberOfClosedBraces <- stringr::str_count(ginput, "\\}")
+
+      numberOfOpenParenthesis <- stringr::str_count(ginput, "\\(")
+      numberOfClosedParenthesis <- stringr::str_count(ginput, "\\)")
+
+      testBraces <- numberOfOpenBraces == numberOfClosedBraces
+      testParenthesis <- numberOfOpenParenthesis == numberOfClosedParenthesis
+
+    }
+
+
     if (ginput == "quit()") {
       break
     }

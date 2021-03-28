@@ -38,6 +38,10 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
     openBraces <- stringr::str_count(stringVector, "\\{")
     closedBraces <- stringr::str_count(stringVector, "\\}")
 
+    if(openBraces == closedBraces){
+      return(stringVector)
+    }
+
     if(all(openBraces == 0)){
       return(stringVector)
     }
