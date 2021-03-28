@@ -31,7 +31,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
   argu <- c(...)
 
-  if(!knit){
+  if(knit){
     clumpBrackets <- function(stringVector){
 
     #get opening and closing curly braces
