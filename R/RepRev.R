@@ -60,7 +60,7 @@ RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
         (numberOfOpenBraces < numberOfClosedBraces)
       ) break();
 
-      ginput <- ginput %+% readline()
+      ginput <- ginput %+% readline(prompt <- "rb>>>")
 
       numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
       numberOfClosedBraces <- stringr::str_count(ginput, "\\}")

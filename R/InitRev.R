@@ -27,5 +27,6 @@ InitRev <- function(path = NULL){
     RevEnv$Vars <- c()
     RevEnv$Deterministic <- c()
     RevEnv$temps <- c()
+    RevEnv$allCode <- c()
 }
 

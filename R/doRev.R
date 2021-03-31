@@ -30,13 +30,17 @@
 #'@export
 #'
 doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T, knit = FALSE){
-  ##
+
+  if(stringr::str_c(..., collapse = "") == ""){
+    return("")
+  }
+
   #group elements by curly braces
   clumpBrackets <- function(stringVector){
 
     #get opening and closing curly braces
-    openBraces <- stringr::str_count(stringVector, "\\{")
-    closedBraces <- stringr::str_count(stringVector, "\\}")
+    openBraces <- sum(stringr::str_count(stringVector, "\\{"))
+    closedBraces <- sum(stringr::str_count(stringVector, "\\}"))
 
     if(openBraces == closedBraces){
       return(stringVector)
@@ -84,9 +88,6 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
     return(finalVector)
   }
 
-  if(stringr::str_c(..., collapse = "") == ""){
-    return("")
-  }
 
   if(knit){
     coerce = FALSE}
@@ -96,7 +97,7 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
   RevOut <- stringr::str_squish(RevOut)
   RevOut <- RevOut[which(RevOut != "")]
 
-  if(knit == TRUE){
+  if(knit){
     RevOut == stringr::str_c(RevOut, sep = "\n")
   }
 
@@ -125,6 +126,8 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
       }
     }
   }
+
+
 
   if(length(outobjs) == 0){
     return()
