@@ -20,20 +20,15 @@
 RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
 
   if(!stringr::str_detect(RevOut, "=|:=|<-|~")){return()}
-
-  if(stringr::str_detect(RevOut, "=|:=|<-|~")){
+  else{
     sign <- stringr::str_extract_all(RevOut, "=|:=|<-|~")[[1]]
 
     if(stringr::str_detect(RevOut, ":=")){
       RevEnv$Deterministic <- c(RevEnv$Deterministic, RevOut)}
-      ###Keep eye on this
-      #RevEnv$Deterministic <- unique(RevEnv$Deterministic)
   }
 
 
-
-  objdef <- unlist(stringr::str_split(RevOut, sign))
-  objdef<- stringr::str_squish(objdef)
+  objdef <- stringr::str_squish(unlist(stringr::str_split(RevOut, sign)))
 
   output <- CallRev(objdef[2], viewCode = viewCode)
   #Special coercion cases
@@ -50,14 +45,17 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
 
   }
 
-
   #
 
   if(stringr::str_detect(RevOut, "=|~|<-")){
     makeActiveBinding(objdef[1], function() output, RevEnv)}
 
-  else if (stringr::str_detect(RevOut, ":=")){makeActiveBinding(objdef[1], function(){list <- RevEnv$Vars
-  CallRev(list, objdef[2], env = RevEnv)})
+  else if (stringr::str_detect(RevOut, ":=")){
+      makeActiveBinding(objdef[1], function(){
+        list <- RevEnv$Vars
+        CallRev(list, objdef[2], env = RevEnv)
+        }
+          )
   }
 
 
@@ -78,4 +76,5 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
 
 
   RevEnv$Vars <- unique(RevEnv$Vars)
+
 }

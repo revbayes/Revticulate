@@ -4,7 +4,14 @@
 \alias{CallRev}
 \title{Submit input to rb.exe and return output}
 \usage{
-CallRev(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use_wd = T)
+CallRev(
+  ...,
+  coerce = TRUE,
+  path = RevEnv$RevPath,
+  viewCode = F,
+  use_wd = T,
+  knit = F
+)
 }
 \arguments{
 \item{...}{String input to send to RevBayes.}
