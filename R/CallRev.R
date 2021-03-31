@@ -1,3 +1,4 @@
+
 #' Submit input to rb.exe and return output
 #'
 #' Submits input to rb.exe and returns output to R in string format. If coerce = T, the function
@@ -30,6 +31,70 @@
 CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use_wd = T){
 
   argu <- c(...)
+
+  clumpBrackets <- function(stringVector){
+
+    #get opening and closing curly braces
+    openBraces <- stringr::str_count(stringVector, "\\{")
+    closedBraces <- stringr::str_count(stringVector, "\\}")
+
+    if(all(openBraces == 0)){
+      return(stringVector)
+    }
+
+    allBraces <- openBraces - closedBraces
+    #get indices where there is a net change in the number of open or closed brackets and the net change at
+    #these indices. (-) indicates closing curly braces.
+    startsStops <- which(allBraces != 0)
+    startStopVals <- allBraces[startsStops]
+
+    #Get indices where outer curly braces close
+    stopIndexes <- c()
+    net <- startStopVals[1]
+    for(i in 2:length(startStopVals)){
+      net <- net + startStopVals[i]
+      if(net == 0){
+        stopIndexes <- c(stopIndexes, i)
+      }
+    }
+    #Get clusters of start and stop values
+    finalStopVals <- startsStops[stopIndexes]
+    finalStartVals <- c(startsStops[1], finalStopVals + 1)
+    finalStartVals <- finalStartVals[-c(length(finalStartVals))]
+    finalStartStopVals <- list(finalStartVals, finalStopVals)
+
+    #build final coerced vector
+    finalVector <- c(stringVector[which(1:length(stringVector) < startsStops[1])])
+    for(i in 1:length(finalStartStopVals[[1]])){
+      start <- finalStartStopVals[[1]][i]
+      stop <- finalStartStopVals[[2]][i]
+      finalVector <- c(finalVector, stringr::str_c(stringVector[start:stop], collapse = "\n"))
+    }
+    highestStopValue <- finalStopVals[length(finalStopVals)]
+    if(highestStopValue < length(stringVector)){
+      finalVector <- c(finalVector, stringVector[c((highestStopValue + 1):length(stringVector))])
+    }
+
+    finalVector <- stringr::str_c("\n", finalVector, sep = "")
+
+    return(finalVector)
+  }
+
+  if(stringr::str_c(..., collapse = "") == ""){
+    return("")
+  }
+
+  argu <- clumpBrackets(c(...))
+  argu <- stringr::str_squish(argu)
+  argu <- argu[which(argu != "")]
+
+  RevEnv$Vars <- c(RevEnv$Vars, argu[stringr::str_which(argu, " = |:=|<-|~")])
+
+  copy <- c(RevEnv$Vars, "")
+  copyTwo <- c("", RevEnv$Vars)
+
+  RevEnv$Vars <- copy[which(copy != copyTwo)]
+
   argu <- c(RevEnv$Vars, argu)
 
   if(use_wd == T){
@@ -75,8 +140,11 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
   }
 
   ###
-  out <- CoerceRev(out)
+  out <- stringr::str_c(out, collapse = "\n")
 
+  if(coerce){
+    out <- CoerceRev(out)
+    }
 
   #make sure tf is gone
 
