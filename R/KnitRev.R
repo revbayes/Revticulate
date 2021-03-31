@@ -8,8 +8,16 @@
 #'@export
 KnitRev <- function(){
   knitr::knit_engines$set(rb = function(options) {
-    code <- options$code
-    output <- RevR::CallRev(code, coerce = FALSE)
+
+    lastOutput <- RevR::CallRev(RevEnv$allCode, coerce = FALSE, knit = TRUE)
+
+    RevEnv$allCode <- c(RevEnv$allCode, options$code)
+
+    nextOutput <- RevR::CallRev(RevEnv$allCode, coerce = FALSE, knit = TRUE)
+
+    finalOutput <- nextOutput[-c(1:length(lastOutput))]
+
     return(knitr::engine_output(options, code = options$code, out = output))
+
   })
 }
