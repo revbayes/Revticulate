@@ -96,8 +96,8 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
     RevEnv$Vars <- copy[which(copy != copyTwo)]
 
   }
-
   argu <- c(RevEnv$Vars, argu)
+
 
   if(use_wd == T){
     wd <- stringr::str_replace_all(normalizePath(getwd()), pattern = "\\\\", "//")
@@ -146,7 +146,7 @@ CallRev <- function(..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F, use
 
   if(coerce){
     out <- CoerceRev(out)
-    }
+  }
 
   #make sure tf is gone
 
