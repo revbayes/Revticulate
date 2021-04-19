@@ -96,7 +96,7 @@ CallRev <- function (..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F,
   fopen <- file(tf)
   ret <- unlist(argu)
   writeLines(ret, fopen, sep = "\n")
-  out <- system2(path, args = c(tf), stdout = T, timeout = 30)
+  out <- system2(path, args = c(tf), stdout = T, timeout = 10)
   out <- out[-c(1:13, length(out) - 1, length(out))]
   cat("Input:\n -->  " %+% ret %+% "\n//", file = tf,
       sep = "\n", append = F)
