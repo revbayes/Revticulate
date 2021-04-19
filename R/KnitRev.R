@@ -5,6 +5,7 @@
 #'chunks.
 #'
 #'
+#'
 #'@export
 KnitRev <- function(){
   knitr::knit_engines$set(rb = function(options) {
