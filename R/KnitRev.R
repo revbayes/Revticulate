@@ -11,11 +11,11 @@ KnitRev <- function(){
 
     lastOutput <- RevR::CallRev(RevEnv$allCode, coerce = FALSE, knit = TRUE)
 
-    RevEnv$allCode <- c(RevEnv$allCode, options$code)
+      RevEnv$allCode <- c(RevEnv$allCode, options$code)
 
     nextOutput <- RevR::CallRev(RevEnv$allCode, coerce = FALSE, knit = TRUE)
 
-    finalOutput <- nextOutput[-c(1:length(lastOutput))]
+      output <- nextOutput[-c(1:length(lastOutput))]
 
     return(knitr::engine_output(options, code = options$code, out = output))
 
