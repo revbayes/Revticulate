@@ -133,7 +133,7 @@ ClearRev()
 ```
 
 ```{rb}
-morpho <- readDiscreteCharacterData("data/Cinctans.nex")
+morpho <- readDiscreteCharacterData("../data/Cinctans.nex")
 ```
 
 ### Create Helper Variables 
