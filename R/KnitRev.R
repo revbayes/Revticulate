@@ -5,6 +5,7 @@
 #'chunks.
 #'
 #'
+#'
 #'@export
 KnitRev <- function(){
   knitr::knit_engines$set(rb = function(options) {
@@ -15,9 +16,10 @@ KnitRev <- function(){
 
     nextOutput <- RevR::CallRev(RevEnv$allCode, coerce = FALSE, knit = TRUE)
 
-    finalOutput <- nextOutput[-c(1:length(lastOutput))]
+    output <- nextOutput[-c(1:length(lastOutput))]
+
+    code <- options$code
 
     return(knitr::engine_output(options, code = options$code, out = output))
-
   })
 }
