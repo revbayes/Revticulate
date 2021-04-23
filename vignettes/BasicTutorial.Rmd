@@ -19,7 +19,7 @@ Calling external software from R can be a bit tricky, and RevBayes is no excepti
 In the above chunk, you will see the command `InitRev`. This is a function in the `RevKnitR` R package. This R package can be installed using the popular `devtools` R package like so:
 
 ```{r, include=FALSE}
-devtools::install_github("paleantology/RevR")
+devtools::install_github("revbayes/RevKnitR")
 ```
 
 The `InitRev` function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. `InitRev` takes one argument: where RevBayes lives on your computer. Delete my sample path and enter your path above.
