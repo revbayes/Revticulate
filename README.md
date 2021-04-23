@@ -17,7 +17,7 @@ KnitRev()
 
 Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on PC, your copy will be called "rb.exe."
 
-In the above chunk, you will see the command `InitRev`. This is a function in the `RevKnitR` R package. This R package can be installed using the popular `devtools` R package like so:
+In the above chunk, you will see the command `InitRev`. This is a function in the `Revticulate` R package. This R package can be installed using the popular `devtools` R package like so:
 
 ```{r, include=FALSE}
 devtools::install_github("revbayes/Revticulate")
@@ -146,10 +146,10 @@ RepRev()
 # [1] 3
 ```
 
-## Limitations of RevKnitR
+## Limitations of Revticulate
 
 We're still working on object passing between RevBayes and R. So, as we saw above, passing trees from Rev to R is a little clunky. This is an area we expect to have working shortly.
 
-Using RevKnitR for long computations is not advisable. To run your actual MCMC, it's probably best to save your code to a script and run it in the terminal.
+Using Revticulate for long computations is not advisable. To run your actual MCMC, it's probably best to save your code to a script and run it in the terminal.
 
 We also have a known whitespace bug in function definition. It should be corrected over the weekend.
