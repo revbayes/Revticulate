@@ -7,7 +7,7 @@ output: html_document
 
 
 ```{r setup, include=TRUE}
-library(RevR)
+library(Revticulate)
 knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE)
 InitRev("/Users/april/software/rb")
 KnitRev()
