@@ -19,7 +19,59 @@
 #' @export
 RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
 
-  if(!stringr::str_detect(RevOut, "=|:=|<-|~")){return()}
+  hasDefsInBrackets <- function(input){
+    input = unlist(stringr::str_split(input, ""))
+
+    inputLength = length(input)-1;
+    for(i in 1:inputLength){
+      if(input[i] == "=" & input[i+1] == "="){
+        inputLength = inputLength + 1
+        input[i] = "=="
+        input = input[-c(i+1)]
+      }
+    }
+
+    inputLength = length(input)-1;
+    for(i in 1:inputLength){
+      if(input[i] == ":" & input[i+1] == "="){
+        inputLength = inputLength + 1
+        input[i] = ":="
+        input = input[-c(i+1)]
+      }
+    }
+    inputLength = length(input)-1;
+    for(i in 1:inputLength){
+      if(input[i] == "<" & input[i+1] == "-"){
+        inputLength = inputLength + 1
+        input[i] = "<-"
+        input = input[-c(i+1)]
+      }
+    }
+
+
+
+    vals = 0
+    hasBracketedDefs = FALSE
+
+    for(i in input){
+      if(i == "{")
+        vals = vals + 1
+      else if(i == "}")
+        vals = vals - 1
+      else if(i == "=" || i == "<-" || i == ":=" || i == "~" ){
+        if(vals > 0){
+          hasBracketedDefs = TRUE
+          break;
+        }
+      }
+    }
+
+    return(hasBracketedDefs)
+  }
+
+  if(!stringr::str_detect(RevOut, "=|:=|<-|~") || hasDefsInBrackets(RevOut)){
+    return()
+  }
   else{
     sign <- stringr::str_extract_all(RevOut, "=|:=|<-|~")[[1]]
 
