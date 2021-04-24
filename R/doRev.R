@@ -29,71 +29,51 @@
 #'
 #'@export
 #'
-doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T, knit = FALSE){
+doRev <- function(..., trackCode = FALSE, viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T, knit = FALSE){
 
   if(stringr::str_c(..., collapse = "") == ""){
     return("")
   }
 
-  #group elements by curly braces
-  clumpBrackets <- function(stringVector){
-
-    #get opening and closing curly braces
-    openBraces <- sum(stringr::str_count(stringVector, "\\{"))
-    closedBraces <- sum(stringr::str_count(stringVector, "\\}"))
-
-    if(openBraces == closedBraces){
-      return(stringVector)
-    }
-
-    if(all(openBraces == 0)){
-      return(stringVector)
-    }
-
-    allBraces <- openBraces - closedBraces
-    #get indices where there is a net change in the number of open or closed brackets and the net change at
-    #these indices. (-) indicates closing curly braces.
-    startsStops <- which(allBraces != 0)
-    startStopVals <- allBraces[startsStops]
-
-    #Get indices where outer curly braces close
-    stopIndexes <- c()
-    net <- startStopVals[1]
-    for(i in 2:length(startStopVals)){
-      net <- net + startStopVals[i]
-      if(net == 0){
-        stopIndexes <- c(stopIndexes, i)
-      }
-    }
-    #Get clusters of start and stop values
-    finalStopVals <- startsStops[stopIndexes]
-    finalStartVals <- c(startsStops[1], finalStopVals + 1)
-    finalStartVals <- finalStartVals[-c(length(finalStartVals))]
-    finalStartStopVals <- list(finalStartVals, finalStopVals)
-
-    #build final coerced vector
-    finalVector <- c(stringVector[which(1:length(stringVector) < startsStops[1])])
-    for(i in 1:length(finalStartStopVals[[1]])){
-      start <- finalStartStopVals[[1]][i]
-      stop <- finalStartStopVals[[2]][i]
-      finalVector <- c(finalVector, stringr::str_c(stringVector[start:stop], collapse = "\n"))
-    }
-    highestStopValue <- finalStopVals[length(finalStopVals)]
-    if(highestStopValue < length(stringVector)){
-      finalVector <- c(finalVector, stringVector[c((highestStopValue + 1):length(stringVector))])
-    }
-
-    finalVector <- stringr::str_c("\n", finalVector, sep = "")
-
-    return(finalVector)
+  if(trackCode == TRUE){
+    RevEnv$allCode = append(RevEnv$allCode, ...)
   }
 
+  #group elements by curly braces
+
+  pasteByEnds <- function(stringArray, openEnd, closeEnd){
+
+    clumpedVector <- c()
+    tots = 0
+
+    for(i in stringArray){
+
+      if(tots != 0)
+        clumpedVector[length(clumpedVector)] = clumpedVector[length(clumpedVector)] %+% i
+      else
+        clumpedVector = c(clumpedVector, i)
+
+      tots = tots + stringr::str_count(i, openEnd)
+      tots = tots - stringr::str_count(i, closeEnd)
+
+    }
+
+    return(clumpedVector)
+
+  }
 
   if(knit){
     coerce = FALSE}
 
 
-  RevOut <- clumpBrackets(c(...))
+  RevOut <- c(...)
+
+  RevOut <- pasteByEnds(c(...), "\\{", "\\}")
+  RevOut <- pasteByEnds(c(RevOut), "\\[", "\\]")
+  RevOut <- unlist(pasteByEnds(c(RevOut), "\\(", "\\)"))
+
+
+
   RevOut <- stringr::str_squish(RevOut)
   RevOut <- RevOut[which(RevOut != "")]
 

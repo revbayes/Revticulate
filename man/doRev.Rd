@@ -6,6 +6,7 @@
 \usage{
 doRev(
   ...,
+  trackCode = FALSE,
   viewCode = FALSE,
   coerce = TRUE,
   interactive = FALSE,
