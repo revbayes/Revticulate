@@ -10,6 +10,8 @@
 #'    will be displayed in the viewing pane. This option may be useful for diagnosing errors.
 #'    Default is FALSE.
 #'
+#'@param trackCode If true, Rev code will be will be appended to RevEnv$allCode.
+#'
 #'@param coerce If FALSE, output from rb.exe will remain in String format. If TRUE, doRev()
 #'    will attempt to coerce output into an appropriate R object.
 #'
