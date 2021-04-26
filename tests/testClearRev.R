@@ -2,7 +2,7 @@ library(testthat)
 test_that(
   "Testing ClearRev()",
   {
-    RevR::InitRev()
+    Revticulate::InitRev()
 
     expect_false(all(c("Deterministic", "RevPath", "temps", "Vars") == c(ls(RevEnv))))
 
