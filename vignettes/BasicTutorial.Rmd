@@ -8,9 +8,12 @@ output: html_document
 ```{r setup, include=TRUE}
 library(Revticulate)
 knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE)
+knitr::opts_chunk$set(root.dir = "~/projects/revbayes.github.io/tutorials/tutorial_structure/")
 InitRev("/Users/april/software/rb")
 KnitRev()
 ```
+
+
 
 ## RevBayes and R
 
@@ -120,10 +123,11 @@ We next specify the likelihood function. We use the binomial probability for the
 ```{rb}
 function likelihood(p) {
     if(p < 0 || p > 1)
-        return 0
+        return 0;
 
-    l = dbinomial(x,p,n,log=false)
+    l<-dbinomial(x,p,n,log=false)
     return l
+    
 }
 ```
 
