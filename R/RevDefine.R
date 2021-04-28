@@ -19,59 +19,7 @@
 #' @export
 RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
 
-  hasDefsInBrackets <- function(input){
-    input = unlist(stringr::str_split(input, ""))
-
-    inputLength = length(input)-1;
-    for(i in 1:inputLength){
-      if(input[i] == "=" & input[i+1] == "="){
-        inputLength = inputLength + 1
-        input[i] = "=="
-        input = input[-c(i+1)]
-      }
-    }
-
-    inputLength = length(input)-1;
-    for(i in 1:inputLength){
-      if(input[i] == ":" & input[i+1] == "="){
-        inputLength = inputLength + 1
-        input[i] = ":="
-        input = input[-c(i+1)]
-      }
-    }
-    inputLength = length(input)-1;
-    for(i in 1:inputLength){
-      if(input[i] == "<" & input[i+1] == "-"){
-        inputLength = inputLength + 1
-        input[i] = "<-"
-        input = input[-c(i+1)]
-      }
-    }
-
-
-
-    vals = 0
-    hasBracketedDefs = FALSE
-
-    for(i in input){
-      if(i == "{")
-        vals = vals + 1
-      else if(i == "}")
-        vals = vals - 1
-      else if(i == "=" || i == "<-" || i == ":=" || i == "~" ){
-        if(vals > 0){
-          hasBracketedDefs = TRUE
-          break;
-        }
-      }
-    }
-
-    return(hasBracketedDefs)
-  }
-
-  if(!stringr::str_detect(RevOut, "=|:=|<-|~") || hasDefsInBrackets(RevOut)){
-    return()
-  }
+  if(!stringr::str_detect(RevOut, "=|:=|<-|~")){return()}
   else{
     sign <- stringr::str_extract_all(RevOut, "=|:=|<-|~")[[1]]
 
@@ -91,7 +39,7 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
 
     output <- output[-c(1:2)]
     output <- data.frame(taxa = output[which(c(1:length(output)) %% 2 == 1)],
-                       data = output[which(c(1:length(output)) %% 2 == 0)])
+                         data = output[which(c(1:length(output)) %% 2 == 0)])
 
     output$data <- data.frame(stringr::str_split(test$data, " "))
 
@@ -103,11 +51,11 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
     makeActiveBinding(objdef[1], function() output, RevEnv)}
 
   else if (stringr::str_detect(RevOut, ":=")){
-      makeActiveBinding(objdef[1], function(){
-        list <- RevEnv$Vars
-        CallRev(list, objdef[2], env = RevEnv)
-        }
-          )
+    makeActiveBinding(objdef[1], function(){
+      list <- RevEnv$Vars
+      CallRev(list, objdef[2], env = RevEnv)
+    }
+    )
   }
 
 
@@ -130,3 +78,4 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
   RevEnv$Vars <- unique(RevEnv$Vars)
 
 }
+
