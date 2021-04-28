@@ -6,7 +6,6 @@
 \usage{
 doRev(
   ...,
-  trackCode = FALSE,
   viewCode = FALSE,
   coerce = TRUE,
   interactive = FALSE,
@@ -17,8 +16,6 @@ doRev(
 }
 \arguments{
 \item{...}{String of code that will be sent to rb.exe}
-
-\item{trackCode}{If true, Rev code will be will be appended to RevEnv$allCode.}
 
 \item{viewCode}{If TRUE, code from the temporary file used to interact with rb.exe
 will be displayed in the viewing pane. This option may be useful for diagnosing errors.
