@@ -1,3 +1,4 @@
+
 #' Submit input to rb.exe and return output
 #'
 #' Submits input to rb.exe and returns output to R in string format. If coerce = T, the function
@@ -32,37 +33,50 @@ CallRev <- function (..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F,
 {
   argu <- c(...)
   if (knit) {
-
-    pasteByEnds <- function(stringArray, openEnd, closeEnd){
-
-      clumpedVector <- c()
-      tots = 0
-
-      for(i in stringArray){
-
-        if(tots != 0)
-          clumpedVector[length(clumpedVector)] = clumpedVector[length(clumpedVector)] %+% i
-        else
-          clumpedVector = c(clumpedVector, i)
-
-        tots = tots + stringr::str_count(i, openEnd)
-        tots = tots - stringr::str_count(i, closeEnd)
-
+    clumpBrackets <- function(stringVector) {
+      openBraces <- stringr::str_count(stringVector, "\\{")
+      closedBraces <- stringr::str_count(stringVector,
+                                         "\\}")
+      if (all(openBraces == 0)) {
+        return(stringVector)
       }
-
-      return(clumpedVector)
-
+      allBraces <- openBraces - closedBraces
+      startsStops <- which(allBraces != 0)
+      startStopVals <- allBraces[startsStops]
+      stopIndexes <- c()
+      net <- startStopVals[1]
+      for (i in 2:length(startStopVals)) {
+        net <- net + startStopVals[i]
+        if (net == 0) {
+          stopIndexes <- c(stopIndexes, i)
+        }
+      }
+      finalStopVals <- startsStops[stopIndexes]
+      finalStartVals <- c(startsStops[1], finalStopVals +
+                            1)
+      finalStartVals <- finalStartVals[-c(length(finalStartVals))]
+      finalStartStopVals <- list(finalStartVals, finalStopVals)
+      finalVector <- c(stringVector[which(1:length(stringVector) <
+                                            startsStops[1])])
+      for (i in 1:length(finalStartStopVals[[1]])) {
+        start <- finalStartStopVals[[1]][i]
+        stop <- finalStartStopVals[[2]][i]
+        finalVector <- c(finalVector, stringr::str_c(stringVector[start:stop],
+                                                     collapse = "\n"))
+      }
+      highestStopValue <- finalStopVals[length(finalStopVals)]
+      if (highestStopValue < length(stringVector)) {
+        finalVector <- c(finalVector, stringVector[c((highestStopValue +
+                                                        1):length(stringVector))])
+      }
+      finalVector <- stringr::str_c("\n", finalVector,
+                                    sep = "")
+      return(finalVector)
     }
-
     if (stringr::str_c(..., collapse = "") == "") {
       return("")
     }
-
-    argu <- pasteByEnds(c(...), "\\{", "\\}")
-    argu <- pasteByEnds(c(argu), "\\[", "\\]")
-    argu <- unlist(pasteByEnds(c(argu), "\\(", "\\)"))
-
-
+    argu <- clumpBrackets(c(...))
     argu <- stringr::str_squish(argu)
     argu <- argu[which(argu != "")]
     RevEnv$Vars <- c(RevEnv$Vars, argu[stringr::str_which(argu,
