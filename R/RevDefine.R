@@ -70,7 +70,7 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
     return(hasBracketedDefs)
   }
 
-  if(!stringr::str_detect(RevOut, "=|:=|<-|~") || hasDefsInBrackets(RevOut)){
+  if(!stringr::str_detect(RevOut, "=|:=|<-|~") || (hasDefsInBrackets(RevOut))){
     return()
   }
   else{
