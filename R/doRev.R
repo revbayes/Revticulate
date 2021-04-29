@@ -93,8 +93,31 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
   if(knit){
     coerce = FALSE}
 
+  pasteByEnds <- function(stringArray, openEnd, closeEnd){
 
-  RevOut <- clumpBrackets(c(...))
+    clumpedVector <- c()
+    tots = 0
+
+    for(i in stringArray){
+
+      if(tots != 0)
+        clumpedVector[length(clumpedVector)] = clumpedVector[length(clumpedVector)] %+% i
+      else
+        clumpedVector = c(clumpedVector, i)
+
+      tots = tots + stringr::str_count(i, openEnd)
+      tots = tots - stringr::str_count(i, closeEnd)
+    }
+
+    return(clumpedVector)
+  }
+
+
+  #RevOut <- clumpBrackets(c(...))
+  RevOut <- pasteByEnds(c(...), "\\{", "\\}")
+  RevOut <- pasteByEnds(RevOut, "\\[", "\\]")
+  RevOut <- pasteByEnds(RevOut, "\\(", "\\)")
+
   RevOut <- stringr::str_squish(RevOut)
   RevOut <- RevOut[which(RevOut != "")]
 
