@@ -36,60 +36,6 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
     return("")
   }
 
-  #group elements by curly braces
-  clumpBrackets <- function(stringVector){
-
-    #get opening and closing curly braces
-    openBraces <- sum(stringr::str_count(stringVector, "\\{"))
-    closedBraces <- sum(stringr::str_count(stringVector, "\\}"))
-
-    if(openBraces == closedBraces){
-      return(stringVector)
-    }
-
-    if(all(openBraces == 0)){
-      return(stringVector)
-    }
-
-    allBraces <- openBraces - closedBraces
-    #get indices where there is a net change in the number of open or closed brackets and the net change at
-    #these indices. (-) indicates closing curly braces.
-    startsStops <- which(allBraces != 0)
-    startStopVals <- allBraces[startsStops]
-
-    #Get indices where outer curly braces close
-    stopIndexes <- c()
-    net <- startStopVals[1]
-    for(i in 2:length(startStopVals)){
-      net <- net + startStopVals[i]
-      if(net == 0){
-        stopIndexes <- c(stopIndexes, i)
-      }
-    }
-    #Get clusters of start and stop values
-    finalStopVals <- startsStops[stopIndexes]
-    finalStartVals <- c(startsStops[1], finalStopVals + 1)
-    finalStartVals <- finalStartVals[-c(length(finalStartVals))]
-    finalStartStopVals <- list(finalStartVals, finalStopVals)
-
-    #build final coerced vector
-    finalVector <- c(stringVector[which(1:length(stringVector) < startsStops[1])])
-    for(i in 1:length(finalStartStopVals[[1]])){
-      start <- finalStartStopVals[[1]][i]
-      stop <- finalStartStopVals[[2]][i]
-      finalVector <- c(finalVector, stringr::str_c(stringVector[start:stop], collapse = "\n"))
-    }
-    highestStopValue <- finalStopVals[length(finalStopVals)]
-    if(highestStopValue < length(stringVector)){
-      finalVector <- c(finalVector, stringVector[c((highestStopValue + 1):length(stringVector))])
-    }
-
-    finalVector <- stringr::str_c("\n", finalVector, sep = "")
-
-    return(finalVector)
-  }
-
-
   if(knit){
     coerce = FALSE}
 
@@ -113,7 +59,6 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
   }
 
 
-  #RevOut <- clumpBrackets(c(...))
   RevOut <- pasteByEnds(c(...), "\\{", "\\}")
   RevOut <- pasteByEnds(RevOut, "\\[", "\\]")
   RevOut <- pasteByEnds(RevOut, "\\(", "\\)")
@@ -128,8 +73,7 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
   outobjs <- list()
 
   for(i in 1:length(RevOut)){
-    if(stringr::str_detect(RevOut[i], " = | := | <- | ~ ") || !knit){
-      #if(!knit){
+    if(stringr::str_detect(RevOut[i], " = | := | <- | ~ ")){
         RevDefine(RevOut[i], viewCode = viewCode)
 
         if(length(RevEnv$Deterministic) != 0){
@@ -139,16 +83,14 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
             }
           }
         }
-      #}
     }
 
     else{
       out <- CallRev(RevOut[i], coerce = coerce, path = RevEnv$RevPath, viewCode = viewCode, use_wd = use_wd)
-      if(interactive == TRUE){
-        return(print(out))}
-      if(interactive == FALSE){
+      if(interactive == TRUE)
+        return(print(out))
+      else
         outobjs <- append(outobjs, list(out))
-      }
     }
   }
 

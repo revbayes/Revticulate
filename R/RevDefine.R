@@ -17,9 +17,8 @@
 #' RevDefine("example1 <- posteriorPredictiveProbability(v(2), 3)", viewCode = TRUE)
 #'
 #' @export
-RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE){
+RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE, knit = FALSE){
 
-  #if(!stringr::str_detect(RevOut, "=|:=|<-|~")){return()}
   hasDefsInBrackets <- function(input){
     input = unlist(stringr::str_split(input, ""))
 
