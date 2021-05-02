@@ -4,7 +4,7 @@
 \alias{RevDefine}
 \title{Define Rev objects into RevEnv when calling rb.exe}
 \usage{
-RevDefine(RevOut, viewCode = FALSE, hideMessage = FALSE)
+RevDefine(RevOut, viewCode = FALSE, hideMessage = FALSE, knit = FALSE)
 }
 \arguments{
 \item{RevOut}{String input that will be sent to rb.exe. If the function detects an
