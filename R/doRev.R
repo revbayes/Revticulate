@@ -72,8 +72,9 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
 
   outobjs <- list()
 
+
   for(i in 1:length(RevOut)){
-    if(stringr::str_detect(RevOut[i], " = | := | <- | ~ ")){
+    if(stringr::str_detect(RevOut[i], " = | := | <- | ~ ") & !knit){
         RevDefine(RevOut[i], viewCode = viewCode)
 
         if(length(RevEnv$Deterministic) != 0){
@@ -84,7 +85,6 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
           }
         }
     }
-
     else{
       out <- CallRev(RevOut[i], coerce = coerce, path = RevEnv$RevPath, viewCode = viewCode, use_wd = use_wd)
       if(interactive == TRUE)
