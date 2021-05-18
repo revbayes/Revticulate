@@ -32,6 +32,8 @@
 #'
 doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T, knit = FALSE){
 
+  ... <- unlist(stringr::str_split(..., ";"))
+
   if(stringr::str_c(..., collapse = "") == ""){
     return("")
   }
