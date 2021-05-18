@@ -2,7 +2,7 @@
 % Please edit documentation in R/doRev.R
 \name{doRev}
 \alias{doRev}
-\title{Wrapper for CallRev() and RevDefine()}
+\title{Wrapper for callRev() and revDefine()}
 \usage{
 doRev(
   ...,
@@ -24,9 +24,9 @@ Default is FALSE.}
 \item{coerce}{If FALSE, output from rb.exe will remain in String format. If TRUE, doRev()
 will attempt to coerce output into an appropriate R object.}
 
-\item{interactive}{Ignore. Used to implement doRev() into RepRev().}
+\item{interactive}{Ignore. Used to implement doRev() into repRev().}
 
-\item{Det_Update}{If TRUE, previously created object in RevEnv that is redefined in rb.exe
+\item{Det_Update}{If TRUE, previously created object in revEnv that is redefined in rb.exe
 will be updated. If FALSE, it will not. Default is TRUE.}
 
 \item{use_wd}{If TRUE, the temporary rb.exe session will use the same working directory as
@@ -36,8 +36,8 @@ the current R session. Else, it will use its default.}
 outobjs Prints output from rb.exe, if required.
 }
 \description{
-A wrapper for CallRev() and RevDefine(). If a variable is assigned in the temporary
-   rb session, it will also be created in the RevEnv. Otherwise, functions like CallRev().
+A wrapper for callRev() and revDefine(). If a variable is assigned in the temporary
+   rb session, it will also be created in the revEnv. Otherwise, functions like callRev().
 }
 \examples{
 doRev("sam <- 777")

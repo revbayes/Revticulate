@@ -1,9 +1,9 @@
 
 
-#'Wrapper for CallRev() and RevDefine()
+#'Wrapper for callRev() and revDefine()
 #'
-#'A wrapper for CallRev() and RevDefine(). If a variable is assigned in the temporary
-#'    rb session, it will also be created in the RevEnv. Otherwise, functions like CallRev().
+#'A wrapper for callRev() and revDefine(). If a variable is assigned in the temporary
+#'    rb session, it will also be created in the revEnv. Otherwise, functions like callRev().
 #'
 #'@param ... String of code that will be sent to rb.exe
 #'
@@ -14,9 +14,9 @@
 #'@param coerce If FALSE, output from rb.exe will remain in String format. If TRUE, doRev()
 #'    will attempt to coerce output into an appropriate R object.
 #'
-#'@param interactive Ignore. Used to implement doRev() into RepRev().
+#'@param interactive Ignore. Used to implement doRev() into repRev().
 #'
-#'@param Det_Update If TRUE, previously created object in RevEnv that is redefined in rb.exe
+#'@param Det_Update If TRUE, previously created object in revEnv that is redefined in rb.exe
 #'    will be updated. If FALSE, it will not. Default is TRUE.
 #'
 #'@param use_wd If TRUE, the temporary rb.exe session will use the same working directory as
@@ -74,18 +74,18 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
 
   for(i in 1:length(RevOut)){
     if(stringr::str_detect(RevOut[i], " = | := | <- | ~ ")){
-        RevDefine(RevOut[i], viewCode = viewCode)
+        revDefine(RevOut[i], viewCode = viewCode)
 
-        if(length(RevEnv$Deterministic) != 0){
+        if(length(revEnv$Deterministic) != 0){
           if(Det_Update == TRUE){
-            for(i in unique(RevEnv$Deterministic)){
-              RevDefine(i, viewCode = F, hideMessage = TRUE)
+            for(i in unique(revEnv$Deterministic)){
+              revDefine(i, viewCode = F, hideMessage = TRUE)
             }
           }
         }
     }
     else{
-      out <- CallRev(RevOut[i], coerce = coerce, path = RevEnv$RevPath, viewCode = viewCode, use_wd = use_wd)
+      out <- callRev(RevOut[i], coerce = coerce, path = revEnv$RevPath, viewCode = viewCode, use_wd = use_wd)
       if(interactive == TRUE)
         return(print(out))
       else

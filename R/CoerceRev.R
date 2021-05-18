@@ -9,7 +9,7 @@
 #' @return out Coerce output of the RevBayes output string.
 #'
 #' @examples
-#' CoerceRev("[1, 2, 3, 4]")
+#' coerceRev("[1, 2, 3, 4]")
 #'
 #'@import stringr
 #'
@@ -17,7 +17,7 @@
 #'
 
 
-CoerceRev <- function(out){
+coerceRev <- function(out){
 
   out <- stringr::str_remove_all(out, " ")
 
