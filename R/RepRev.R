@@ -4,10 +4,11 @@
 #'
 #'    To exit session, type quit().
 #'
-#'    clearRev() and getrRev() can be called from within session for ease of use.
+#'    clearRev() and getRev() can be called from within session for ease of use.
 #'
 #'@param path Path to rb.exe. Defaults to revEnv$RevPath, so
 #'    InitRev() must typically be called first.
+#'
 #'
 #'@param viewCode If TRUE, String-formatted code in the temporary file used to interact with
 #'    rb.exe will be displayed in the viewing pane. Default is FALSE.
@@ -33,7 +34,7 @@
 #'
 #'posteriorPredictiveProbability(v(2), 3)
 #'
-#'getrRev()
+#'getRev()
 #'clearRev()
 #'quit()
 #'@export
@@ -82,8 +83,8 @@ repRev <- function (path = revEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
       next
     }
 
-    if(ginput == "getrRev()"){
-      print(getrRev())
+    if(ginput == "getRev()"){
+      print(getRev())
       next()
     }
 
