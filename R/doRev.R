@@ -74,7 +74,7 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
 
 
   for(i in 1:length(RevOut)){
-    if(stringr::str_detect(RevOut[i], " = | := | <- | ~ ") & !knit){
+    if(stringr::str_detect(RevOut[i], " = | := | <- | ~ ")){
         RevDefine(RevOut[i], viewCode = viewCode)
 
         if(length(RevEnv$Deterministic) != 0){
