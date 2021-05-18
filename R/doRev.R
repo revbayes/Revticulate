@@ -32,9 +32,9 @@
 #'
 doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T, knit = FALSE){
 
-  ... <- unlist(stringr::str_split(..., ";"))
+  input <- unlist(stringr::str_split(c(...), ";"))
 
-  if(stringr::str_c(..., collapse = "") == ""){
+  if(stringr::str_c(input, collapse = "") == ""){
     return("")
   }
 
@@ -60,7 +60,7 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
     return(clumpedVector)
   }
 
-  RevOut <- pasteByEnds(c(...), "\\{", "\\}")
+  RevOut <- pasteByEnds(c(input), "\\{", "\\}")
   RevOut <- pasteByEnds(RevOut, "\\[", "\\]")
   RevOut <- pasteByEnds(RevOut, "\\(", "\\)")
 
