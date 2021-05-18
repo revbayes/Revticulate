@@ -1,21 +1,21 @@
-#'Empties RevEnv
+#'Empties revEnv
 #'
-#'Removes all objects from RevEnv excluding RevPath
+#'Removes all objects from revEnv excluding RevPath
 #'
 #'
 #'@export
-ClearRev <- function(){
+clearRev <- function(){
 
   #prevent temp file list from getting too large
-  if(length(RevEnv$temps) > 50){
-    RevEnv$temps <- c()
+  if(length(revEnv$temps) > 50){
+    revEnv$temps <- c()
   }
 
-  NRObjs <- length(RevEnv)-2
+  NRObjs <- length(revEnv)-2
 
-  remove(list = ls(envir = RevEnv)[which(ls(envir = RevEnv) != "RevPath" & ls(envir = RevEnv) != "temps")],
-         envir = RevEnv)
+  remove(list = ls(envir = revEnv)[which(ls(envir = revEnv) != "RevPath" & ls(envir = revEnv) != "temps")],
+         envir = revEnv)
 
-  message("Successfully removed " %+% c(NRObjs) %+% " objects from RevEnv!")
+  message("Successfully removed " %+% c(NRObjs) %+% " objects from revEnv!")
 
 }
