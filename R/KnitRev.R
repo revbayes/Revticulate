@@ -20,7 +20,7 @@ KnitRev <- function(){
 
     code <- options$code
 
-    return(knitr::engine_output(options, code = options$code, out = output))
+    return(knitr::engine_output(options, code = options$code, out = c(output)))
   })
 
 }
