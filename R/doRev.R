@@ -33,6 +33,7 @@
 doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T, knit = FALSE){
 
   input <- unlist(stringr::str_split(c(...), ";"))
+  revEnv$allCode <- unlist(c(revEnv$allCode, input))
 
   if(stringr::str_c(input, collapse = "") == ""){
     return("")
@@ -87,7 +88,7 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
         }
     }
     else{
-      out <- callRev(RevOut[i], coerce = FALSE, path = revEnv$RevPath, viewCode = viewCode, use_wd = use_wd)
+      out <- stringr::str_squish(callRev(RevOut[i], coerce = FALSE, path = revEnv$RevPath, viewCode = viewCode, use_wd = use_wd))
       if(interactive == TRUE)
         return(print(out))
       else
