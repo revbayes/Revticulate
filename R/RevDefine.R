@@ -49,7 +49,6 @@ RevDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE, knit = FALS
     }
 
 
-
     vals = 0
     hasBracketedDefs = FALSE
 

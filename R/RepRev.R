@@ -73,7 +73,6 @@ RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
 
     }
 
-
     if (ginput == "quit()") {
       break
     }

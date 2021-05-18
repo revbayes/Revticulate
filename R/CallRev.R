@@ -58,6 +58,7 @@ CallRev <- function (..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F,
       finalStartStopVals <- list(finalStartVals, finalStopVals)
       finalVector <- c(stringVector[which(1:length(stringVector) <
                                             startsStops[1])])
+
       for (i in 1:length(finalStartStopVals[[1]])) {
         start <- finalStartStopVals[[1]][i]
         stop <- finalStartStopVals[[2]][i]

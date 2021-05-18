@@ -22,4 +22,5 @@ KnitRev <- function(){
 
     return(knitr::engine_output(options, code = options$code, out = output))
   })
+
 }

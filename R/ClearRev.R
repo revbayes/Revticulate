@@ -17,4 +17,5 @@ ClearRev <- function(){
          envir = RevEnv)
 
   message("Successfully removed " %+% c(NRObjs) %+% " objects from RevEnv!")
+
 }

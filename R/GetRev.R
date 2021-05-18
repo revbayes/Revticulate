@@ -6,4 +6,7 @@
 #'@export
 #'
 GetRev <- function(){
-  return(RevEnv$Vars)}
+
+  return(RevEnv$Vars)
+
+}
