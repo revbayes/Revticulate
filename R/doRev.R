@@ -58,7 +58,6 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
     return(clumpedVector)
   }
 
-
   RevOut <- pasteByEnds(c(...), "\\{", "\\}")
   RevOut <- pasteByEnds(RevOut, "\\[", "\\]")
   RevOut <- pasteByEnds(RevOut, "\\(", "\\)")
