@@ -125,5 +125,5 @@ callRev <- function (..., coerce = FALSE, path = revEnv$RevPath, viewCode = F,
     out <- coerceRev(out)
   }
   unlink(tf)
-  return(out)
+  return(stringr::str_squish(out))
 }
