@@ -87,7 +87,7 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
         }
     }
     else{
-      out <- callRev(RevOut[i], coerce = coerce, path = revEnv$RevPath, viewCode = viewCode, use_wd = use_wd)
+      out <- callRev(RevOut[i], coerce = FALSE, path = revEnv$RevPath, viewCode = viewCode, use_wd = use_wd)
       if(interactive == TRUE)
         return(print(out))
       else
