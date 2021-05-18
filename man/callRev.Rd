@@ -6,7 +6,7 @@
 \usage{
 callRev(
   ...,
-  coerce = TRUE,
+  coerce = FALSE,
   path = revEnv$RevPath,
   viewCode = F,
   use_wd = T,
@@ -17,7 +17,7 @@ callRev(
 \item{...}{String input to send to RevBayes.}
 
 \item{coerce}{If TRUE, attempts to coerce output to an R object. If FALSE, output
-will remain in String format. Default is TRUE.}
+will remain in String format. Default is FALSE.}
 
 \item{path}{Path to rb.exe. Default is revEnv$RevPath, which is created with InitRev().}
 
