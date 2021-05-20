@@ -28,8 +28,7 @@
 #'
 
 callRev <- function (..., coerce = TRUE, path = revEnv$RevPath, viewCode = F,
-                     use_wd = T, knit = F)
-{
+                     use_wd = T, knit = F){
   argu <- c(...)
   if (knit) {
     clumpBrackets <- function(stringVector) {
