@@ -9,7 +9,6 @@
 #'@export
 #'
 
-
 getRevObj <- function(name, coerce = FALSE){
   return(cleanCallRev(name, viewCode = FALSE, coerce = coerce))
 }
