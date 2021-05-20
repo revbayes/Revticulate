@@ -14,8 +14,8 @@ doRev <- function(input, viewCode = FALSE){
 
   for(i in 1:length(chunks))
     if(i == length(chunks))
-      allOutputs <- append(allOutputs, cleanCallRev(chunks(i), viewCode = viewCode))
-    else allOutputs <- append(allOutputs, cleanCallRev(chunks(i)))
+      allOutputs <- append(allOutputs, cleanCallRev(chunks[i], viewCode = viewCode))
+    else allOutputs <- append(allOutputs, cleanCallRev(chunks[i]))
 
   if(length(allOutputs == 1))
      allOutputs <- unlist(allOutputs)
