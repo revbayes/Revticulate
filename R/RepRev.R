@@ -82,8 +82,13 @@ repRev <- function (path = revEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
       next
     }
 
-    if(ginput == "getrRev()"){
-      print(getrRev())
+    if(ginput == "getRevVars()"){
+      print(getRevVars())
+      next()
+    }
+
+    if(ginput == "getRevHistory()"){
+      print(getRevHistory())
       next()
     }
 
