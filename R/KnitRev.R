@@ -25,6 +25,9 @@ knitRev <- function(){
     }
     code <- options$code
 
+    for(i in code)
+      revDefine(i)
+
     return(knitr::engine_output(options, code = options$code, out = c(output)))
   })
 }
