@@ -10,23 +10,7 @@
 knitRev <- function(){
   knitr::knit_engines$set(rb = function(options) {
 
-    if(length(revEnv$allCode) == 0){
-      revEnv$allCode <- c(revEnv$allCode, options$code)
-      output <- Revticulate::callRev(revEnv$allCode, coerce = FALSE, knit = TRUE)
-    }
-    else{
-      lastOutput <- Revticulate::callRev(revEnv$allCode, coerce = FALSE, knit = TRUE)
-
-      revEnv$allCode <- c(revEnv$allCode, options$code)
-
-      nextOutput <- Revticulate::callRev(revEnv$allCode, coerce = FALSE, knit = TRUE)
-
-      output <- nextOutput[-c(1:length(lastOutput))]
-    }
-    code <- options$code
-
-    for(i in code)
-      revDefine(i)
+    output <- cleanCallRev(options$code)
 
     return(knitr::engine_output(options, code = options$code, out = c(output)))
   })
