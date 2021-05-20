@@ -92,9 +92,8 @@ repRev <- function (path = revEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
       next()
     }
 
-    else{doRev(ginput, viewCode = viewCode, use_wd = use_wd, interactive = TRUE)}
+    else{print(cleanCallRev(ginput, viewCode = viewCode))}
 
-    revEnv$Vars <- unique(revEnv$Vars)
 
     if(!is.null(sleep)){
       Sys.sleep(sleep)
