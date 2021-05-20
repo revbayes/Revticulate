@@ -35,7 +35,7 @@ Allows user to continuously call rb.exe without having to retype function.
 \details{
 To exit session, type quit().
 
-   clearRev() and getRev() can be called from within session for ease of use.
+   clearRev() and getrRev() can be called from within session for ease of use.
 }
 \examples{
 --The below example code enters, uses, and exits an interactive rb.exe session. Attempting to use
@@ -48,7 +48,7 @@ myNumber
 
 posteriorPredictiveProbability(v(2), 3)
 
-getRev()
+getrRev()
 clearRev()
 quit()
 }

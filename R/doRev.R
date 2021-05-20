@@ -1,5 +1,4 @@
 
-
 #'Wrapper for callRev() and revDefine()
 #'
 #'A wrapper for callRev() and revDefine(). If a variable is assigned in the temporary
@@ -14,7 +13,7 @@
 #'@param coerce If FALSE, output from rb.exe will remain in String format. If TRUE, doRev()
 #'    will attempt to coerce output into an appropriate R object.
 #'
-#'@param interactive Ignore. Used to implement doRev() into repRev().
+#'@param interactive Ignore. Used to implement doRev() into RepRev().
 #'
 #'@param Det_Update If TRUE, previously created object in revEnv that is redefined in rb.exe
 #'    will be updated. If FALSE, it will not. Default is TRUE.
@@ -32,10 +31,7 @@
 #'
 doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T, knit = FALSE){
 
-  input <- unlist(stringr::str_split(c(...), ";"))
-  revEnv$allCode <- unlist(c(revEnv$allCode, input))
-
-  if(stringr::str_c(input, collapse = "") == ""){
+  if(stringr::str_c(..., collapse = "") == ""){
     return("")
   }
 
@@ -61,7 +57,8 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
     return(clumpedVector)
   }
 
-  RevOut <- pasteByEnds(c(input), "\\{", "\\}")
+
+  RevOut <- pasteByEnds(c(...), "\\{", "\\}")
   RevOut <- pasteByEnds(RevOut, "\\[", "\\]")
   RevOut <- pasteByEnds(RevOut, "\\(", "\\)")
 
@@ -76,19 +73,19 @@ doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det
 
 
   for(i in 1:length(RevOut)){
-    if(stringr::str_detect(RevOut[i], " = | := | <- | ~ ")){
-        revDefine(RevOut[i], viewCode = viewCode)
+    if(stringr::str_detect(RevOut[i], " = | := | <- | ~ ") & !knit){
+      revDefine(RevOut[i], viewCode = viewCode)
 
-        if(length(revEnv$Deterministic) != 0){
-          if(Det_Update == TRUE){
-            for(i in unique(revEnv$Deterministic)){
-              revDefine(i, viewCode = F, hideMessage = TRUE)
-            }
+      if(length(revEnv$Deterministic) != 0){
+        if(Det_Update == TRUE){
+          for(i in unique(revEnv$Deterministic)){
+            revDefine(i, viewCode = F, hideMessage = TRUE)
           }
         }
+      }
     }
     else{
-      out <- stringr::str_squish(callRev(RevOut[i], coerce = FALSE, path = revEnv$RevPath, viewCode = viewCode, use_wd = use_wd))
+      out <- callRev(RevOut[i], coerce = coerce, path = revEnv$RevPath, viewCode = viewCode, use_wd = use_wd)
       if(interactive == TRUE)
         return(print(out))
       else

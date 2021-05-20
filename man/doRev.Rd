@@ -24,7 +24,7 @@ Default is FALSE.}
 \item{coerce}{If FALSE, output from rb.exe will remain in String format. If TRUE, doRev()
 will attempt to coerce output into an appropriate R object.}
 
-\item{interactive}{Ignore. Used to implement doRev() into repRev().}
+\item{interactive}{Ignore. Used to implement doRev() into RepRev().}
 
 \item{Det_Update}{If TRUE, previously created object in revEnv that is redefined in rb.exe
 will be updated. If FALSE, it will not. Default is TRUE.}

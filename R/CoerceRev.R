@@ -19,19 +19,12 @@
 
 coerceRev <- function(out){
 
+
   out <- stringr::str_remove_all(out, " ")
 
   if(stringr::str_c(out, collapse = "") == ""){
     return("")
   }
-
-  if(typeof(out) == 'list'){
-    outList <- list()
-    for(i in 1:length(out))
-      outList[i] = coerceRev(out[i])
-    return(outlist)
-  }
-
 
 
   spl_vec <- function(inp){
@@ -207,9 +200,5 @@ coerceRev <- function(out){
   }
 
 }
-
-
-
-
 
 
