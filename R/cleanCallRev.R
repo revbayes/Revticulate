@@ -12,6 +12,7 @@ cleanCallRev <- function(input, viewCode = FALSE, coerce = FALSE){
 
 
   revEnv$allCode <- unlist(c(revEnv$allCode, input))
+  revEnv$allCode <- stringr::str_c(revEnv$allCode, collapse = "\n")
 
 
   first <- callRev(getRevHistory(), coerce = F)
