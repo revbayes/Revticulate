@@ -83,21 +83,8 @@ revDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE, knit = FALS
   objdef <- stringr::str_squish(unlist(stringr::str_split(RevOut, sign)))
 
   output <- cleanCallRev(objdef[2], viewCode = viewCode)
-  #Special coercion cases
-  #
 
-  #if(any(stringr::str_detect(output, "charactermatrixwith"))){
-  #  output <- callRev(objdef[2] %+% '.show()', coerce = F)
-  #
-  #  output <- output[-c(1:2)]
-  #  output <- data.frame(taxa = output[which(c(1:length(output)) %% 2 == 1)],
-  #                       data = output[which(c(1:length(output)) %% 2 == 0)])
-  #
-  #  output$data <- data.frame(stringr::str_split(test$data, " "))
-  #
-  #}
 
-  #
 
   if(stringr::str_detect(RevOut, "=|~|<-")){
     makeActiveBinding(objdef[1], function() output, revEnv)}
