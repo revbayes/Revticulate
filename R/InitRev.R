@@ -1,3 +1,4 @@
+
 #'Create an environment for interacting with RevBayes
 #'
 #'Creates an environment for interecting with rb.exe. This environment contains the variable
@@ -16,18 +17,17 @@
 initRev <- function(path = NULL){
   revEnv <<- new.env(parent = globalenv())
 
-    if(!is.null(path)){
-      revEnv$RevPath <- path
-      write(path, list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt")
-    }
-    else{
-      revEnv$RevPath <-  readLines(list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt")
-    }
+  if(!is.null(path)){
+    revEnv$RevPath <- path
+    write(path, list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt")
+  }
+  else{
+    revEnv$RevPath <-  readLines(list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt")
+  }
 
-    revEnv$Vars <- c()
-    revEnv$Deterministic <- c()
-    revEnv$temps <- c()
-    revEnv$allCode <- c()
+  revEnv$Vars <- c()
+  revEnv$Deterministic <- c()
+  revEnv$temps <- c()
+  revEnv$allCode <- c()
 
 }
-

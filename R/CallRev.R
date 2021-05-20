@@ -1,4 +1,3 @@
-
 #' Submit input to rb.exe and return output
 #'
 #' Submits input to rb.exe and returns output to R in string format. If coerce = T, the function
@@ -6,7 +5,7 @@
 #'
 #' @param ... String input to send to RevBayes.
 #' @param coerce If TRUE, attempts to coerce output to an R object. If FALSE, output
-#'     will remain in String format. Default is FALSE.
+#'     will remain in String format. Default is TRUE.
 #' @param path Path to rb.exe. Default is revEnv$RevPath, which is created with InitRev().
 #' @param viewCode If TRUE, the input input and output in the temporary file used to interact
 #'     with rb.exe will be displayed in the viewing pane. This option may be useful for
@@ -28,7 +27,7 @@
 #' @export
 #'
 
-callRev <- function (..., coerce = FALSE, path = revEnv$RevPath, viewCode = F,
+callRev <- function (..., coerce = TRUE, path = revEnv$RevPath, viewCode = F,
                      use_wd = T, knit = F)
 {
   argu <- c(...)
@@ -58,7 +57,6 @@ callRev <- function (..., coerce = FALSE, path = revEnv$RevPath, viewCode = F,
       finalStartStopVals <- list(finalStartVals, finalStopVals)
       finalVector <- c(stringVector[which(1:length(stringVector) <
                                             startsStops[1])])
-
       for (i in 1:length(finalStartStopVals[[1]])) {
         start <- finalStartStopVals[[1]][i]
         stop <- finalStartStopVals[[2]][i]
@@ -125,5 +123,5 @@ callRev <- function (..., coerce = FALSE, path = revEnv$RevPath, viewCode = F,
     out <- coerceRev(out)
   }
   unlink(tf)
-  return(stringr::str_squish(out))
+  return(out)
 }

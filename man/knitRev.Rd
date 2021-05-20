@@ -8,6 +8,6 @@ knitRev()
 }
 \description{
 Rev code is ran directly in knitr chunks, and using the wrapper functions isn't necessary.
-Any created variables will be put in revEnv, and defined variables can be used across multiple
+Any created variables will be put in RevEnv, and defined variables can be used across multiple
 chunks.
 }

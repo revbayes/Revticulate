@@ -20,7 +20,7 @@ will be displayed. If TRUE, the message will be hidden.}
 \description{
 A wrapper for callRev() used when objects are defined in RevBayes. Identifies if
     an object is being defined, and if it is it will create an object of the same
-    name in revEnv. Because the object is being created in revEnv, initRev() must be called
+    name in revEnv. Because the object is being created in revEnv, InitRev() must be called
     first.
 }
 \examples{
