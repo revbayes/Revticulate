@@ -6,19 +6,23 @@
 #'chunks.
 #'
 #'
-#'
 #'@export
 knitRev <- function(){
   knitr::knit_engines$set(rb = function(options) {
 
-    lastOutput <- Revticulate::callRev(revEnv$allCode, coerce = FALSE, knit = TRUE)
+    if(length(revEnv$allCode) == 0){
+      revEnv$allCode <- c(revEnv$allCode, options$code)
+      output <- Revticulate::callRev(revEnv$allCode, coerce = FALSE, knit = TRUE)
+    }
+    else{
+      lastOutput <- Revticulate::callRev(revEnv$allCode, coerce = FALSE, knit = TRUE)
 
-    revEnv$allCode <- c(revEnv$allCode, options$code)
+      revEnv$allCode <- c(revEnv$allCode, options$code)
 
-    nextOutput <- Revticulate::callRev(revEnv$allCode, coerce = FALSE, knit = TRUE)
+      nextOutput <- Revticulate::callRev(revEnv$allCode, coerce = FALSE, knit = TRUE)
 
-    output <- nextOutput[-c(1:length(lastOutput))]
-
+      output <- nextOutput[-c(1:length(lastOutput))]
+    }
     code <- options$code
 
     return(knitr::engine_output(options, code = options$code, out = c(output)))
