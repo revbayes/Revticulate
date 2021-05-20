@@ -3,10 +3,12 @@
 #'
 #'@param input Code snippet to be ran in rb.exe.
 #'
+#'@param viewCode see Rev code input and output in the viewing pane
+#'
 #'@export
 #'
 
-cleanCallRev <- function(input){
+cleanCallRev <- function(input, viewCode){
 
   first <- callRev(revEnv$allCode, coerce = F)
   revEnv$allCode <- c(revEnv$allCode, input)
