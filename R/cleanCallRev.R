@@ -21,5 +21,9 @@ cleanCallRev <- function(input, viewCode = FALSE){
   if(length(now) == 0)
      now = ""
 
+  if(length(now) == 1)
+    if(now == "")
+      revDefine(input)
+
   return(now)
 }
