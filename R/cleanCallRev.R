@@ -10,9 +10,9 @@
 
 cleanCallRev <- function(input, viewCode = FALSE){
 
-  first <- callRev(revEnv$allCode, coerce = F, viewCode = viewCode)
+  first <- callRev(getRevHistory(), coerce = F)
   revEnv$allCode <- c(revEnv$allCode, input)
-  last <- callRev(revEnv$allCode, coerce = F, viewCode = viewCode)
+  last <- callRev(getRevHistory(), coerce = F, viewCode = viewCode)
 
     if(length(first) != 0)
        now <- last[-c(1:length(first))]
@@ -23,7 +23,7 @@ cleanCallRev <- function(input, viewCode = FALSE){
 
   if(length(now) == 1)
     if(now == "")
-      revDefine(input)
+      revDefine(RevOut = input)
 
   return(now)
 }

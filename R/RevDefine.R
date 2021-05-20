@@ -19,7 +19,12 @@
 #' @export
 revDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE, knit = FALSE){
 
+
   hasDefsInBrackets <- function(input){
+
+    if(!stringr::str_detect(input, "=|:=|<-|~"))
+      return(FALSE)
+
     input = unlist(stringr::str_split(input, ""))
 
     inputLength = length(input)-1;
@@ -70,7 +75,7 @@ revDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE, knit = FALS
   }
 
   if(!stringr::str_detect(RevOut, "=|:=|<-|~") || (hasDefsInBrackets(RevOut))){
-    return()
+    return("")
   }
   else{
     sign <- stringr::str_extract_all(RevOut, "=|:=|<-|~")[[1]]
@@ -82,7 +87,7 @@ revDefine <- function(RevOut, viewCode = FALSE, hideMessage = FALSE, knit = FALS
 
   objdef <- stringr::str_squish(unlist(stringr::str_split(RevOut, sign)))
 
-  output <- cleanCallRev(objdef[2], viewCode = viewCode)
+  output <- cleanCallRev(input <- objdef[2], viewCode = viewCode)
 
 
 
