@@ -10,6 +10,10 @@
 
 cleanCallRev <- function(input, viewCode = FALSE){
 
+  segments <- stringr::str_split(input, ";")
+  revEnv$allCode <- unlist(c(revEnv$allCode, stringr::str_c(segments, "\n")))
+
+
   first <- callRev(getRevHistory(), coerce = F)
   revEnv$allCode <- c(revEnv$allCode, input)
   last <- callRev(getRevHistory(), coerce = F, viewCode = viewCode)
