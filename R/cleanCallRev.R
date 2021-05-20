@@ -18,5 +18,8 @@ cleanCallRev <- function(input, viewCode = FALSE){
        now <- last[-c(1:length(first))]
     else now <- last
 
+  if(length(now) == 0)
+     now = ""
+
   return(now)
 }
