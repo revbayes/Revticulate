@@ -8,10 +8,10 @@
 #'@export
 #'
 
-cleanCallRev <- function(input, viewCode = FALSE){
+cleanCallRev <- function(input, viewCode = FALSE, coerce = FALSE){
 
-  segments <- stringr::str_split(input, ";")
-  revEnv$allCode <- unlist(c(revEnv$allCode, stringr::str_c(segments, "\n")))
+
+  revEnv$allCode <- unlist(c(revEnv$allCode, input))
 
 
   first <- callRev(getRevHistory(), coerce = F)
@@ -25,9 +25,8 @@ cleanCallRev <- function(input, viewCode = FALSE){
   if(length(now) == 0)
      now = ""
 
-  if(length(now) == 1)
-    if(now == "")
-      revDefine(RevOut = input)
+  if(coerce)
+    return(coerceRev(now))
 
   return(now)
 }

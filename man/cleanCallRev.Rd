@@ -5,7 +5,7 @@
 \title{Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
 refer to objects that have been defined in rb but not in the revEnv.}
 \usage{
-cleanCallRev(input, viewCode = FALSE)
+cleanCallRev(input, viewCode = FALSE, coerce = FALSE)
 }
 \arguments{
 \item{input}{Code snippet to be ran in rb.exe.}
