@@ -195,7 +195,6 @@ coerceRev <- function(out){
     }
 
 
-
     return(out)
   }
 
