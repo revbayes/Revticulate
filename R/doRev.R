@@ -12,9 +12,7 @@ doRev <- function(input, viewCode = FALSE){
 
   chunks <- unlist(stringr::str_split(input, ";"))
 
-  for(i in chunks){
-    revEnv$allCode <- append(revEnv$allCode, i, "\n")
-  }
+  revEnv$allCode <- unlist(append(revEnv$allCode, chunks))
 
   for(i in 1:length(chunks))
     if(i == length(chunks))
