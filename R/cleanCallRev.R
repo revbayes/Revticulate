@@ -8,7 +8,7 @@
 #'@export
 #'
 
-cleanCallRev <- function(input, viewCode, viewCode = FALSE){
+cleanCallRev <- function(input, viewCode = FALSE){
 
   first <- callRev(revEnv$allCode, coerce = F, viewCode = viewCode)
   revEnv$allCode <- c(revEnv$allCode, input)
