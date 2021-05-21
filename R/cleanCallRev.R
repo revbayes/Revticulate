@@ -8,7 +8,7 @@
 #'@export
 #'
 
-cleanCallRev <- function(input, viewCode = FALSE, coerce = FALSE){
+doRev <- function(input, viewCode = FALSE, coerce = FALSE){
 
 
   revEnv$allCode <- unlist(c(revEnv$allCode, input))

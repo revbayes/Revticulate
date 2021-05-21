@@ -10,5 +10,5 @@
 #'
 
 getRevObj <- function(name, coerce = FALSE){
-  return(cleanCallRev(name, viewCode = FALSE, coerce = coerce))
+  return(doRev(name, viewCode = FALSE, coerce = coerce))
 }

@@ -10,7 +10,7 @@
 knitRev <- function(){
   knitr::knit_engines$set(rb = function(options) {
 
-    output <- cleanCallRev(options$code)
+    output <- doRev(options$code)
 
     return(knitr::engine_output(options, code = options$code, out = c(output)))
   })
