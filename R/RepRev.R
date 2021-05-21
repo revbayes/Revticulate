@@ -38,7 +38,7 @@
 #'quit()
 #'@export
 #'
-repRev <- function (path = revEnv$RevPath, viewCode = F, coerce = TRUE, use_wd = T, sleep = NULL)
+repRev <- function (path = revEnv$RevPath, viewCode = F, coerce = F, use_wd = T, sleep = NULL)
 {
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
@@ -92,7 +92,7 @@ repRev <- function (path = revEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
       next()
     }
 
-    else{print(doRev(ginput, viewCode = viewCode))}
+    else{print(doRev(ginput, viewCode = viewCode, coerce = coerce))}
 
 
     if(!is.null(sleep)){
