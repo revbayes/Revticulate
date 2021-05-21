@@ -7,7 +7,7 @@
 repRev(
   path = revEnv$RevPath,
   viewCode = F,
-  coerce = TRUE,
+  coerce = F,
   use_wd = T,
   sleep = NULL
 )
