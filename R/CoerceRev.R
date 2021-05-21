@@ -79,6 +79,8 @@ coerceRev <- function(out){
   }
 
 
+  tryCatch(
+  {
   #######Coerce matrices
   if(sum(stringr::str_count(out, "\\[")) == 1 & sum(stringr::str_count(out, "\\]")) == 1){
     out <- stringr::str_flatten(out)
@@ -197,6 +199,9 @@ coerceRev <- function(out){
 
     return(out)
   }
+  },
+  error = function(c) return(out)
+  )
 
 }
 
