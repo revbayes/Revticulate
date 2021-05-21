@@ -2,45 +2,17 @@
 % Please edit documentation in R/doRev.R
 \name{doRev}
 \alias{doRev}
-\title{Wrapper for CallRev() and RevDefine()}
+\title{Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
+refer to objects that have been defined in rb but not in the revEnv.}
 \usage{
-doRev(
-  ...,
-  viewCode = FALSE,
-  coerce = TRUE,
-  interactive = FALSE,
-  Det_Update = TRUE,
-  use_wd = T,
-  knit = FALSE
-)
+doRev(input, viewCode = FALSE, coerce = FALSE)
 }
 \arguments{
-\item{...}{String of code that will be sent to rb.exe}
+\item{input}{Code snippet to be ran in rb.exe.}
 
-\item{viewCode}{If TRUE, code from the temporary file used to interact with rb.exe
-will be displayed in the viewing pane. This option may be useful for diagnosing errors.
-Default is FALSE.}
-
-\item{coerce}{If FALSE, output from rb.exe will remain in String format. If TRUE, doRev()
-will attempt to coerce output into an appropriate R object.}
-
-\item{interactive}{Ignore. Used to implement doRev() into RepRev().}
-
-\item{Det_Update}{If TRUE, previously created object in RevEnv that is redefined in rb.exe
-will be updated. If FALSE, it will not. Default is TRUE.}
-
-\item{use_wd}{If TRUE, the temporary rb.exe session will use the same working directory as
-the current R session. Else, it will use its default.}
-}
-\value{
-outobjs Prints output from rb.exe, if required.
+\item{viewCode}{see Rev code input and output in the viewing pane}
 }
 \description{
-A wrapper for CallRev() and RevDefine(). If a variable is assigned in the temporary
-   rb session, it will also be created in the RevEnv. Otherwise, functions like CallRev().
-}
-\examples{
-doRev("sam <- 777")
-doRev("sam + 2", viewCode = TRUE)
-
+Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
+refer to objects that have been defined in rb but not in the revEnv.
 }

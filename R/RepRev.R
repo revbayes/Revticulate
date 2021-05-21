@@ -4,16 +4,16 @@
 #'
 #'    To exit session, type quit().
 #'
-#'    ClearRev() and GetRev() can be called from within session for ease of use.
+#'    clearRev() and getrRev() can be called from within session for ease of use.
 #'
-#'@param path Path to rb.exe. Defaults to RevEnv$RevPath, so
+#'@param path Path to rb.exe. Defaults to revEnv$RevPath, so
 #'    InitRev() must typically be called first.
 #'
 #'@param viewCode If TRUE, String-formatted code in the temporary file used to interact with
 #'    rb.exe will be displayed in the viewing pane. Default is FALSE.
 #'
 #'@param coerce If FALSE, output from rb.exe will be returned in String format. If
-#'    TRUE, RepRev() will attempt to coerce output into a suitable R object. Default is TRUE.
+#'    TRUE, repRev() will attempt to coerce output into a suitable R object. Default is TRUE.
 #'
 #'@param use_wd If T, temporary rb.exe session will use the same working directory as
 #'    the active R session. If F, it will use its default. Default is T.
@@ -26,19 +26,19 @@
 #'--The below example code enters, uses, and exits an interactive rb.exe session. Attempting to use
 #'R code before quit() may cause an error--
 #'
-#'RepRev()
+#'repRev()
 #'
 #'myNumber <- 4
 #'myNumber
 #'
 #'posteriorPredictiveProbability(v(2), 3)
 #'
-#'GetRev()
-#'ClearRev()
+#'getrRev()
+#'clearRev()
 #'quit()
 #'@export
 #'
-RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd = T, sleep = NULL)
+repRev <- function (path = revEnv$RevPath, viewCode = F, coerce = F, use_wd = T, sleep = NULL)
 {
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
@@ -73,24 +73,27 @@ RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
 
     }
 
-
     if (ginput == "quit()") {
       break
     }
 
-    if (ginput == "ClearRev()"){
-      ClearRev()
+    if (ginput == "clearRev()"){
+      clearRev()
       next
     }
 
-    if(ginput == "GetRev()"){
-      print(GetRev())
+    if(ginput == "getRevVars()"){
+      print(getRevVars())
       next()
     }
 
-    else{doRev(ginput, viewCode = viewCode, use_wd = use_wd, interactive = TRUE)}
+    if(ginput == "getRevHistory()"){
+      print(getRevHistory())
+      next()
+    }
 
-    RevEnv$Vars <- unique(RevEnv$Vars)
+    else{print(doRev(ginput, viewCode = viewCode, coerce = coerce))}
+
 
     if(!is.null(sleep)){
       Sys.sleep(sleep)
@@ -98,9 +101,3 @@ RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
 
   }
 }
-
-
-
-
-
-

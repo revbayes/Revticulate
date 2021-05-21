@@ -9,7 +9,7 @@
 #' @return out Coerce output of the RevBayes output string.
 #'
 #' @examples
-#' CoerceRev("[1, 2, 3, 4]")
+#' coerceRev("[1, 2, 3, 4]")
 #'
 #'@import stringr
 #'
@@ -17,7 +17,7 @@
 #'
 
 
-CoerceRev <- function(out){
+coerceRev <- function(out){
 
 
   out <- stringr::str_remove_all(out, " ")
@@ -79,6 +79,8 @@ CoerceRev <- function(out){
   }
 
 
+  tryCatch(
+  {
   #######Coerce matrices
   if(sum(stringr::str_count(out, "\\[")) == 1 & sum(stringr::str_count(out, "\\]")) == 1){
     out <- stringr::str_flatten(out)
@@ -195,14 +197,12 @@ CoerceRev <- function(out){
     }
 
 
-
     return(out)
   }
+  },
+  error = function(c) return(out)
+  )
 
 }
-
-
-
-
 
 
