@@ -1,4 +1,3 @@
-
 #' Submit input to rb.exe and return output
 #'
 #' Submits input to rb.exe and returns output to R in string format. If coerce = T, the function
@@ -7,7 +6,7 @@
 #' @param ... String input to send to RevBayes.
 #' @param coerce If TRUE, attempts to coerce output to an R object. If FALSE, output
 #'     will remain in String format. Default is TRUE.
-#' @param path Path to rb.exe. Default is RevEnv$RevPath, which is created with InitRev().
+#' @param path Path to rb.exe. Default is revEnv$RevPath, which is created with InitRev().
 #' @param viewCode If TRUE, the input input and output in the temporary file used to interact
 #'     with rb.exe will be displayed in the viewing pane. This option may be useful for
 #'     diagnosing errors.
@@ -18,8 +17,8 @@
 #'     If coerce = TRUE, the function will attempt to coerce the String to an R object.
 #'
 #' @examples
-#' CallRev("2^3")
-#' CallRev("2^3", coerce = FALSE, viewcode = T)
+#' callRev("2^3")
+#' callRev("2^3", coerce = FALSE, viewcode = T)
 #'
 #'@import ape
 #'@import utils
@@ -28,9 +27,8 @@
 #' @export
 #'
 
-CallRev <- function (..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F,
-                     use_wd = T, knit = F)
-{
+callRev <- function (..., coerce = TRUE, path = revEnv$RevPath, viewCode = F,
+                     use_wd = T, knit = F){
   argu <- c(...)
   if (knit) {
     clumpBrackets <- function(stringVector) {
@@ -79,13 +77,13 @@ CallRev <- function (..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F,
     argu <- clumpBrackets(c(...))
     argu <- stringr::str_squish(argu)
     argu <- argu[which(argu != "")]
-    RevEnv$Vars <- c(RevEnv$Vars, argu[stringr::str_which(argu,
+    revEnv$Vars <- c(revEnv$Vars, argu[stringr::str_which(argu,
                                                           " = |:=|<-|~")])
-    copy <- c(RevEnv$Vars, "")
-    copyTwo <- c("", RevEnv$Vars)
-    RevEnv$Vars <- copy[which(copy != copyTwo)]
+    copy <- c(revEnv$Vars, "")
+    copyTwo <- c("", revEnv$Vars)
+    revEnv$Vars <- copy[which(copy != copyTwo)]
   }
-  argu <- c(RevEnv$Vars, argu)
+  argu <- c(revEnv$Vars, argu)
   if (use_wd == T) {
     wd <- stringr::str_replace_all(normalizePath(getwd()),
                                    pattern = "\\\\", "//")
@@ -108,8 +106,8 @@ CallRev <- function (..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F,
     utils::capture.output(viewOut)
   }
   close(fopen)
-  RevEnv$temps <- c(RevEnv$temps, tf)
-  for (i in RevEnv$temps) {
+  revEnv$temps <- c(revEnv$temps, tf)
+  for (i in revEnv$temps) {
     unlink(i)
   }
   if (any(stringr::str_detect(out, pattern = "Error:|error|Missing Variable:"))) {
@@ -121,7 +119,7 @@ CallRev <- function (..., coerce = TRUE, path = RevEnv$RevPath, viewCode = F,
   }
   out <- stringr::str_c(out, collapse = "\n")
   if (coerce) {
-    out <- CoerceRev(out)
+    out <- coerceRev(out)
   }
   unlink(tf)
   return(out)

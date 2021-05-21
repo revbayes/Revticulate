@@ -1,3 +1,4 @@
+
 #' Knitr engine for RevBayes
 #'
 #'Rev code is ran directly in knitr chunks, and using the wrapper functions isn't necessary.
@@ -5,21 +6,12 @@
 #'chunks.
 #'
 #'
-#'
 #'@export
-KnitRev <- function(){
+knitRev <- function(){
   knitr::knit_engines$set(rb = function(options) {
 
-    lastOutput <- Revticulate::CallRev(RevEnv$allCode, coerce = FALSE, knit = TRUE)
+    output <- doRev(options$code)
 
-    RevEnv$allCode <- c(RevEnv$allCode, options$code)
-
-    nextOutput <- Revticulate::CallRev(RevEnv$allCode, coerce = FALSE, knit = TRUE)
-
-    output <- nextOutput[-c(1:length(lastOutput))]
-
-    code <- options$code
-
-    return(knitr::engine_output(options, code = options$code, out = output))
+    return(knitr::engine_output(options, code = options$code, out = c(output)))
   })
 }
