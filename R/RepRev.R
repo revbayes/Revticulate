@@ -92,7 +92,7 @@ repRev <- function (path = revEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
       next()
     }
 
-    else{print(cleanCallRev(ginput, viewCode = viewCode))}
+    else{print(doRev(ginput, viewCode = viewCode))}
 
 
     if(!is.null(sleep)){

@@ -2,9 +2,9 @@
 
 export("%+%")
 export(callRev)
-export(cleanCallRev)
 export(clearRev)
 export(coerceRev)
+export(doRev)
 export(getRevHistory)
 export(getRevObj)
 export(getRevVars)
