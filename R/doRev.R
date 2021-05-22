@@ -9,11 +9,11 @@
 #'
 
 doRev <- function(input, viewCode = FALSE, coerce = FALSE){
-
+  try({
   first <- callRev(getRevHistory(), coerce = F)
   revEnv$allCode <- c(revEnv$allCode, input)
   last <- callRev(getRevHistory(), coerce = F, viewCode = viewCode)
-
+  }, silent = T)
     if(length(first) != 0)
        now <- last[-c(1:length(first))]
     else now <- last
