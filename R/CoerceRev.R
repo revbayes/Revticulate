@@ -22,10 +22,6 @@ coerceRev <- function(out){
 
   out <- stringr::str_remove_all(out, " ")
 
-  if (any(stringr::str_detect(out, pattern = "Error:|error|Missing Variable:"))) {
-    message(out)
-    return("")
-  }
 
   if(stringr::str_c(out, collapse = "") == ""){
     return("")
