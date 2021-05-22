@@ -26,6 +26,14 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE){
   if(length(now) == 0)
      now = ""
 
+  if (any(stringr::str_detect(out, pattern = "Error:|error|Missing Variable:"))) {
+    revEnv$allCode <- revEnv$allCode[-c(length(revEnv$allCode))]
+    if(coerce){
+      message(out)
+      return("")
+      }
+  }
+
   if(coerce)
     return(coerceRev(now))
 
