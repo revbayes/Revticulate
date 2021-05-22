@@ -29,6 +29,60 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE){
       }
   }
 
+  if(stringr::str_detect(now, "<-|=|:=|~")){
+      brDefs <- function(input, open = "{", close = "}"){
+    input = unlist(stringr::str_split(input, ""))
+
+    inputLength = length(input)-1;
+    for(i in 1:inputLength){
+      if(input[i] == "=" & input[i+1] == "="){
+        inputLength = inputLength + 1
+        input[i] = "=="
+        input = input[-c(i+1)]
+      }
+    }
+
+    inputLength = length(input)-1;
+    for(i in 1:inputLength){
+      if(input[i] == ":" & input[i+1] == "="){
+        inputLength = inputLength + 1
+        input[i] = ":="
+        input = input[-c(i+1)]
+      }
+    }
+    inputLength = length(input)-1;
+    for(i in 1:inputLength){
+      if(input[i] == "<" & input[i+1] == "-"){
+        inputLength = inputLength + 1
+        input[i] = "<-"
+        input = input[-c(i+1)]
+      }
+    }
+
+
+
+    vals = 0
+    hasBracketedDefs = FALSE
+
+    for(i in input){
+      if(i == open)
+        vals = vals + 1
+      else if(i == close)
+        vals = vals - 1
+      else if(i == "=" || i == "<-" || i == ":=" || i == "~" ){
+        if(vals > 0){
+          hasBracketedDefs = TRUE
+          break;
+        }
+      }
+    }
+
+    return(hasBracketedDefs)
+      }
+      if(!brDefs(now))
+        revEnv$vars <- c(revEnv$vars, now)
+  }
+
   if(coerce)
     return(coerceRev(now))
 
