@@ -12,6 +12,6 @@ knitRev <- function(){
 
     output <- doRev(options$code)
 
-    return(knitr::engine_output(options, code = options$code, out = c(output)))
+    return(suppressWarnings(knitr::engine_output(options, code = options$code, out = c(output))))
   })
 }
