@@ -7,6 +7,6 @@
 #'
 getRevVars <- function(){
 
-  cat(revEnv$vars, sep = "\n")
+  cat(stringr::str_squish(revEnv$vars), sep = "\n")
 
 }
