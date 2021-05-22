@@ -25,8 +25,7 @@ initRev <- function(path = NULL){
     revEnv$RevPath <-  readLines(list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt")
   }
 
-  revEnv$Vars <- c()
-  revEnv$Deterministic <- c()
+  revEnv$vars <- c()
   revEnv$temps <- c()
   revEnv$allCode <- c()
 
