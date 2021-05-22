@@ -7,6 +7,6 @@
 #'
 getRevVars <- function(){
 
-  return(revEnv$vars)
+  cat(revEnv$vars, sep = "\n")
 
 }
