@@ -110,10 +110,7 @@ callRev <- function (..., coerce = TRUE, path = revEnv$RevPath, viewCode = F,
   for (i in revEnv$temps) {
     unlink(i)
   }
-  if (any(stringr::str_detect(out, pattern = "Error:|error|Missing Variable:"))) {
-    message(out)
-    return()
-  }
+
   if (coerce == FALSE) {
     return(out)
   }
