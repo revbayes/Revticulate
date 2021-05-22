@@ -30,7 +30,7 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE){
   }
 
   #update revEnv$vars
-  for(j in stringr::str_split(input, ";")){
+  for(j in unlist(stringr::str_split(input, ";"))){
     if(stringr::str_detect(j, "<-|= |:=|~"))
       revEnv$vars <- c(revEnv$vars, j)
   }
