@@ -29,7 +29,10 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE){
       return("")
       }
   }
-  else cat(input, file = revEnv$revHistory, append = TRUE, sep = "\n")
+  else {
+    cat(input, file = revEnv$revHistory, append = TRUE, sep = "\n")
+  }
+
 
   #update revEnv$vars
   for(j in unlist(stringr::str_split(input, ";"))){
