@@ -46,13 +46,11 @@ repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce 
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
 
-    if(useHistory){
-      historyPath <- paste(getwd(), "/.Rhistory", sep = "")
-      if(file.exists(historyPath)){
-        history <- readLines(historyPath, warn = F)
-        cat("\n", ginput, file = historyPath, append = T)
-        loadhistory(historyPath)
-      }
+    historyPath <- paste(getwd(), "/.Rhistory", sep = "")
+    if(file.exists(historyPath)){
+      history <- readLines(historyPath, warn = F)
+      cat("\n", ginput, file = historyPath, append = T)
+      loadhistory(historyPath)
     }
 
     numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
