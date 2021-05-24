@@ -11,7 +11,7 @@ clearRev <- function(){
     revEnv$temps <- c()
   }
 
-  cat("", revEnv$revHistory, append = F)
+  cat("", file = revEnv$revHistory, append = F)
 
   remove(list = ls(envir = revEnv)[which(ls(envir = revEnv) != "RevPath" & ls(envir = revEnv) != "temps")],
          envir = revEnv)
