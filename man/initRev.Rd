@@ -4,7 +4,7 @@
 \alias{initRev}
 \title{Create an environment for interacting with RevBayes}
 \usage{
-initRev(path = NULL)
+initRev(path = NULL, useHistory = FALSE)
 }
 \arguments{
 \item{path}{String path to rb.exe}
