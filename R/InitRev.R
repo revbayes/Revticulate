@@ -9,6 +9,9 @@
 #'
 #'@param path String path to rb.exe
 #'
+#'@param useHistory boolean Should the code from the previous Revticulate session be written into
+#'                  revEnv$allCode? Default is FALSE.
+#'
 #'@examples
 #'RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
 #'initRev(RevPath)

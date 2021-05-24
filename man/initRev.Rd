@@ -8,6 +8,9 @@ initRev(path = NULL, useHistory = FALSE)
 }
 \arguments{
 \item{path}{String path to rb.exe}
+
+\item{useHistory}{boolean Should the code from the previous Revticulate session be written into
+revEnv$allCode? Default is FALSE.}
 }
 \description{
 Creates an environment for interecting with rb.exe. This environment contains the variable
