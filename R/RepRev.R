@@ -46,10 +46,9 @@ repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce 
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
 
-    historyPath <- paste(getwd(), "/.Rhistory", sep = "")
-    if(file.exists(historyPath)){
-      history <- readLines(historyPath, warn = F)
-      cat("\n", ginput, file = historyPath, append = T)
+    if(any(list.files(getwd(), all.files = T) == ".Rhistory")){
+      history <- readLines("./.Rhistory", warn = F)
+      cat("\n", ginput, file = "./.Rhistory", append = T)
     }
 
     loadhistory("./.Rhistory")
