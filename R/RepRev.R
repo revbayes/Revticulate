@@ -50,8 +50,9 @@ repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce 
     if(file.exists(historyPath)){
       history <- readLines(historyPath, warn = F)
       cat("\n", ginput, file = historyPath, append = T)
-      loadhistory(historyPath)
     }
+
+    loadhistory("./.Rhistory")
 
     numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
     numberOfClosedBraces <- stringr::str_count(ginput, "\\}")
