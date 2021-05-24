@@ -11,11 +11,11 @@ clearRev <- function(){
     revEnv$temps <- c()
   }
 
-  NRObjs <- length(revEnv)-2
+  cat("", revEnv$revHistory, append = F)
 
   remove(list = ls(envir = revEnv)[which(ls(envir = revEnv) != "RevPath" & ls(envir = revEnv) != "temps")],
          envir = revEnv)
 
-  message("Successfully removed " %+% c(NRObjs) %+% " objects from revEnv!")
+  message("Successfully reset revEnv!")
 
 }
