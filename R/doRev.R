@@ -10,7 +10,7 @@
 
 doRev <- function(input, viewCode = FALSE, coerce = FALSE){
 
-  cat(input, file = revEnv$revHistory, append = TRUE)
+  cat(input, file = revEnv$revHistory, append = TRUE, sep = "\n")
 
   try({
   first <- callRev(getRevHistory(), coerce = F)
