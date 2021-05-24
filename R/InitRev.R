@@ -30,7 +30,7 @@ initRev <- function(path = NULL, useHistory = FALSE){
 
   revEnv$vars <- c()
   revEnv$temps <- c()
-  revEnv$revHistory <- list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/Revhistory.txt"
+  revEnv$revHistory <- list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/Revhistory.Rhistory"
   cat("", file = revEnv$revHistory , append = useHistory)
   revEnv$allCode <- readLines(revEnv$revHistory)
 }
