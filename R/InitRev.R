@@ -18,7 +18,7 @@
 #'
 #'@export
 initRev <- function(path = NULL, useHistory = FALSE){
-  revEnv <- new.env(parent = globalenv())
+  revEnv <<- new.env(parent = globalenv())
 
   if(!is.null(path)){
     revEnv$RevPath <- path
