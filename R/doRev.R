@@ -9,6 +9,9 @@
 #'
 
 doRev <- function(input, viewCode = FALSE, coerce = FALSE){
+
+  cat(input, file = paste(getwd(), "/Revhistory", sep = ""), append = TRUE)
+
   try({
   first <- callRev(getRevHistory(), coerce = F)
   revEnv$allCode <- c(revEnv$allCode, input)

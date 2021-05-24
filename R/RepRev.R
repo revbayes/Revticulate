@@ -46,13 +46,6 @@ repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce 
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
 
-    if(any(list.files(getwd(), all.files = T) == ".Rhistory")){
-      history <- readLines("./.Rhistory", warn = F)
-      cat("\n", ginput, file = "./.Rhistory", append = T)
-    }
-
-    loadhistory("./.Rhistory")
-
     numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
     numberOfClosedBraces <- stringr::str_count(ginput, "\\}")
 
@@ -81,6 +74,8 @@ repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce 
       testParenthesis <- numberOfOpenParenthesis == numberOfClosedParenthesis
 
     }
+
+
 
     if (ginput == "quit()") {
       break

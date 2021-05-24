@@ -14,8 +14,8 @@
 #'initRev(RevPath)
 #'
 #'@export
-initRev <- function(path = NULL){
-  revEnv <<- new.env(parent = globalenv())
+initRev <- function(path = NULL, useHistory = FALSE){
+  revEnv <- new.env(parent = globalenv())
 
   if(!is.null(path)){
     revEnv$RevPath <- path
@@ -27,6 +27,7 @@ initRev <- function(path = NULL){
 
   revEnv$vars <- c()
   revEnv$temps <- c()
-  revEnv$allCode <- c()
-
+  revEnv$revHistory <- list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/Revhistory.txt"
+  cat("", file = revEnv$revHistory , append = useHistory)
+  revEnv$allCode <- readLines(revEnv$revHistory)
 }
