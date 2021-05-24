@@ -9,6 +9,9 @@
 #'@param path Path to rb.exe. Defaults to revEnv$RevPath, so
 #'    InitRev() must typically be called first.
 #'
+#'@param useHistory Should rb input be saved to .Rhistory? If so, the up arrow key can be used
+#'    while repRev() is active to navigate previous inputs. Default is TRUE.
+#'
 #'@param viewCode If TRUE, String-formatted code in the temporary file used to interact with
 #'    rb.exe will be displayed in the viewing pane. Default is FALSE.
 #'
@@ -38,11 +41,19 @@
 #'quit()
 #'@export
 #'
-repRev <- function (path = revEnv$RevPath, viewCode = F, coerce = F, use_wd = T, sleep = NULL)
+repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce = F, use_wd = T, sleep = NULL)
 {
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
-    timestamp(ginput, prefix = "", suffix = "", quiet = TRUE)
+
+    if(useHistory){
+      historyPath <- paste(getwd(), "/.Rhistory", sep = "")
+      if(file.exists(historyPath)){
+        history <- readLines(historyPath, warn = F)
+        cat("\n", ginput, file = historyPath, append = T)
+        loadhistory(historyPath)
+      }
+    }
 
     numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
     numberOfClosedBraces <- stringr::str_count(ginput, "\\}")
