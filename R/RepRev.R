@@ -43,6 +43,7 @@
 #'
 repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce = F, use_wd = T, sleep = NULL)
 {
+  loadhistory(revEnv$revHistory)
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
 
