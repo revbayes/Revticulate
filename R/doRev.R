@@ -44,5 +44,8 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE, useHistory = FALSE){
   if(coerce)
     return(coerceRev(now))
 
+  now <- stringr::str_squish(now)
+  now <- now[-which(now == "")]
+
   return(now)
 }
