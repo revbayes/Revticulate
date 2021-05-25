@@ -8,7 +8,7 @@
 #'@export
 #'
 
-doRev <- function(input, viewCode = FALSE, coerce = FALSE){
+doRev <- function(input, viewCode = FALSE, coerce = FALSE, useHistory = FALSE){
   revEnv$allCode <- readLines(revEnv$revHistory, warn = F)
 
   try({
@@ -32,6 +32,8 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE){
   }
   else {
     cat(input, file = revEnv$revHistory, append = TRUE, sep = "\n")
+      if(useHistory)
+        loadhistory(revEnv$revHistory)
   }
 
 
