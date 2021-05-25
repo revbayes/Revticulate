@@ -11,9 +11,6 @@
 doRev <- function(input, viewCode = FALSE, coerce = FALSE, useHistory = FALSE){
   revEnv$allCode <- readLines(revEnv$revHistory, warn = F)
 
-  #if(useHistory)
-  loadhistory(revEnv$revHistory)
-
   try({
   first <- callRev(getRevHistory(), coerce = F)
   revEnv$allCode <- c(revEnv$allCode, input)
