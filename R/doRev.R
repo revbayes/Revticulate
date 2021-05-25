@@ -9,6 +9,7 @@
 #'
 
 doRev <- function(input, viewCode = FALSE, coerce = FALSE){
+  revEnv$allCode <- readLines(revEnv$revHistory, warn = F)
 
   try({
   first <- callRev(getRevHistory(), coerce = F)
