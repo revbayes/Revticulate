@@ -21,7 +21,7 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE, useHistory = FALSE){
     else now <- last
 
     if(length(now) == 0)
-      return("")
+      now <- ""
 
   if (any(stringr::str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
     revEnv$allCode <- revEnv$allCode[-c(length(revEnv$allCode))]
