@@ -20,9 +20,6 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE, useHistory = FALSE){
        now <- last[-c(1:length(first))]
     else now <- last
 
-  if(length(now) == 0)
-     return("")
-
   if (any(stringr::str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
     revEnv$allCode <- revEnv$allCode[-c(length(revEnv$allCode))]
     if(coerce){
@@ -34,6 +31,8 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE, useHistory = FALSE){
     cat(input, file = revEnv$revHistory, append = TRUE, sep = "\n")
   }
 
+  if(length(now) == 0)
+      return("")
 
   #update revEnv$vars
   for(j in unlist(stringr::str_split(input, ";"))){

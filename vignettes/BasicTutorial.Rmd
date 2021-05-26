@@ -1,6 +1,6 @@
 ---
 title: "Using Rev Knitr"
-author: "April Wright"
+author: "April Wright, Caleb Charpentier"
 date: "4/22/2021"
 output: html_document
 ---
@@ -8,26 +8,26 @@ output: html_document
 ```{r setup, include=TRUE}
 library(Revticulate)
 knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE)
-knitr::opts_chunk$set(root.dir = "~/projects/revbayes.github.io/tutorials/tutorial_structure/")
-InitRev("/Users/april/software/rb")
-KnitRev()
+#knitr::opts_chunk$set(root.dir = "~/projects/revbayes.github.io/tutorials/tutorial_structure/")
+initRev("D://RevBayes_Win_1.1.0/RevBayes_Win_1.1.0/rb.exe")
+knitRev()
 ```
 
 
 
 ## RevBayes and R
 
-Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on PC, your copy will be called "rb.exe."
+Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on Windows, your copy will be called "rb.exe."
 
-In the above chunk, you will see the command `InitRev`. This is a function in the `RevKnitR` R package. This R package can be installed using the popular `devtools` R package like so:
+In the above chunk, you will see the command `initRev`. This is a function in the `RevKnitR` R package. This R package can be installed using the popular `devtools` R package like so:
 
 ```{r, include=FALSE}
-devtools::install_github("revbayes/Revticulate")
+#devtools::install_github("revbayes/Revticulate")
 ```
 
-The `InitRev` function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. `InitRev` takes one argument: where RevBayes lives on your computer. Delete my sample path and enter your path above.
+The `initRev` function creates a RevBayes running environment, called "revEnv", which will allow you to interact with RevBayes through R. `initRev` takes two arguments: path and useHistory. path is the file path to your RevBayes executable, and useHistory determines whether or not to load the RevBayes history from the last Revticulate session into the RevBayes running environment. Because useHistory defaults to FALSE, and there will be no history for the user's first session, it is not shown in the example above. Delete my sample path and enter your path above.
 
-The next line, `KnitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.
+The next line, `knitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.
 
 ## Using RevBayes in a KnitR Chunk
 
@@ -36,10 +36,10 @@ RevBayes can be used in a KnitR chunk by changing the header to `rb` instead of 
 example <- 1.0
 example
 ```
-This is not an overtly useful thing to do, however. Let's erase the previous chunk using the `ClearRev()` function. This removes prior code and objects from the RevBayes environment. Very handy if you make a mistake!
+This is not an overtly useful thing to do, however. Let's erase the previous chunk using the `clearRev()` function. This removes prior code from the RevBayes environment. Very handy if you make a mistake!
 
 ```{r}
-ClearRev()
+clearRev()
 ```
 
 We could, instead, choose to do something a little more useful. How about reading in a data matrix and making a quick starting tree? 
@@ -53,25 +53,41 @@ br_len_lambda ~ dnExp(0.2)
 phylogeny ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda))
 phylogeny
 ```
-Anything entered in an `rb` block will be interepreted as Rev code, and all the normal Rev syntax will apply. For a nice overview of Rev language and syntax, please see [this tutorial](https://revbayes.github.io/tutorials/intro/rev). 
+Anything entered in an `rb` block will be interpreted as Rev code, and all the normal Rev syntax will apply. For a nice overview of Rev language and syntax, please see [this tutorial](https://revbayes.github.io/tutorials/intro/rev). 
 
-One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. Right now, the best way to do this is to use phytools or ape to read in a RevBayes tree and plot to screen. Coercion of tree objects from RevBayes to R is still an area under active development.
+#Right now, the best way to do this is to use phytools or ape to read in a RevBayes tree and plot to screen. Coercion of tree objects from RevBayes to R is still an area under active development.# 
+
+One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. Objects created with Rev code are, by default, String representations of actual Rev objects.
+These objects can be used in R chunks with the function getRevObj().
+
 ```{r}
-library(phytools)
-tree <- read.tree(text="(((((Elliptocinctus_barrandei[&index=9]:0.144972,Elliptocinctus_vizcainoi[&index=10]:0.061275)[&index=28]:0.369057,Davidocinctus_pembrokensis[&index=27]:0.115626)[&index=29]:0.030785,((Ctenocystis_utahensis[&index=1]:0.208478,(Sucocystis_acrofera[&index=15]:0.222252,(Sucocystis_theronensis[&index=11]:0.645711,Undatacinctus_undata[&index=14]:0.308441)[&index=30]:1.245773)[&index=31]:0.069793)[&index=32]:0.561291,(((Gyrocystis_cruzae[&index=4]:1.039123,(Gyrocystis_platessa[&index=2]:1.950320,Asturicystis_jaekeli[&index=18]:0.070576)[&index=33]:0.226841)[&index=34]:2.181753,(Undatacinctus_melendezi[&index=17]:0.126601,Trochocystoides_parvus[&index=21]:0.927883)[&index=35]:0.614158)[&index=36]:0.973880,(Trochocystites_bohemicus[&index=20]:0.309014,Lignanicystis_barriosensis[&index=13]:0.246747)[&index=37]:0.663330)[&index=38]:0.069078)[&index=39]:1.213557)[&index=40]:0.057231,((Graciacystis_ambigua[&index=23]:1.076241,((Gyrocystis_erecta[&index=6]:0.136053,(Protocinctus_mansillaensis[&index=8]:0.436179,Gyrocystis_badulesiensis[&index=5]:0.039494)[&index=41]:0.005254)[&index=42]:0.303455,((Undatacinctus_quadricornuta[&index=16]:0.157165,Sotocinctus_ubaghsi[&index=19]:0.054072)[&index=43]:0.029069,(Rozanovicystis_triangularis[&index=26]:0.225556,Progyrocystis_disjuncta[&index=7]:0.820703)[&index=44]:0.976834)[&index=45]:0.003917)[&index=46]:0.201429)[&index=47]:0.062047,Ludwigicinctus_truncatus[&index=22]:0.088140)[&index=48]:0.047812)[&index=49]:0.440430,(Nelegerocystis_ivantzovi[&index=25]:0.572666,(Gyrocystis_testudiformis[&index=3]:0.091295,Sucocystis_bretoni[&index=12]:0.011027)[&index=50]:0.938797)[&index=51]:0.214871,Asturicystis_havliceki[&index=24]:0.182261)[&index=52]:0.000000;")
-plot(tree)
+getRevObj("phylogeny")
 ```
+
+
+Rev objects can be converted into similar R objects with the function coerceRev(). Rev Tree objects are coerced into phylo objects from the ape package.
+
 ```{r}
+myTree <- getRevObj("phylogeny")
+coerceRev(myTree)
+```
 
-ClearRev()
+This process is can be simplified by setting the argument coerce to TRUE in the getRevObj() function.
 
+```{r}
+getRevObj("phylogeny", coerce = T)
+```
+
+Now lets clear the Rev environment:
+
+```{r}
+clearRev()
 ```
 
 
 One nice facet of having RevBayes running in an R notebook is the ability to flip to visualizations of the different distributions we use. For example, here is the code for a common parameterization of the discrete Gamma distribution on site rates.
 
 ```{rb}
-
 alpha_morpho ~ dnUniform( 0, 1E6 );
 rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
 ```
@@ -94,11 +110,11 @@ It's adviseable if you're switching gears to a new activity to clear the Rev env
 
 ```{r}
 
-ClearRev()
+clearRev()
 ```
 
 
-Note that `ClearRev` is an R function, and must be executed in an R chunk.
+Note that `clearRev` is an R function, and must be executed in an R chunk.
 
 ```{rb}
 # The number of coin flips
@@ -138,11 +154,11 @@ likelihood(p)
 ```
 ## The RepRev() environment
 
-The function `RepRev()` can be called in the console (or in non-RStudio versions of R) to use RevBayes directly to program interactively. The RepRev() environment is denoted with `rb>>>`. To exit, type Ctrl + C. 
+The function `RepRev()` can be called in the console (or in non-RStudio versions of R) to use RevBayes directly to program interactively. The repRev() environment is denoted with `rb>>>`. To exit, type Ctrl + C. 
 
 ```{r}
 
-RepRev()
+#RepRev()
 
 # rb>>> 1+2
 
@@ -150,9 +166,12 @@ RepRev()
 ```
 
 ## Limitations of RevKnitR
-
-We're still working on object passing between RevBayes and R. So, as we saw above, passing trees from Rev to R is a little clunky. This is an area we expect to have working shortly.
-
 Using RevKnitR for long computations is not advisable. To run your actual MCMC, it's probably best to save your code to a script and run it in the terminal.
 
-We also have a known whitespace bug in function definition. It should be corrected over the weekend.
+Revticulate functions use a forced timeout to get output from rb. This may result in seemingly out-of-place timeout warnings.
+
+RevBayes sometimes asks for user input when it is unsure of what to do. For example, if you try to overwrite a previously named function with a new function of the same name, it will ask if the user really wants to do this and will prompt them to answer yes/no. Because of the way Revticulate captures Rev output from the command line, it does not know how to handle this, and will only allow doRev() to output "" from then on.
+To circumvent this issue, you can clear the Rev environment, or use callRev(). Because callRev() does not access the Revhistory.Rhistory file, it will not cause this issue. However, anything defined in callRev() will not be used in future calls to rb.
+
+
+
