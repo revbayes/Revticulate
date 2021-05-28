@@ -7,5 +7,5 @@
 clearRev()
 }
 \description{
-Removes all objects from revEnv excluding RevPath
+Clears allCode and vars from revEnv.
 }

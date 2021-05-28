@@ -21,8 +21,8 @@ Calling external software from R can be a bit tricky, and RevBayes is no excepti
 
 In the above chunk, you will see the command `initRev`. This is a function in the `RevKnitR` R package. This R package can be installed using the popular `devtools` R package like so:
 
-```{r, include=FALSE}
-#devtools::install_github("revbayes/Revticulate")
+```{r, include=FALSE, eval = FALSE}
+devtools::install_github("revbayes/Revticulate")
 ```
 
 The `initRev` function creates a RevBayes running environment, called "revEnv", which will allow you to interact with RevBayes through R. `initRev` takes two arguments: path and useHistory. path is the file path to your RevBayes executable, and useHistory determines whether or not to load the RevBayes history from the last Revticulate session into the RevBayes running environment. Because useHistory defaults to FALSE, and there will be no history for the user's first session, it is not shown in the example above. Delete my sample path and enter your path above.
