@@ -96,6 +96,13 @@ repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce 
       next()
     }
 
+    if(all(stringr::str_detect(ginput, c("undoRev\\(", "\\)")))){
+      parts <- stringr::str_squish(unlist(stringr::str_split(test, pattern = "\\(|\\)")))
+      undoRev(as.integer(parts[2]))
+      next();
+    }
+
+
     else{print(doRev(ginput, viewCode = viewCode, coerce = coerce))}
 
 
