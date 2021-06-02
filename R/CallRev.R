@@ -12,6 +12,9 @@
 #'     diagnosing errors.
 #' @param use_wd If TRUE, sets the working directory in the temporary RevBayes session
 #'     to the working directory of the active R session.
+#' @param timeout If an integer is given, the timeout on a function's runtime
+#'     will be that amount of second. Default is 10 seconds.
+#'
 #'
 #' @return out Output from RevBayes. If coerce = FALSE, out will be in String format.
 #'     If coerce = TRUE, the function will attempt to coerce the String to an R object.
@@ -28,7 +31,7 @@
 #'
 
 callRev <- function (..., coerce = TRUE, path = revEnv$RevPath, viewCode = F,
-                     use_wd = T, knit = F){
+                     use_wd = T, timeout=10, knit = F){
   argu <- c(...)
   if (knit) {
     clumpBrackets <- function(stringVector) {
@@ -89,13 +92,19 @@ callRev <- function (..., coerce = TRUE, path = revEnv$RevPath, viewCode = F,
                                    pattern = "\\\\", "//")
     argu <- c("setwd(\"" %+% wd %+% "\")", argu)
   }
+
   tf <- tempfile(pattern = "file", tmpdir = paste(getwd(),
                                                   "/", sep = ""), fileext = ".rev")
   tf <- gsub(pattern = "\\\\", "//", tf)
   fopen <- file(tf)
   ret <- unlist(argu)
   writeLines(ret, fopen, sep = "\n")
-  out <- system2(path, args = c(tf), stdout = T, timeout = 10)
+  if(missing(timeout)){
+    timeout = 10
+  } else {
+    timeout = timeout
+  }
+  out <- system2(path, args = c(tf), stdout = T, timeout = timeout)
   out <- out[-c(1:13, length(out) - 1, length(out))]
   cat("Input:\n -->  " %+% ret %+% "\n//", file = tf,
       sep = "\n", append = F)
