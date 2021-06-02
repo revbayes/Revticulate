@@ -6,6 +6,7 @@
 \usage{
 repRev(
   path = revEnv$RevPath,
+  useHistory = T,
   viewCode = F,
   coerce = F,
   use_wd = T,
@@ -15,6 +16,9 @@ repRev(
 \arguments{
 \item{path}{Path to rb.exe. Defaults to revEnv$RevPath, so
 InitRev() must typically be called first.}
+
+\item{useHistory}{Should rb input be saved to .Rhistory? If so, the up arrow key can be used
+while repRev() is active to navigate previous inputs. Default is TRUE.}
 
 \item{viewCode}{If TRUE, String-formatted code in the temporary file used to interact with
 rb.exe will be displayed in the viewing pane. Default is FALSE.}

@@ -80,13 +80,13 @@ callRev <- function (..., coerce = TRUE, path = revEnv$RevPath, viewCode = F,
     argu <- clumpBrackets(c(...))
     argu <- stringr::str_squish(argu)
     argu <- argu[which(argu != "")]
-    revEnv$Vars <- c(revEnv$Vars, argu[stringr::str_which(argu,
+    revEnv$vars <- c(revEnv$vars, argu[stringr::str_which(argu,
                                                           " = |:=|<-|~")])
-    copy <- c(revEnv$Vars, "")
-    copyTwo <- c("", revEnv$Vars)
-    revEnv$Vars <- copy[which(copy != copyTwo)]
+    copy <- c(revEnv$vars, "")
+    copyTwo <- c("", revEnv$vars)
+    revEnv$vars <- copy[which(copy != copyTwo)]
   }
-  argu <- c(revEnv$Vars, argu)
+  argu <- c(revEnv$vars, argu)
   if (use_wd == T) {
     wd <- stringr::str_replace_all(normalizePath(getwd()),
                                    pattern = "\\\\", "//")
@@ -119,10 +119,7 @@ callRev <- function (..., coerce = TRUE, path = revEnv$RevPath, viewCode = F,
   for (i in revEnv$temps) {
     unlink(i)
   }
-  if (any(stringr::str_detect(out, pattern = "Error:|error|Missing Variable:"))) {
-    message(out)
-    return()
-  }
+
   if (coerce == FALSE) {
     return(out)
   }
