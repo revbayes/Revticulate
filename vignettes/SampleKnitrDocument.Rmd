@@ -22,15 +22,15 @@ redirect: no
 ```{r setup}
 library(Revticulate)
 knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE)
-InitRev("/Users/april/software/rb")
-KnitRev()
+initRev("/Users/april/software/rb")
+knitRev()
 ```
 
 # Introduction 
 
 Morphological data is commonly used for estimating phylogenetic trees from fossils. This tutorial will focus on estimating phylogenetic trees from _discrete_ characters, those characters which can be broken into non-overlapping character states. This type of data has been used for estimation of phylogenetic trees for many years. In the past twenty years, Bayesian methods for estimating phylogeny from this type of data have become increasingly common.
 
-This tutorial will give an overview of common models and assumptions when estimating a tree from discrete morphological data. We will use a dataset from {% cite zamora2013 %}. This dataset contains 27 extinct echinoderm taxa and 60 binary and multistate characters.
+This tutorial will give an overview of common models and assumptions when estimating a tree from discrete morphological data. We will use a dataset from [@zamora2013]. This dataset contains 27 extinct echinoderm taxa and 60 binary and multistate characters.
 
 ## Overview of Discrete Morphology Models
 
@@ -47,7 +47,7 @@ Graphical model showing the Mk model (left panel) and corresponding Rev code (ri
 {% endfigcaption %}
 {% endfigure %}
 
-For many years, parsimony was the only way to estimate a phylogenetic tree from morphological data. In 2001, Paul Lewis published the Mk model of morphological evolution. The Mk model {% cite Lewis2001 %} is a generalization of the Jukes-Cantor model {% cite Jukes1969 %} of nucleotide sequence evolution. This model, while simple, has allowed researchers to access the toolkit of phylogenetic methods available to researchers working with other discretely-valued data, such as nucleotides or amino acids.
+For many years, parsimony was the only way to estimate a phylogenetic tree from morphological data. In 2001, Paul Lewis published the Mk model of morphological evolution. The Mk model [@Lewis2001] is a generalization of the Jukes-Cantor model [@Jukes1969] of nucleotide sequence evolution. This model, while simple, has allowed researchers to access the toolkit of phylogenetic methods available to researchers working with other discretely-valued data, such as nucleotides or amino acids.
 
 
 ### The Mk Model 
@@ -77,7 +77,7 @@ $$Q = \begin{pmatrix} -(k-1)\mu & \mu & \mu & \mu \\
 
 You might notice that these transition rates are not different than what we might expect from an equal-weights parsimony matrix. In practice, the Mk model makes very few assumptions due to the complexity and non-generalizability of morphological data.
 
-This model may strike some readers as too simplistic to be adequate for morphological data. However, Bayesian methods are less likely to be mislead by homoplasy than is parsimony {% cite Felsenstein1983 %}. More recent work has demonstrated that the model outperforms parsimony in many situations, particularly those in which there is high homoplasy {% cite Wright2014 %}, with empirical work demonstrating that it fits many datasets reasonably well {% cite Wright2016 %}.
+This model may strike some readers as too simplistic to be adequate for morphological data. However, Bayesian methods are less likely to be mislead by homoplasy than is parsimony [@Felsenstein1983. More recent work has demonstrated that the model outperforms parsimony in many situations, particularly those in which there is high homoplasy [@Wright2014], with empirical work demonstrating that it fits many datasets reasonably well [@Wright2016].
 
 In the first part of this tutorial, we will estimate a tree under the Mk model as proposed by Lewis (2001). We will then relax core parameters of the model.
 
@@ -85,7 +85,7 @@ In the first part of this tutorial, we will estimate a tree under the Mk model a
 
 One remaining component of the model we have not yet discussed is ascertainment bias. Because workers using parsimony do not collect invariant characters and seldom collect autapomorphies, our data are _biased_. Imagine, for a moment, that you were to measure the average height in a room. But first, you asked the 10 shortest people to leave. Your estimate of the average height would be too tall! In effect, this happens in the morphological data, as well. Because the characters with the fewest changes are not collected, we over estimate the amount of evolutionary change on the tree. At the time of publication, Lewis (2001) also included a correction factor for this bias.
 
-These original corrections involved simulating parsimony non-informative characters along each proposed tree. These would be used to normalize the likelihood value. While this procedure is statistically valid, it is a bit slow. There are multiple ways to perform this correction {% cite allman08b %}. RevBayes uses a dynamic likelihood approach to avoid repeated simulations.
+These original corrections involved simulating parsimony non-informative characters along each proposed tree. These would be used to normalize the likelihood value. While this procedure is statistically valid, it is a bit slow. There are multiple ways to perform this correction [@allman08b]. RevBayes uses a dynamic likelihood approach to avoid repeated simulations.
 
 # Example: Inferring a Phylogeny of Extinct Cinctans Using the Mk Model 
 
@@ -108,15 +108,15 @@ example
 
 It is important to be aware that some PDF viewers may render some characters given as differently. Thus, if you copy and paste text from this PDF, you may introduce some incorrect characters. Because of this, we recommend that you type the instructions in this tutorial or copy them from the scripts provided.
 
-{% subsection Data and Files | subsec_data_files %}
+## Data and Files 
 
-{% subsubsection Getting Started %}
+### Getting Started}
 
 >First create a directory for this tutorial and name it **RB_MultistateCharacters_Tutorial**, or any name you like. Navigate to this new directory and create subdirectories called **data** and **scripts**.  
 >
 >Download the data file called [`Cinctans.nex`](data/Cinctans.nex) and save it to your `data` directory.
 
-{% subsubsection Creating Rev Files | subsec_creating_files %}
+### Creating Rev Files 
 
 >In this exercise, we advise you to record all your commands via a text editor in a set of files -- corresponding to the different modules of the model -- that will be easily managed and interchanged. Call them `mcmc_mk_tutorial.Rev`, `mk_model_tree.Rev`, `mk_model_gamma.Rev`, and place them in `scripts`.
 
@@ -124,12 +124,12 @@ When you execute RevBayes in this tutorial, you will do so within the main direc
 
 In the following sections you will begin the `mcmc_mk_tutorial.Rev` file and write the Rev commands for loading in the taxon list and managing the data matrices. Then, starting in {% ref subsec_Mk_model %}, you will move on to specifying each of the Mk model components, in files `mk_model_tree.Rev` and `mk_model_gamma.Rev`. Once the model specifications are complete, you will complete the MCMC script with the instructions given in {% ref subsec_complete_MCMC %}.
 
-{% subsection Load Data Matrices | subsec_load_data %}
+## Load Data Matrices 
 
 RevBayes uses the function `readDiscreteCharacterData()` to load a data matrix to the workspace from a formatted file. This function can be used for both molecular sequences and discrete morphological characters. Import the morphological character matrix and assign it the variable `morpho`.
 
 ```{r}
-ClearRev()
+clearRev()
 ```
 
 ```{rb}
@@ -185,12 +185,9 @@ phylogeny
 You can even look at the phylogeny using Phytools:
 
 ```{r}
-RevR::doRev("dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda))")
-library(phytools)
-phylo <- RevEnv$phylogeny
-phylo
-typeof(phylo)
-#plotTree(phylogeny)
+phylogeny <- getRevObj(name = "phylogeny", coerce = TRUE)
+
+phytools::plotTree(phylogeny)
 ```
 
 
@@ -200,6 +197,22 @@ Move on to file `mk_model_gamma.Rev`, where we will add Gamma-distributed rate v
 alpha_morpho ~ dnUniform( 0, 1E6 )
 rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
 moves.append(mvScale(alpha_morpho, lambda=1, weight=2.0))
+```
+
+If you aren't a big stats person, this might not mean much to you, in terms of what this distribution actually looks like. But it is important to develop intuitions for what common distributions look like and what this says about our data. So, we can use R's built-in graphics capabilities to have a look at what 1000 draws from this gamma will look like. 
+
+```{r}
+doRev('
+alpha_morpho ~ dnUniform( 0, 1E6 );
+rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
+')
+
+library(ggplot2)
+alpha_value <- getRevObj(name = "alpha_morpho", coerce = TRUE)
+alpha_value
+
+draws <- rgamma(1000, shape = alpha_value, rate = alpha_value)
+hist(draws, xlab = "Value")
 ```
 
 Next we will create a $Q$-matrix. Recall that the Mk model is simply a generalization of the JC model. Therefore, we will create a $Q$-matrix using `fnJC`, which initializes $Q$-matrices with equal transition probabilities between all states. Since we have multistate data, we need to specify different $Q$-matrices for the different number of character states. For example, it would not make sense to model a 5-state character using a model saying there are only two character states.
@@ -246,7 +259,7 @@ All of the components of the model are now specified.
 Back in file `mcmc_mk_tutorial.Rev`, we can now create our workspace model variable with our fully specified model DAG. We will do this with the `model()` function and provide a single node in the graph (`phylogeny`).
 
 
-```{rb}
+```{rb echo=FALSE}
 mymodel = model(phylogeny)
 mymodel
 ```
@@ -322,11 +335,11 @@ mccTree(trace, file="output/mk_gamma.mcc.tre" )     # Construct and save the max
 
 RevBayes can calculate MCC trees, MAP trees, and consensus trees. Have each person at your table try one, and see how they differ.
 
-{% section Choose Your Own Adventure | subsubsec_Adventure%}
+#  Choose Your Own Adventure 
 
 For this next portion of the tutorial, we will choose and edit some pieces of the model. Feel free to add your own innovations. For this, you will create copies of your previous `Rev` scripts, and modify them. Make sure to change the file names in the `source()` function accordingly before running the MCMC!
 
-{% subsection Lognormally-distributed among-character rate variation | subsubsec_lognormal%}
+###  Lognormally-distributed among-character rate variation
 
 
 As we discussed, there is reason to believe a lognormal distribution may fit morphological data better than a gamma. RevBayes makes it very natural to discretize _any_ distribution you might like to work with.
@@ -338,7 +351,7 @@ rates_morpho := fnDiscretizeDistribution( dnLognormal(ln(alpha_morpho), 0.01), 4
 Can you figure out which line you might replace with this code? Do it, and change your output files to indicate that this is estimation uses a lognormal distribution. Re-run your Rev script.
 
 
-{% subsection Ascertainment Bias | subsubsec_Ascertainment%}
+### Ascertainment Bias
 
 
 As discussed earlier in the section Ascertainment_Bias, we also need to correct for ascertainment bias.
@@ -354,12 +367,12 @@ what type of ascertainment bias is expected. We are using the `variable` correct
 ```
 phyMorpho ~ dnPhyloCTMC(tree=phylogeny, siteRates=rates_morpho, Q=Q_morpho, type="Standard", coding="variable")
 ```
-{% subsection Relaxing Character State Symmetry | subsubsec_relaxing%}
+### Relaxing Character State Symmetry 
 
 The Mk model makes a number of assumptions, but one that may strike you
 as particularly unrealistic is the assumption that characters are equally likely to change from any one state to any other. That means that a trait is as likely to be gained as lost. While this may hold true for some traits, we expect that it may be untrue for many others.
 
-RevBayes has functionality to allow us to relax this assumption {% cite Nylander2004 %}. We do
+RevBayes has functionality to allow us to relax this assumption [@ Nylander2004 %}. We do
 this by specifying a beta prior on state frequencies. Stationary frequencies impact how likely we are to see changes in a character. For example, it may be very likely, in a character, to change from 0 to 1. But if the frequency of 0 is very low, we will still seldom see this change.
 
 We can think of a Q matrix as looking like so:
@@ -373,13 +386,13 @@ $$Q = \begin{pmatrix} -\mu_0\pi0 & \mu_{01}\pi0 \\
 In which the probability of changing states depends not solely on the transition probability, but also the frequency of the starting state. For example, if we have a rare character state, we do not expect to see many transitions from the rare state to another. $\pi$ is the value chosen to represent state frequency commonly in phylogenetic models.
 
 We can exploit the relationship between state frequencies and observed
-changes to allow for variable Q-matrices across characters. To do this, we generate a beta distribution on state frequencies, and use the state frequencies from that distribution to generate a series of Q-matrices used to evaluate our data {% cite Pagel2004 Nylander2004 Wright2016 %}.
+changes to allow for variable Q-matrices across characters. To do this, we generate a beta distribution on state frequencies, and use the state frequencies from that distribution to generate a series of Q-matrices used to evaluate our data [@ Pagel2004 Nylander2004 Wright2016 %}.
 
 This type of model is called a **mixture model**. There are assumed to
 be subdivisions in the data, which may require different parameters (in
 this case, state frequencies). These subdivisions are not defined *a
 priori*. This model has previously been shown to be effective for a
-range of empirical and simulated datasets {% cite Wright2016  %}.
+range of empirical and simulated datasets [@ Wright2016  %}.
 
 {% figure morpho_graphical_model %}
 <img src="figures/tikz/morpho_gm.png" width="400" />
@@ -389,7 +402,7 @@ discretized beta distribution for allowing variable state frequencies.
 {% endfigcaption %}
 {% endfigure %}
 
-{% subsubsection Modifying the Rev-script | subsubsec_RevScript%}
+###  Modifying the Rev-script
 
 >Make a copy of the Rev script you made earlier. Call it
 >`mkv_model_gamma_discretized.Rev`. This new script will
