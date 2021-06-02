@@ -22,6 +22,7 @@ coerceRev <- function(out){
 
   out <- stringr::str_remove_all(out, " ")
 
+
   if(stringr::str_c(out, collapse = "") == ""){
     return("")
   }

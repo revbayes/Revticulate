@@ -1,6 +1,7 @@
+
 #'Empties revEnv
 #'
-#'Removes all objects from revEnv excluding RevPath
+#'Clears allCode and vars from revEnv.
 #'
 #'
 #'@export
@@ -11,11 +12,11 @@ clearRev <- function(){
     revEnv$temps <- c()
   }
 
-  NRObjs <- length(revEnv)-2
+  cat("", file = revEnv$revHistory, append = F)
 
-  remove(list = ls(envir = revEnv)[which(ls(envir = revEnv) != "RevPath" & ls(envir = revEnv) != "temps")],
+  remove(list = ls(envir = revEnv)[which(ls(envir = revEnv) != "RevPath" & ls(envir = revEnv) != "temps" & ls(envir = revEnv) != "revHistory")],
          envir = revEnv)
 
-  message("Successfully removed " %+% c(NRObjs) %+% " objects from revEnv!")
+  message("Successfully reset revEnv!")
 
 }

@@ -9,12 +9,15 @@
 #'
 #'@param path String path to rb.exe
 #'
+#'@param useHistory boolean Should the code from the previous Revticulate session be written into
+#'                  revEnv$allCode? Default is FALSE.
+#'
 #'@examples
 #'RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
 #'initRev(RevPath)
 #'
 #'@export
-initRev <- function(path = NULL){
+initRev <- function(path = NULL, useHistory = FALSE){
   revEnv <<- new.env(parent = globalenv())
 
   if(!is.null(path)){
@@ -25,9 +28,9 @@ initRev <- function(path = NULL){
     revEnv$RevPath <-  readLines(list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt")
   }
 
-  revEnv$Vars <- c()
-  revEnv$Deterministic <- c()
+  revEnv$vars <- c()
   revEnv$temps <- c()
-  revEnv$allCode <- c()
-
+  revEnv$revHistory <- list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/Revhistory.Rhistory"
+  cat("", file = revEnv$revHistory , append = useHistory)
+  revEnv$allCode <- readLines(revEnv$revHistory)
 }

@@ -1,6 +1,6 @@
 ---
 title: "Using Rev Knitr"
-author: "April Wright"
+author: "April Wright, Caleb Charpentier"
 date: "4/22/2021"
 output: html_document
 ---
@@ -17,17 +17,17 @@ knitRev()
 
 ## RevBayes and R
 
-Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on PC, your copy will be called "rb.exe."
+Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on Windows, your copy will be called "rb.exe."
 
-In the above chunk, you will see the command `InitRev`. This is a function in the `RevKnitR` R package. This R package can be installed using the popular `devtools` R package like so:
+In the above chunk, you will see the command `initRev`. This is a function in the `RevKnitR` R package. This R package can be installed using the popular `devtools` R package like so:
 
 ```{r, include=FALSE}
 devtools::install_github("paleantology/Revticulate")
 ```
 
-The `InitRev` function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. `InitRev` takes one argument: where RevBayes lives on your computer. Delete my sample path and enter your path above.
+The `initRev` function creates a RevBayes running environment, called "revEnv", which will allow you to interact with RevBayes through R. `initRev` takes two arguments: path and useHistory. path is the file path to your RevBayes executable, and useHistory determines whether or not to load the RevBayes history from the last Revticulate session into the RevBayes running environment. Because useHistory defaults to FALSE, and there will be no history for the user's first session, it is not shown in the example above. Delete my sample path and enter your path above.
 
-The next line, `KnitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.
+The next line, `knitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.
 
 ## Using RevBayes in a KnitR Chunk
 
@@ -36,7 +36,8 @@ RevBayes can be used in a KnitR chunk by changing the header to `rb` instead of 
 example <- 1.0
 example
 ```
-This is not an overtly useful thing to do, however. Let's erase the previous chunk using the `clearRev()` function. This removes prior code and objects from the RevBayes environment. Very handy if you make a mistake!
+
+This is not an overtly useful thing to do, however. Let's erase the previous chunk using the `clearRev()` function. This removes prior code from the RevBayes environment. Very handy if you make a mistake!
 
 ```{r}
 clearRev()
@@ -53,7 +54,7 @@ br_len_lambda ~ dnExp(0.2)
 phylogeny ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda))
 phylogeny
 ```
-Anything entered in an `rb` block will be interepreted as Rev code, and all the normal Rev syntax will apply. For a nice overview of Rev language and syntax, please see [this tutorial](https://revbayes.github.io/tutorials/intro/rev). 
+Anything entered in an `rb` block will be interpreted as Rev code, and all the normal Rev syntax will apply. For a nice overview of Rev language and syntax, please see [this tutorial](https://revbayes.github.io/tutorials/intro/rev). 
 
 One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. The best way to accomplish this is with the `doRev()` function. When using this function, the RevCode you'd like to run goes in the parentheses of the `doRev` function. These are then exportable to R.
 ```{r}
@@ -172,5 +173,11 @@ repRev()
 
 ## Limitations of RevKnitR
 
-Using RevKnitR for long computations is not advisable. This is because it relies on System2 to run the underlying RevBayes executeable. To run your actual MCMC, it's probably best to save your code to a script and run it in the terminal.
+Revticulate functions use a forced timeout to get output from rb. This may result in seemingly out-of-place timeout warnings. This is because it relies on System2 to run the underlying RevBayes executeable. To run your actual MCMC, it's probably best to save your code to a script and run it in the terminal.
+
+RevBayes sometimes asks for user input when it is unsure of what to do. For example, if you try to overwrite a previously named function with a new function of the same name, it will ask if the user really wants to do this and will prompt them to answer yes/no. Because of the way Revticulate captures Rev output from the command line, it does not know how to handle this, and will only allow doRev() to output "" from then on.
+To circumvent this issue, you can clear the Rev environment, or use callRev(). Because callRev() does not access the Revhistory.Rhistory file, it will not cause this issue. However, anything defined in callRev() will not be used in future calls to rb.
+
+
+
 
