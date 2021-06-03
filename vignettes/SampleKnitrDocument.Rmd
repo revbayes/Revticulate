@@ -19,7 +19,7 @@ index: yes
 redirect: no
 ---
 
-```{r setup}
+```{r setup, purl=FALSE}
 library(Revticulate)
 knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE)
 initRev("/Users/april/software/rb")
@@ -128,7 +128,7 @@ In the following sections you will begin the `mcmc_mk_tutorial.Rev` file and wri
 
 RevBayes uses the function `readDiscreteCharacterData()` to load a data matrix to the workspace from a formatted file. This function can be used for both molecular sequences and discrete morphological characters. Import the morphological character matrix and assign it the variable `morpho`.
 
-```{r}
+```{r purl=FALSE}
 clearRev()
 ```
 
@@ -147,6 +147,7 @@ We will first create a constant node called `num_taxa` that is equal to the numb
 num_taxa <- morpho.size()
 num_branches <- 2 * num_taxa - 2
 taxa <- morpho.names()
+taxa
 ```
 
 Next, create a workspace variable called `moves`, a vector containing all of the MCMC moves used to propose new states for every stochastic node in the model graph.
@@ -184,7 +185,7 @@ phylogeny
 
 You can even look at the phylogeny using Phytools:
 
-```{r}
+```{r, purl=FALSE}
 phylogeny <- getRevObj(name = "phylogeny", coerce = TRUE)
 
 phytools::plotTree(phylogeny)
@@ -201,7 +202,7 @@ moves.append(mvScale(alpha_morpho, lambda=1, weight=2.0))
 
 If you aren't a big stats person, this might not mean much to you, in terms of what this distribution actually looks like. But it is important to develop intuitions for what common distributions look like and what this says about our data. So, we can use R's built-in graphics capabilities to have a look at what 1000 draws from this gamma will look like. 
 
-```{r}
+```{r, purl=FALSE}
 doRev('
 alpha_morpho ~ dnUniform( 0, 1E6 );
 rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
@@ -239,9 +240,9 @@ for (i in 2:n_max_states) {
                                     type="Standard")           # create model of evolution for the character block
 
         m_morph[idx].clamp(morpho_bystate[i])                  # attach the data
-
+        m_morph[idx]
         idx = idx + 1                                          # increment counter
-        idx
+
     }
 }
 ```
@@ -261,7 +262,6 @@ Back in file `mcmc_mk_tutorial.Rev`, we can now create our workspace model varia
 
 ```{rb echo=FALSE}
 mymodel = model(phylogeny)
-mymodel
 ```
 
 The object `mymodel` is a wrapper around the entire model graph and allows us to pass the model to various functions that are specific to our MCMC analysis.
@@ -309,10 +309,20 @@ The MCMC object that we named `mymcmc` has a member method called `.run()`. This
 
 ```{rb}
 mymcmc.run(generations=10000, tuningInterval=200)
+
 ```
 
 Once our Markov chain has terminated, we will want RevBayes to close. Tell the program to quit using the `q()` function.
 
+Note that running long MCMC analyses is not adviseable in Revticulate. Because the package passes the code to RevBayes, where it is run, this pipeline is prone to being interrupted, as well as being slower than simply running it in RevBayes. You can extract the above tutorial using `knitr`'s built-in `purl` functionality like so: 
+
+```{r eval=FALSE, purl=FALSE}
+knitr::purl(input = "SampleKnitrDocument.Rmd", "SampleRevScript.Rev")
+
+```
+
+
+You may note that some cells contain the phrase `purl=FALSE`. RevBayes cannot run R code. To exclude cells containing R code, `purl=FALSE` is used. By default purled Rev code is commented out. Simply open the files and remove the comment marks to run.
 
 Execute the MCMC Analysis 
 

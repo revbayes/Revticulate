@@ -13,9 +13,10 @@
 #'                  revEnv$allCode? Default is FALSE.
 #'
 #'@examples
+#' \dontrun{
 #'RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
 #'initRev(RevPath)
-#'
+#'}
 #'@export
 initRev <- function(path = NULL, useHistory = FALSE){
   revEnv <<- new.env(parent = globalenv())

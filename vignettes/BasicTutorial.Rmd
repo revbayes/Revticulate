@@ -21,7 +21,7 @@ Calling external software from R can be a bit tricky, and RevBayes is no excepti
 
 In the above chunk, you will see the command `initRev`. This is a function in the `RevKnitR` R package. This R package can be installed using the popular `devtools` R package like so:
 
-```{r, include=FALSE}
+```{r, eval=FALSE, include=FALSE}
 devtools::install_github("paleantology/Revticulate")
 ```
 
@@ -58,7 +58,7 @@ Anything entered in an `rb` block will be interpreted as Rev code, and all the n
 
 One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. The best way to accomplish this is with the `doRev()` function. When using this function, the RevCode you'd like to run goes in the parentheses of the `doRev` function. These are then exportable to R.
 ```{r}
-doRev('morpho <- readDiscreteCharacterData("../data/Cinctans.nex")
+doRev(input = 'morpho <- readDiscreteCharacterData("../data/Cinctans.nex")
 num_taxa <- morpho.size()
 num_branches <- 2 * num_taxa - 2
 taxa <- morpho.names()
@@ -80,7 +80,7 @@ We may choose to clear RevBayes objects out of memory so that they are not being
 
 ```{r}
 
-clearRev(n=1)
+undoRev(n=1)
 
 ```
 
@@ -95,8 +95,7 @@ rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
 If you aren't a big stats person, this might not mean much to you, in terms of what this distribution actually looks like. But it is important to develop intuitions for what common distributions look like and what this says about our data. So, we can use R's built-in graphics capabilities to have a look at what 1000 draws from this gamma will look like. 
 
 ```{r}
-doRev('
-alpha_morpho ~ dnUniform( 0, 1E6 );
+doRev('alpha_morpho ~ dnUniform( 0, 1E6 );
 rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
 ')
 
@@ -128,6 +127,7 @@ n <- 100
 
 # The number of heads
 x <- 50
+x
 ```
 
 ### Initialize Markov Chain

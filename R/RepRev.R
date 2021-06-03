@@ -26,19 +26,18 @@
 #'    NULL. This parameter was mostly made for testing purposes. Default is NULL.
 #'
 #'@examples
-#'--The below example code enters, uses, and exits an interactive rb.exe session. Attempting to use
-#'R code before quit() may cause an error--
-#'
+#' \dontrun{
 #'repRev()
 #'
 #'myNumber <- 4
 #'myNumber
 #'
 #'posteriorPredictiveProbability(v(2), 3)
-#'
+
 #'getrRev()
 #'clearRev()
 #'quit()
+#'}
 #'@export
 #'
 repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce = F, use_wd = T, sleep = NULL)
@@ -94,12 +93,6 @@ repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce 
     if(ginput == "getRevHistory()"){
       print(getRevHistory())
       next()
-    }
-
-    if(all(stringr::str_detect(ginput, c("undoRev\\(", "\\)")))){
-      parts <- stringr::str_squish(unlist(stringr::str_split(test, pattern = "\\(|\\)")))
-      undoRev(as.integer(parts[2]))
-      next();
     }
 
 
