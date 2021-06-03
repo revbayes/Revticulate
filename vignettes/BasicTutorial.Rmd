@@ -76,11 +76,11 @@ phytools::plotTree(phylogeny)
 ```
 
 
-We may choose to clear RevBayes objects out of memory so that they are not being consistently echoed to the screen:
+We may choose to clear RevBayes objects out of memory so that they are not being consistently echoed to the screen. In this case, we are using the flag `n=1` to remove just the printed phylogeny, so that it doesn't clutter up our screen with newick strings.
 
 ```{r}
 
-clearRev()
+clearRev(n=1)
 
 ```
 
