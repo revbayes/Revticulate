@@ -9,8 +9,9 @@
 #' @return out Coerce output of the RevBayes output string.
 #'
 #' @examples
+#' \dontrun{
 #' coerceRev("[1, 2, 3, 4]")
-#'
+#'}
 #'@import stringr
 #'
 #' @export

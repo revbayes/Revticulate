@@ -1,8 +1,8 @@
-#'Wrapper for stringr::str_c()
+#'Rapid string parsing
 #'
-#'Wrapper for stringr::str_c() used for quicker pasting of Strings.
+#'Method for quicker pasting of Strings.
 #'
-#'@name \%+\%
+#'@rdname stringpaste
 #'@usage \%+\%(a, b)
 #'@title Operator for concatenation.
 #'@param a The first String

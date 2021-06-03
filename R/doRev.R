@@ -12,23 +12,23 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE, useHistory = FALSE){
   revEnv$allCode <- readLines(revEnv$revHistory, warn = F)
 
   try({
-  first <- callRev(getRevHistory(), coerce = F)
-  revEnv$allCode <- c(revEnv$allCode, input)
-  last <- callRev(getRevHistory(), coerce = F, viewCode = viewCode)
+    first <- callRev(getRevHistory(), coerce = F)
+    revEnv$allCode <- c(revEnv$allCode, input)
+    last <- callRev(getRevHistory(), coerce = F, viewCode = viewCode)
   }, silent = T)
-    if(length(first) != 0)
-       now <- last[-c(1:length(first))]
-    else now <- last
+  if(length(first) != 0)
+    now <- last[-c(1:length(first))]
+  else now <- last
 
-    if(length(now) == 0)
-      now <- ""
+  if(length(now) == 0)
+    now <- ""
 
   if (any(stringr::str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
     revEnv$allCode <- revEnv$allCode[-c(length(revEnv$allCode))]
     if(coerce){
       message(now)
       return("")
-      }
+    }
   }
   else {
     cat(input, file = revEnv$revHistory, append = TRUE, sep = "\n")

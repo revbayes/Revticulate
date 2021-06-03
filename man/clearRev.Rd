@@ -13,6 +13,8 @@ clearRev(n = NULL)
 Clears all code, or a user-specified amount of code, and vars from revEnv.
 }
 \examples{
+\dontrun{
 clearRev() #Clear all objects from RevBayes
 clearRev(n = 1) # Clear the last line input to RevBayes
+}
 }

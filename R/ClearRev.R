@@ -6,8 +6,10 @@
 #'@param n How many lines to remove. Should be an integer
 #'
 #'@examples
+#' \dontrun{
 #' clearRev() #Clear all objects from RevBayes
 #' clearRev(n = 1) # Clear the last line input to RevBayes
+#' }
 #'@export
 clearRev <- function(n = NULL){
 

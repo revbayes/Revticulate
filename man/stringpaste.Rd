@@ -2,7 +2,6 @@
 % Please edit documentation in R/Str_C_Operator.R
 \name{\%+\%}
 \alias{\%+\%}
-\alias{\%+\%}
 \title{Operator for concatenation.}
 \usage{
 \%+\%(a, b)
@@ -13,8 +12,8 @@
 \item{b}{The second String}
 }
 \description{
-Wrapper for stringr::str_c()
+Rapid string parsing
 }
 \details{
-Wrapper for stringr::str_c() used for quicker pasting of Strings.
+Method for quicker pasting of Strings.
 }
