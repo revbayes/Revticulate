@@ -5,12 +5,14 @@
 \title{Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
 refer to objects that have been defined in rb but not in the revEnv.}
 \usage{
-doRev(input, viewCode = FALSE, coerce = FALSE, useHistory = FALSE)
+doRev(input, viewCode = FALSE, coerce = FALSE)
 }
 \arguments{
 \item{input}{Code snippet to be ran in rb.exe.}
 
-\item{viewCode}{see Rev code input and output in the viewing pane}
+\item{viewCode}{If true, Rev code input and output will be displayed in the viewing pane.}
+
+\item{coerce}{If true, the output from RevBayes will be coerced into R format with coerceRev()}
 }
 \description{
 Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to

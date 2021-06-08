@@ -12,7 +12,8 @@
 #'     diagnosing errors.
 #' @param use_wd If TRUE, sets the working directory in the temporary RevBayes session
 #'     to the working directory of the active R session.
-
+#' @param knit Argument used to manage output formatting for knitRev(). This argument
+#'             should generally be ignored by the user.
 #' @return out Output from RevBayes. If coerce = FALSE, out will be in String format.
 #'     If coerce = TRUE, the function will attempt to coerce the String to an R object.
 #'

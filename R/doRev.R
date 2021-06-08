@@ -3,12 +3,14 @@
 #'
 #'@param input Code snippet to be ran in rb.exe.
 #'
-#'@param viewCode see Rev code input and output in the viewing pane
+#'@param viewCode If true, Rev code input and output will be displayed in the viewing pane.
+#'
+#'@param coerce If true, the output from RevBayes will be coerced into R format with coerceRev()
 #'
 #'@export
 #'
 
-doRev <- function(input, viewCode = FALSE, coerce = FALSE, useHistory = FALSE){
+doRev <- function(input, viewCode = FALSE, coerce = FALSE){
   revEnv$allCode <- readLines(revEnv$revHistory, warn = F)
 
   try({
@@ -23,7 +25,7 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE, useHistory = FALSE){
   if(length(now) == 0)
     now <- ""
 
-  if (any(stringr::str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
+  if (any(str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
     revEnv$allCode <- revEnv$allCode[-c(length(revEnv$allCode))]
     if(coerce){
       message(now)
