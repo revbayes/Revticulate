@@ -4,7 +4,7 @@
 \alias{\%+\%}
 \title{Operator for concatenation.}
 \usage{
-\%+\%(a, b)
+a \%+\% b
 }
 \arguments{
 \item{a}{The first String}
@@ -16,4 +16,9 @@ Rapid string parsing
 }
 \details{
 Method for quicker pasting of Strings.
+}
+\examples{
+\dontrun{
+\\%+\\%(a, b) append string b to string a
+}
 }

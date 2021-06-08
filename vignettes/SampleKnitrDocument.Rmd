@@ -1,22 +1,8 @@
 ---
 title: "Discrete morphology - Multistate Characters"
-subtitle: Phylogenetic inference with discrete morphological data
 authors: April M. Wright
-level: 3
-order: 2
-prerequisites:
-- intro
-- mcmc
-- ctmc
-exclude_files:
-- morph_tree/data/bears.nex
-- morph_tree/scripts/mcmc_mk.Rev
-- morph_tree/scripts/mcmc_mkv.Rev
-- morph_tree/scripts/mcmc_mkv_discretized.Rev
-- morph_tree/scripts/mcmc_mkv_hyperprior.Rev
-- morph_tree/scripts/mk_gamma.Rev
-index: yes
-redirect: no
+date: "`r Sys.Date()`"
+output: pdf_document
 ---
 
 ```{r setup, purl=FALSE}
@@ -168,19 +154,22 @@ In this section you will move on to specifying the Mk model components, starting
 ```{rb}
 br_len_lambda ~ dnExp(0.2)
 moves.append(mvScale(br_len_lambda, weight=2))
+br_len_lambda
 ```
 This prior specifies that branch lengths will be drawn from an exponential distribution with parameter 0.2.
 
 
 Now, we combine the branch lengths with a uniform prior on topology to make a tree. The uniform prior simply means no tree is more likely _a priori_ than any other. This can be easily changed, for example, to use a starting tree. We then specify MCMC moves on the topology, NNI and SPR. These moves propose new topologies. In this way, we propose and evaluate new sets of relationships. We perform these moves frequently because these parameters are really important. We will also move each of the branch lengths each iteration. The scale move scales the current branch length. Finally, we monitor the tree length by adding a deterministic node with the operator `:=`. This is a quantity many biologists are interested in.
 
-```{rb}
+One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. The best way to accomplish this is with the `doRev()` function. When using this function, the RevCode you'd like to run goes in the parentheses of the `doRev` function. These are then exportable to R.
+```{r}
+doRev(input = 'morpho <- readDiscreteCharacterData("../data/Cinctans.nex")
+num_taxa <- morpho.size()
+num_branches <- 2 * num_taxa - 2
+taxa <- morpho.names()
+br_len_lambda ~ dnExp(0.2)
 phylogeny ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda))
-moves.append(mvNNI(phylogeny, weight=num_branches/2.0))
-moves.append(mvSPR(phylogeny, weight=num_branches/10.0))
-moves.append(mvBranchLengthScale(phylogeny, weight=num_branches))
-tree_length := phylogeny.treeLength()
-phylogeny
+phylogeny')
 ```
 
 You can even look at the phylogeny using Phytools:
