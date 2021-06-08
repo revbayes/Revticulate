@@ -27,6 +27,9 @@ diagnosing errors.}
 
 \item{use_wd}{If TRUE, sets the working directory in the temporary RevBayes session
 to the working directory of the active R session.}
+
+\item{knit}{Argument used to manage output formatting for knitRev(). This argument
+should generally be ignored by the user.}
 }
 \value{
 out Output from RevBayes. If coerce = FALSE, out will be in String format.

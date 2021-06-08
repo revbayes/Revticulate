@@ -4,7 +4,11 @@
 #' Uses the structure of the characters within the string to identify an appropiate R object type (a list, vector,
 #' or even phylo tree) to coerce the string into.
 #'
-#' @param ... out
+#' @param out String formatted representation of a Rev language object.
+#'            coerceRev() will recognize the formatting of most commonly used
+#'            Rev objects and will convert them into equivalent R objects. If coerceReV()
+#'            does not recognize the objects formatting, the initial String representation
+#'            will be returned.
 #'
 #' @return out Coerce output of the RevBayes output string.
 #'

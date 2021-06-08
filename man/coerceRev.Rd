@@ -7,7 +7,11 @@
 coerceRev(out)
 }
 \arguments{
-\item{...}{out}
+\item{out}{String formatted representation of a Rev language object.
+coerceRev() will recognize the formatting of most commonly used
+Rev objects and will convert them into equivalent R objects. If coerceReV()
+does not recognize the objects formatting, the initial String representation
+will be returned.}
 }
 \value{
 out Coerce output of the RevBayes output string.

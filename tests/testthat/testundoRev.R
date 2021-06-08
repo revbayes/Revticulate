@@ -1,6 +1,6 @@
 library(testthat)
 test_that(
-  "Testing ClearRev()",
+  "Testing undoRev",
   {
     Revticulate::InitRev()
 
