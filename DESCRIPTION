@@ -11,7 +11,7 @@ Imports:
     stringr,
     stringi,
     knitr,
-    utils
+    utils,
 VignetteBuilder: knitr
 License: GPL-2
 Encoding: UTF-8
