@@ -1,10 +1,3 @@
----
-title: "README"
-author: "April Wright"
-date: "4/23/2021"
-output: html_document
----
-
 
 ```{r setup, include=TRUE}
 library(Revticulate)
