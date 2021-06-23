@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/Paleantology/Revticulate.svg?branch=master)](https://travis-ci.com/Paleantology/Revticulate)
+
 
 ```{r setup, include=TRUE}
 library(Revticulate)
