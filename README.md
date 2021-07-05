@@ -1,9 +1,4 @@
----
-title: "README"
-author: "April Wright"
-date: "4/23/2021"
-output: html_document
----
+[![Build Status](https://travis-ci.com/Paleantology/Revticulate.svg?branch=master)](https://travis-ci.com/Paleantology/Revticulate)
 
 
 ```{r setup, include=TRUE}
