@@ -2,7 +2,11 @@
 title: "Using Rev Knitr"
 author: "April Wright, Caleb Charpentier"
 date: "4/22/2021"
-output: html_document
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{SampleKnitrDocument}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=TRUE}

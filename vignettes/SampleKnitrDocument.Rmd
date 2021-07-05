@@ -2,6 +2,11 @@
 title: "Discrete morphology - Multistate Characters"
 subtitle: Phylogenetic inference with discrete morphological data
 authors: April M. Wright
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{SampleKnitrDocument}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 level: 3
 order: 2
 prerequisites:
@@ -17,6 +22,7 @@ exclude_files:
 - morph_tree/scripts/mk_gamma.Rev
 index: yes
 redirect: no
+
 ---
 
 ```{r setup, purl=FALSE}
