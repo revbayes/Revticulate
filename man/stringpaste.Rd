@@ -4,7 +4,7 @@
 \alias{\%+\%}
 \title{Operator for concatenation.}
 \usage{
-\%+\%(a, b)
+a \%+\% b
 }
 \arguments{
 \item{a}{The first String}
