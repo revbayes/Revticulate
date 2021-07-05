@@ -84,7 +84,7 @@ callRev <- function (..., coerce = TRUE, path = revEnv$RevPath, viewCode = F,
     copyTwo <- c("", revEnv$vars)
     revEnv$vars <- copy[which(copy != copyTwo)]
   }
-  argu <- c(revEnv$vars, argu)
+  argu <- c(argu)
   if (use_wd == T) {
     wd <- stringr::str_replace_all(normalizePath(getwd()),
                                    pattern = "\\\\", "//")
