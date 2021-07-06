@@ -1,33 +1,22 @@
 ---
-title: "Discrete morphology - Multistate Characters"
-subtitle: Phylogenetic inference with discrete morphological data
-authors: April M. Wright
+title: "Discrete morphology example"
+author: "Caleb Charpentier and April Wright"
+date: Sys.Date()
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{SampleKnitrDocument}
+  %\VignetteIndexEntry{Getting Started With The treedata.table Package}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
-level: 3
-order: 2
-prerequisites:
-- intro
-- mcmc
-- ctmc
-exclude_files:
-- morph_tree/data/bears.nex
-- morph_tree/scripts/mcmc_mk.Rev
-- morph_tree/scripts/mcmc_mkv.Rev
-- morph_tree/scripts/mcmc_mkv_discretized.Rev
-- morph_tree/scripts/mcmc_mkv_hyperprior.Rev
-- morph_tree/scripts/mk_gamma.Rev
-index: yes
-redirect: no
-
+  \usepackage[utf8]{inputenc}
 ---
 
-```{r setup, purl=FALSE}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+```
+
+First, load the Revticulate package and tell it where to find the RevBayes executeable.
+
+```{r}
 library(Revticulate)
-knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE)
 initRev("/Users/april/software/rb")
 knitRev()
 ```
@@ -139,7 +128,7 @@ clearRev()
 ```
 
 ```{rb}
-morpho <- readDiscreteCharacterData("../data/Cinctans.nex")
+morpho <- readDiscreteCharacterData("Cinctans.nex")
 ```
 
 ### Create Helper Variables 
@@ -266,7 +255,7 @@ All of the components of the model are now specified.
 Back in file `mcmc_mk_tutorial.Rev`, we can now create our workspace model variable with our fully specified model DAG. We will do this with the `model()` function and provide a single node in the graph (`phylogeny`).
 
 
-```{rb echo=FALSE}
+```{rb, eval=FALSE}
 mymodel = model(phylogeny)
 ```
 
@@ -277,28 +266,28 @@ The object `mymodel` is a wrapper around the entire model graph and allows us to
 
 The next important step for our Rev-script is to specify the monitors and output file names. For this, we use the vector called `monitors` that will take each sample and record or output our MCMC.
 
-```{rb}
+```{rb, eval=FALSE}
 monitors = VectorMonitors()
 ```
 
 The first monitor we create will monitor every named random variable in our model graph. This will include every stochastic and deterministic node using the `mnModel` monitor. The only parameter that is not included in the `mnModel` is the tree topology. Therefore, the parameters in the file written by this monitor are all numerical parameters written to a tab-separated text file that can be opened by accessory programs for evaluating such parameters. We will also name the output file for this monitor and indicate that we wish to sample our MCMC every 10 cycles.
 
 
-```{rb}
+```{rb, eval=FALSE}
 monitors.append( mnModel(filename="output/mk_gamma.log", printgen=10))
 ```
 
 The `mnFile` monitor writes any parameter we specify to file. Thus, if we only cared about the branch lengths and nothing else (this is not a typical or recommended attitude for an analysis this complex) we wouldn't use the `mnModel` monitor above and just use the `mnFile` monitor to write a smaller and simpler output file. Since the tree topology is not included in the `mnModel` monitor (because it is not numerical), we will use `mnFile` to write the tree to file by specifying our `phylogeny` variable in the arguments.
 
 
-```{rb}
+```{rb, eval=FALSE}
 monitors.append( mnFile(filename="output/mk_gamma.trees", printgen=10, phylogeny))
 ```
 
 The third monitor we will add to our analysis will print information to the screen. Like with `mnFile` we could tell `mnScreen` which parameters we'd like to see updated on the screen.
 
 
-```{rb}
+```{rb, eval=FALSE}
 monitors.append( mnScreen(printgen=100))
 ```
 
@@ -306,14 +295,14 @@ monitors.append( mnScreen(printgen=100))
 
 Once we have set up our model, moves, and monitors, we can now create the workspace variable that defines our MCMC run. We do this using the `mcmc()` function that simply takes the three main analysis components as arguments. Furthermore, we will perform and combine two independent MCMC runs to ensure proper convergence.
 
-```{rb}
+```{rb, eval=FALSE}
 mymcmc = mcmc(mymodel, monitors, moves, nruns=2, combine="mixed")
 ```
 
 The MCMC object that we named `mymcmc` has a member method called `.run()`. This will execute our analysis and we will set the chain length to `10000` cycles using the `generations` option.
 
 
-```{rb}
+```{rb, eval=FALSE}
 mymcmc.run(generations=10000, tuningInterval=200)
 
 ```
@@ -343,7 +332,8 @@ When the analysis is complete, RevBayes will quit and you will have a new direct
 
 We can look at the log files in the software `Tracer`. We can also calculate several different types of summary trees:
 
-```{rb}
+```{rb, eval=FALSE}
+
 trace = readTreeTrace("output/mk_gamma.trees")      # Read in the tree trace
 
 mccTree(trace, file="output/mk_gamma.mcc.tre" )     # Construct and save the maximum clade credibility (MCC) tree

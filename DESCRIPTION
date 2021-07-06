@@ -6,17 +6,19 @@ Author: Caleb Charpentier
 Maintainer: Caleb Charpentier <caleb.charpentier@selu.edu>
 Description: Allows for interaction with rb.exe in R. Objects created in RevBayes are 
     replicated as similar R formatted objects in an environment called RevEnv.
+License: MIT + file LICENSE
+Depends:
+  R (>= 2.10)
 Imports:
     ape,
     stringr,
     stringi,
     knitr,
     utils
-VignetteBuilder: utils
-License: GPL-2
-Encoding: UTF-8
-LazyData: true
 RoxygenNote: 7.1.1
 Suggests: 
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
