@@ -18,6 +18,25 @@ clearRev <- function(n = NULL){
     revEnv$temps <- c()
   }
 
+  undoRev <- function(n){
+    revEnv$allCode <- revEnv$allCode[1:(length(revEnv$allCode)-n)]
+    cat(getRevHistory(), file = revEnv$revHistory, append = F)
+
+    revEnv$vars <- c()
+
+    #update revEnv$vars
+    for(j in getRevHistory()) {
+      if(stringr::str_detect(j, "<-| = |:=|~"))
+        revEnv$vars <- c(revEnv$vars, j)
+    }
+
+    return(cat(getRevHistory(), sep = "\n"))
+  }
+
+  if(!is.null(n)){
+    return(undoRev(n))
+  }
+
   cat("", file = revEnv$revHistory, append = F)
 
   if (is.null(n)){
@@ -29,8 +48,7 @@ clearRev <- function(n = NULL){
     file = readLines(revEnv$revHistory)
     remove = length(file)-n
     edited = file[-(remove : length(file))]
-    writeLines(revEnv$revHistory)
-    callRev(revEnv$revHistory)
+    writeLines(revEnv$revHistory, edited)
   }
 
 }
