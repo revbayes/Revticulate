@@ -39,7 +39,7 @@ Allows user to continuously call rb.exe without having to retype function.
 \details{
 To exit session, type quit().
 
-   clearRev() and getrRev() can be called from within session for ease of use.
+clearRev() and getrRev() can be called from within session for ease of use.
 }
 \examples{
 \dontrun{

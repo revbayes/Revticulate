@@ -6,7 +6,7 @@
 \usage{
 callRev(
   ...,
-  coerce = TRUE,
+  coerce = FALSE,
   path = revEnv$RevPath,
   viewCode = F,
   use_wd = T,
@@ -17,7 +17,7 @@ callRev(
 \item{...}{String input to send to RevBayes.}
 
 \item{coerce}{If TRUE, attempts to coerce output to an R object. If FALSE, output
-will remain in String format. Default is TRUE.}
+will remain in String format. Default is FALSE.}
 
 \item{path}{Path to rb.exe. Default is revEnv$RevPath, which is created with InitRev().}
 
@@ -33,11 +33,11 @@ should generally be ignored by the user.}
 }
 \value{
 out Output from RevBayes. If coerce = FALSE, out will be in String format.
-    If coerce = TRUE, the function will attempt to coerce the String to an R object.
+If coerce = TRUE, the function will attempt to coerce the String to an R object.
 }
 \description{
 Submits input to rb.exe and returns output to R in string format. If coerce = T, the function
-   will try to coerce output to a similar R object.
+will try to coerce output to a similar R object.
 }
 \examples{
 \dontrun{
