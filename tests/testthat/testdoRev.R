@@ -1,11 +1,15 @@
 test_that(
   "Testing doRev()",
   {
-    testthat::expect_equal(doRev("2+2", "3+3"), list(4, 6))
+    testthat::expect_equal(doRev("2+2", "3+3"), "4")
 
-    expect_message(Revticulate::RevDefine("myList <- 2+2"), "Numeric object 'myList' has been created in RevEnv!")
+    randomseq <- function() paste(unlist(c(LETTERS, letters))[as.integer(runif(30) * 52)], collapse = "")
 
-    testthat::expect_equal(Revticulate::doRev("simTree(2)"), ape::read.tree(text = "   (Taxon_1[&index=2]:1.000000,Taxon_2[&index=1]:1.000000)[&index=3]:0.000000;"))
+    testnon <- randomseq()
+
+    expect_message(doRev(testnon, coerce = T), "Missing Variable: Variable " %+% testnon %+% " does not exist")
+
+    testthat::expect_equal(Revticulate::doRev("simTree(2)", coerce = T), ape::read.tree(text = "   (Taxon_1[&index=2]:1.000000,Taxon_2[&index=1]:1.000000)[&index=3]:0.000000;"))
 
   }
 )
