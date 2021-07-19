@@ -42,8 +42,9 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE){
       revEnv$vars <- c(revEnv$vars, j)
   }
 
-  if(coerce)
-    return(coerceRev(now))
+  if(coerce){
+    return(coerceRev(paste(now, collapse = "")))
+  }
 
   now <- stringr::str_squish(now)
 
