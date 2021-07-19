@@ -33,11 +33,11 @@ should generally be ignored by the user.}
 }
 \value{
 out Output from RevBayes. If coerce = FALSE, out will be in String format.
-    If coerce = TRUE, the function will attempt to coerce the String to an R object.
+If coerce = TRUE, the function will attempt to coerce the String to an R object.
 }
 \description{
 Submits input to rb.exe and returns output to R in string format. If coerce = T, the function
-   will try to coerce output to a similar R object.
+will try to coerce output to a similar R object.
 }
 \examples{
 \dontrun{
