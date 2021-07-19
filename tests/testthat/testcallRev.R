@@ -1,14 +1,34 @@
 library(testthat)
+library(Revticulate)
+library(comprehenr)
+
 test_that(
   "Ensure CallRev() coerces as expected",
   {
     Revticulate::initRev()
 
-    testthat::expect_warning(Revticulate::callRev("[1, 2, 3]"), "coercing argument of type 'double' to logical")
-
-    expect_message(Revticulate::callRev("c(1, 2, 3)"), "Error:	No function named 'c'")
+    expect_equal(to_vec(for(i in 1:10) as.character(i**2)) , to_vec(for(i in 1:10) stringr::str_squish(callRev(i %+% "^ 2"))))
 
 
-    testthat::expect_equal(Revticulate::doRev("simTree(2)"), ape::read.tree(text = "   (Taxon_1[&index=2]:1.000000,Taxon_2[&index=1]:1.000000)[&index=3]:0.000000;"))
+    randomseq <- function() paste(unlist(c(LETTERS, letters))[as.integer(runif(30) * 52)], collapse = "")
+
+        testnons <- to_vec(for(i in 1:10) randomseq())
+
+        expect_equal(unlist(lapply(testnons, FUN = doRev)), to_vec(for(i in testnons) "Missing Variable: Variable " %+% i %+% " does not exist"))
+
+
+
+    testthat::expect_equal(Revticulate::callRev("simTree(2)"), "   (Taxon_1[&index=2]:1.000000,Taxon_2[&index=1]:1.000000)[&index=3]:0.000000;")
+
+
     }
 )
+
+
+
+
+
+
+
+
+

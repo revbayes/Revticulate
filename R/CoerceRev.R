@@ -25,10 +25,30 @@
 coerceRev <- function(out){
 
 
+  if(length(out) > 1){
+
+  }
+
+
+  if(stringr::str_ends(str_squish(out), pattern = "'|\""))
+  {
+    return(str_squish(out))
+  }
+
+  if(str_detect(out, "^([0-9]+[.]?[0-9]*|[-]?[0-9]+[L]?|[-]?[0-9]+[.]?[0-9]*[eE][0-9]+)$", ))
+
+  if(!str_detect(out, "(\\[.+\\])|(\\{.+\\})"))
+    {
+      if(!str_detect(str_squish(out), "^([0-9]+[.]?[0-9]*|[-]?[0-9]+[L]?|[-]?[0-9]+[.]?[0-9]*[eE][0-9]+)$", ))
+        {
+          return(str_squish(out))
+        }
+    }
+
   out <- stringr::str_remove_all(out, " ")
 
-
-  if(stringr::str_c(out, collapse = "") == ""){
+  if(stringr::str_c(out, collapse = "") == "")
+  {
     return("")
   }
 
