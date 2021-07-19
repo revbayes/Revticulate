@@ -8,5 +8,5 @@ getRevVars()
 }
 \description{
 Prints revEnv$vars to return definitions of variables that have been defined in rb.exe
-   using a Revticulate function.
+using a Revticulate function.
 }
