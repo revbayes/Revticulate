@@ -4,6 +4,7 @@ library(Revticulate)
 test_that(
   "Testing getRevHistory()",
   {
+    initRev()
     clearRev()
     expect_null(getRevHistory())
 

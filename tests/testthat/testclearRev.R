@@ -5,7 +5,7 @@ library(comprehenr)
 test_that(
   "Testing ClearRev()",
   {
-    Revticulate::initRev()
+    initRev()
 
 
     for(i in 1:15){

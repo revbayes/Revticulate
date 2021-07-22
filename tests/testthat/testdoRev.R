@@ -1,6 +1,9 @@
+library(Revticulate)
 test_that(
   "Testing doRev()",
   {
+    initRev()
+
     testthat::expect_equal(doRev("2+2", "3+3"), "4")
 
     randomseq <- function() paste(unlist(c(LETTERS, letters))[as.integer(runif(30) * 52)], collapse = "")

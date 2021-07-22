@@ -1,7 +1,9 @@
 library(testthat)
+library(Revticulate)
 test_that(
   "Testing coerceRev()",
   {
+    initRev()
 
     nums <- unlist(runif(10))
 

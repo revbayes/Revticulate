@@ -4,6 +4,7 @@ library(comprehenr)
 test_that(
   "Testing knitRev()",
   {
+    initRev()
 
     knitRev()
 

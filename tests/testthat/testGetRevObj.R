@@ -4,6 +4,7 @@ library(Revticulate)
 test_that(
   "Testing getRevObj()",
   {
+    initRev()
     clearRev()
 
     for(i in 1:10){
