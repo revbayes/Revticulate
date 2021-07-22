@@ -5,6 +5,8 @@ library(comprehenr)
 test_that(
   "Testing initRev()",
   {
+    initRev()
+
     clearRev()
 
 

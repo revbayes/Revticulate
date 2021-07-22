@@ -5,7 +5,7 @@ library(comprehenr)
 test_that(
   "Ensure CallRev() coerces as expected",
   {
-    Revticulate::initRev()
+    initRev()
 
     expect_equal(to_vec(for(i in 1:10) as.character(i**2)) , to_vec(for(i in 1:10) stringr::str_squish(callRev(i %+% "^ 2"))))
 
