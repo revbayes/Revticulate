@@ -17,6 +17,7 @@
 #' coerceRev("[1, 2, 3, 4]")
 #'}
 #'@import stringr
+#'@import comprehenr
 #'
 #' @export
 #'
@@ -24,25 +25,20 @@
 
 coerceRev <- function(out){
 
+  out <- stringr::str_squish(out)
 
-  if(length(out) > 1){
+  if(length(out) > 1)
+    out <- out[which(out != "")]
 
+
+  if(all(str_detect(str_squish(out), "^([0-9]+[.]?[0-9]*|[-]?[0-9]+[L]?|[-]?[0-9]+[.]?[0-9]*[eE][0-9]+)$"))){
+    return(as.numeric(out))
   }
 
 
-  if(stringr::str_ends(str_squish(out), pattern = "'|\""))
-  {
-    return(str_squish(out))
-  }
-
-  if(str_detect(out, "^([0-9]+[.]?[0-9]*|[-]?[0-9]+[L]?|[-]?[0-9]+[.]?[0-9]*[eE][0-9]+)$", ))
-
-  if(!str_detect(out, "(\\[.+\\])|(\\{.+\\})"))
+  if(!any(str_detect(out, "(\\[.+\\])|(\\{.+\\})")))
     {
-      if(!str_detect(str_squish(out), "^([0-9]+[.]?[0-9]*|[-]?[0-9]+[L]?|[-]?[0-9]+[.]?[0-9]*[eE][0-9]+)$", ))
-        {
           return(str_squish(out))
-        }
     }
 
   out <- stringr::str_remove_all(out, " ")

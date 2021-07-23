@@ -2,11 +2,13 @@
 #'
 #'Prints revEnv$allCode
 #'
+#'@import comprehenr
+#'
 #'@export
 #'
 getRevHistory <- function(){
 
-  return(revEnv$allCode)
+  return(to_vec(for(i in revEnv$allCode) i))
 
 }
 

@@ -24,7 +24,6 @@
 #'}
 #'@import utils
 #'@import stringr
-#'@import comprehenr
 #'
 #' @export
 #'
