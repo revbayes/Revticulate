@@ -7,16 +7,18 @@
 #'
 #'@param coerce If true, the output from RevBayes will be coerced into R format with coerceRev()
 #'
+#'@param timeout Determines how long the system2() call should wait before timing out (seconds). Default is 5.
+#'
 #'@export
 #'
 
-doRev <- function(input, viewCode = FALSE, coerce = FALSE){
+doRev <- function(input, viewCode = FALSE, coerce = FALSE, timeout = 5){
   revEnv$allCode <- readLines(revEnv$revHistory, warn = F)
 
   try({
-    first <- callRev(getRevHistory(), coerce = F)
+    first <- callRev(getRevHistory(), coerce = F, timeout = timeout)
     revEnv$allCode <- c(revEnv$allCode, input)
-    last <- callRev(getRevHistory(), coerce = F, viewCode = viewCode)
+    last <- callRev(getRevHistory(), coerce = F, viewCode = viewCode, timeout = timeout)
   }, silent = T)
   if(length(first) != 0)
     now <- last[-c(1:length(first))]

@@ -10,7 +10,8 @@ callRev(
   path = revEnv$RevPath,
   viewCode = F,
   use_wd = T,
-  knit = F
+  knit = F,
+  timeout = 5
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ to the working directory of the active R session.}
 
 \item{knit}{Argument used to manage output formatting for knitRev(). This argument
 should generally be ignored by the user.}
+
+\item{timeout}{Determines how long the system2() call should wait before timing out (seconds). Default is 5.}
 }
 \value{
 out Output from RevBayes. If coerce = FALSE, out will be in String format.
