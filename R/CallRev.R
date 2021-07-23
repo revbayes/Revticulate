@@ -14,6 +14,7 @@
 #'     to the working directory of the active R session.
 #' @param knit Argument used to manage output formatting for knitRev(). This argument
 #'             should generally be ignored by the user.
+#' @param timeout Determines how long the system2() call should wait before timing out (seconds). Default is 5.
 #' @return out Output from RevBayes. If coerce = FALSE, out will be in String format.
 #'     If coerce = TRUE, the function will attempt to coerce the String to an R object.
 #'
@@ -25,11 +26,11 @@
 #'@import utils
 #'@import stringr
 #'
-#' @export
+#'@export
 #'
 
 callRev <- function (..., coerce = FALSE, path = revEnv$RevPath, viewCode = F,
-                     use_wd = T, knit = F){
+                     use_wd = T, knit = F, timeout = 5){
   argu <- c(...)
   if (knit) {
     clumpBrackets <- function(stringVector) {
@@ -97,7 +98,7 @@ callRev <- function (..., coerce = FALSE, path = revEnv$RevPath, viewCode = F,
   fopen <- file(tf)
   ret <- unlist(argu)
   writeLines(ret, fopen, sep = "\n")
-  out <- system2(path, args = c(tf), stdout = T, timeout=10)
+  out <- system2(path, args = c(tf), stdout = T, timeout=timeout)
   out <- out[-c(1:13, length(out) - 1, length(out))]
   cat("Input:\n -->  " %+% ret %+% "\n//", file = tf,
       sep = "\n", append = F)
