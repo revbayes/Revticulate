@@ -42,15 +42,16 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE){
       revEnv$vars <- c(revEnv$vars, j)
   }
 
-  if(coerce){
-    return(coerceRev(paste(now, collapse = "")))
-  }
 
   now <- stringr::str_squish(now)
 
   if(length(now) > 1)
     now <- now[which(now != "")]
 
+
+  if(coerce){
+    return(coerceRev(now))#paste(now, collapse = "")))
+  }
 
   return(now)
 }
