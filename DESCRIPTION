@@ -14,7 +14,8 @@ Imports:
     stringr,
     stringi,
     knitr,
-    utils
+    utils,
+    comprehenr
 RoxygenNote: 7.1.1
 Suggests: 
     markdown,
@@ -22,3 +23,5 @@ Suggests:
     testthat
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
+

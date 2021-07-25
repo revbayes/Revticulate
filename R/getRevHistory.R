@@ -8,7 +8,7 @@
 #'
 getRevHistory <- function(){
 
-  return(to_vec(for(i in revEnv$allCode) i))
+  return(comprehenr::to_vec(for(i in revEnv$allCode) i))
 
 }
 
