@@ -31,10 +31,7 @@ test_that(
 
     clearRev()
 
-
-    path <- "D://RevBayes_Win_1.1.0/RevBayes_Win_1.1.0/rb.exe"
-
-    initRev(path)
+    initRev(revEnv$RevPath)
 
     expect_equal(revEnv$RevPath, path)
 

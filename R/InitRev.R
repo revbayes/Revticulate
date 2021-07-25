@@ -23,7 +23,7 @@ initRev <- function(path = NULL, useHistory = FALSE){
 
   if(!is.null(path)){
     revEnv$RevPath <- path
-    write(path, list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt")
+    cat(path, file = list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt", fill = T)
   }
   else{
     revEnv$RevPath <-  readLines(list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt")
