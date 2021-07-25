@@ -15,28 +15,38 @@
 doRev <- function(input, viewCode = FALSE, coerce = FALSE, timeout = 5){
   revEnv$allCode <- readLines(revEnv$revHistory, warn = F)
 
+  if(!all((str_count(input, c("\\(", "\\{", "\\[")) == str_count(input, c("\\)", "\\}", "\\]"))))){
+    warning("rb command cannot have uneven number of open and closing braces!")
+    return("")
+  }
+
   try({
     first <- callRev(getRevHistory(), coerce = F, timeout = timeout)
     revEnv$allCode <- c(revEnv$allCode, input)
     last <- callRev(getRevHistory(), coerce = F, viewCode = viewCode, timeout = timeout)
-  }, silent = T)
-  if(length(first) != 0)
-    now <- last[-c(1:length(first))]
-  else now <- last
+
+    if(length(first) != 0)
+      now <- last[-c(1:length(first))]
+    else now <- last
+
+    if (any(str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
+      revEnv$allCode <- revEnv$allCode[-c(length(revEnv$allCode))]
+      if(coerce){
+        message(stringr::str_squish(now))
+        return("")
+      }
+    }
+    else {
+      cat(input, file = revEnv$revHistory, append = TRUE, sep = "\n")
+    }
+
+    }, silent = T)
+
 
   if(length(now) == 0)
     now <- ""
 
-  if (any(str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
-    revEnv$allCode <- revEnv$allCode[-c(length(revEnv$allCode))]
-    if(coerce){
-      message(stringr::str_squish(now))
-      return("")
-    }
-  }
-  else {
-    cat(input, file = revEnv$revHistory, append = TRUE, sep = "\n")
-  }
+
 
   #update revEnv$vars
   for(j in unlist(stringr::str_split(input, ";"))){
