@@ -1,10 +1,11 @@
 library(testthat)
 library(Revticulate)
+library(comprehenr)
 
 test_that(
-  "Testing getRevHistory()",
+  "Testing initRev()",
   {
-    initRev()
+    skip_on_cran()
 
     skip_if_not_init <- function(){
       if(exists("revEnv")){
@@ -29,16 +30,19 @@ test_that(
     skip_if_not_init()
 
     clearRev()
-    expect_null(getRevHistory())
 
-    times <- as.integer(runif(1)*15)
+    initRev(revEnv$RevPath)
 
-    for(i in 1:times){
-      doRev(i)
-    }
+    expect_length(revEnv$allCode, 0)
 
-    expect_length(getRevHistory(), times)
+    expect_true(str_ends(revEnv$revHistory, "Revticulate/Revhistory.Rhistory"))
 
+    doRev('"This is a test string"')
 
+    initRev(useHistory = TRUE)
+
+    expect_equal(getRevHistory()[1], '\"This is a test string\"')
+
+    clearRev()
   }
 )

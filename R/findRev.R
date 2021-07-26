@@ -13,8 +13,7 @@
 #' @export
 #'
 #'
-
 findRev <- function(parentDirectory = "~") {
-  rbPAths <-  grep(list.files(parentDirectory, recursive = T, full.names = T), pattern = "/rb$|/rb.exe$", value = T)
-  return(rbPAths)
+  rbPaths <-  grep(list.files(parentDirectory, recursive = T, full.names = T), pattern = "/rb$|/rb.exe$", value = T)
+  return(rbPaths)
 }

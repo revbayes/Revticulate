@@ -3,7 +3,9 @@ library(Revticulate)
 test_that(
   "Testing coerceRev()",
   {
-    initRev()
+    skip_on_cran()
+
+
 
     skip_if_not_init <- function(){
       if(exists("revEnv")){

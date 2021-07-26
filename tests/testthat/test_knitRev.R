@@ -1,11 +1,12 @@
-library(testthat)
 library(Revticulate)
 library(comprehenr)
 
 test_that(
-  "Testing initRev()",
+  "Testing knitRev()",
   {
-    initRev()
+    skip_on_cran()
+
+    initRev(findRev())
 
     skip_if_not_init <- function(){
       if(exists("revEnv")){
@@ -29,22 +30,9 @@ test_that(
 
     skip_if_not_init()
 
-    clearRev()
+    knitRev()
 
-    initRev(revEnv$RevPath)
+    expect_true(any(names(knitr::knit_engines$get()) == "rb"))
 
-    expect_equal(revEnv$RevPath, path)
-
-    expect_length(revEnv$allCode, 0)
-
-    expect_true(str_ends(revEnv$revHistory, "Revticulate/Revhistory.Rhistory"))
-
-    doRev('"This is a test string"')
-
-    initRev(useHistory = TRUE)
-
-    expect_equal(getRevHistory(), '\"This is a test string\"')
-
-    clearRev()
   }
 )

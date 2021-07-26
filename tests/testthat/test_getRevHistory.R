@@ -1,11 +1,12 @@
 library(testthat)
 library(Revticulate)
-library(comprehenr)
 
 test_that(
-  "Testing ClearRev()",
+  "Testing getRevHistory()",
   {
-    initRev()
+    skip_on_cran()
+
+
 
     skip_if_not_init <- function(){
       if(exists("revEnv")){
@@ -29,23 +30,16 @@ test_that(
 
     skip_if_not_init()
 
-    for(i in 1:15){
+    clearRev()
+    expect_null(getRevHistory())
+
+    times <- as.integer(runif(1)*15)
+
+    for(i in 1:times){
       doRev(i)
     }
 
-    for(i in 1:3){
-      slice <- as.integer(runif(1, 0, 5))
-      oldlength <- length(getRevHistory())
-      clearRev(slice)
-
-      expect_equal(as.integer(length(getRevHistory())), as.integer((oldlength - slice)))
-    }
-
-    clearRev()
-
-    doRev('"random input"')
-
-    expect_message(clearRev(), "Successfully reset revEnv!")
+    expect_length(getRevHistory(), times)
 
 
   }
