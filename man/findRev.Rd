@@ -4,10 +4,13 @@
 \alias{findRev}
 \title{Searches for the RevBayes executable}
 \usage{
-findRev()
+findRev(parentDirectory = "~")
+}
+\arguments{
+\item{parentDirectory}{Parent directory to recursively search for the rb executable. Default is the user's root directory ('~').}
 }
 \description{
-Searches the users machine for the RevBayes executable and returns a vector of possible paths
+Recursively earches the users machine for the RevBayes executable and returns a vector of possible paths
 }
 \examples{
 \dontrun{
