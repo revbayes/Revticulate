@@ -3,9 +3,11 @@ library(Revticulate)
 library(comprehenr)
 
 test_that(
-  "Testing getRevVars()",
+  "Testing ClearRev()",
   {
-    initRev()
+    skip_on_cran()
+
+
 
     skip_if_not_init <- function(){
       if(exists("revEnv")){
@@ -29,24 +31,24 @@ test_that(
 
     skip_if_not_init()
 
-    clearRev()
+    for(i in 1:15){
+      doRev(i)
+    }
 
-    nums <- as.integer(runif(10, 1, 100))
+    for(i in 1:3){
+      slice <- as.integer(runif(1, 0, 5))
+      oldlength <- length(getRevHistory())
+      clearRev(slice)
 
-    randVar <- function() paste(letters[as.integer(runif(10, 1, 26))], collapse = "")
-
-    vars <- to_vec(for(i in 1:10) randVar())
-
-    assignments <- to_vec(for(i in 1:10) vars[i] %+% " <- " %+% nums[i])
-
-    lapply(assignments, doRev)
-
-
-    expect_length(capture.output(getRevVars()), 10)
-
-    for(i in 1:10)
-      expect_equal(vars[i] %+% " <- " %+% nums[i], capture.output(getRevVars())[i])
+      expect_equal(as.integer(length(getRevHistory())), as.integer((oldlength - slice)))
+    }
 
     clearRev()
+
+    doRev('"random input"')
+
+    expect_message(clearRev(), "Successfully reset revEnv!")
+
+
   }
 )

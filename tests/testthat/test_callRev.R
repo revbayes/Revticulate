@@ -3,9 +3,11 @@ library(Revticulate)
 library(comprehenr)
 
 test_that(
-  "Ensure CallRev() coerces as expected",
+  "Ensure callRev() coerces as expected",
   {
-    initRev()
+    skip_on_cran()
+
+
 
     skip_if_not_init <- function(){
       if(exists("revEnv")){

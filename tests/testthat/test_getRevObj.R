@@ -4,7 +4,9 @@ library(Revticulate)
 test_that(
   "Testing getRevObj()",
   {
-    initRev()
+    skip_on_cran()
+
+
 
     skip_if_not_init <- function(){
       if(exists("revEnv")){
@@ -43,7 +45,7 @@ test_that(
     clearRev()
 
     for(i in 1:8){
-      doRev("testtree <- simTree(" %+% 2**as.integer(runif(1, 0, 8)) %+% ")")
+      doRev("testtree <- simTree(" %+% "2 ^ " %+% as.integer(runif(1, 1, 5)) %+% ")")
       expect_s3_class(getRevObj("testtree", coerce = TRUE), "phylo")
       clearRev()
     }
