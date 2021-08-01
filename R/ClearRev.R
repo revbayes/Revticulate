@@ -13,42 +13,30 @@
 #'@export
 clearRev <- function(n = NULL){
 
-  #prevent temp file list from getting too large
-  if(length(revEnv$temps) > 50){
-    revEnv$temps <- c()
-  }
-
   undoRev <- function(n){
-    revEnv$allCode <- revEnv$allCode[1:(length(revEnv$allCode)-n)]
-    cat(getRevHistory(), file = revEnv$revHistory, append = F)
 
-    revEnv$vars <- c()
+   if(n > length(getRevHistory())/2)
+      return(message("Cannot remove more items than exist in Rev History!"))
 
-    #update revEnv$vars
-    for(j in getRevHistory()) {
-      if(stringr::str_detect(j, "<-| = |:=|~"))
-        revEnv$vars <- c(revEnv$vars, j)
+
+   if (!is.null(n)){
+      file = getRevHistory()
+      remove = length(file)-(n*2)
+      file <- file[1:remove]
+      cat(file, file = Sys.getenv("RevHistory"), sep = "\n" ,append = F)
     }
 
-    return(cat(getRevHistory(), sep = "\n"))
+    message("Removed " %+% n %+% " item(s) from Rev History!")
+
+    return(cat("Current History: ", getRevHistory(), sep = "\n"))
   }
 
   if(!is.null(n)){
     return(undoRev(n))
   }
 
-  cat("", file = revEnv$revHistory, append = F)
+  cat("", file = Sys.getenv("RevHistory"), append = F)
 
-  if (is.null(n)){
-  remove(list = ls(envir = revEnv)[which(ls(envir = revEnv) != "RevPath" & ls(envir = revEnv) != "temps" & ls(envir = revEnv) != "revHistory")],
-         envir = revEnv)
-
-  message("Successfully reset revEnv!")
-  } else if (!is.null(n)){
-    file = readLines(revEnv$revHistory)
-    remove = length(file)-n
-    edited = file[-(remove : length(file))]
-    writeLines(revEnv$revHistory, edited)
-  }
+  message("Successfully reset Rev History!")
 
 }

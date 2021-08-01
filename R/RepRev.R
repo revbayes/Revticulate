@@ -6,10 +6,10 @@
 #'
 #'    clearRev() and getrRev() can be called from within session for ease of use.
 #'
-#'@param path Path to rb.exe. Defaults to revEnv$RevPath, so
-#'    InitRev() must typically be called first.
+#'@param path Path to rb.exe. Defaults to Sys.getenv(RevBayesPath), so
+#'    initRev() may need to be called first.
 #'
-#'@param useHistory Should rb input be saved to .Rhistory? If so, the up arrow key can be used
+#'@param useHistory Should rb input be saved to .Revhistory? If so, the up arrow key can be used
 #'    while repRev() is active to navigate previous inputs. Default is TRUE.
 #'
 #'@param viewCode If TRUE, String-formatted code in the temporary file used to interact with
@@ -21,9 +21,6 @@
 #'@param use_wd If T, temporary rb.exe session will use the same working directory as
 #'    the active R session. If F, it will use its default. Default is T.
 #'
-#'@param sleep Integer. If a number of seconds are provided, Sys.sleep() will run after user
-#'    rb.exe input is provided for the given number of seconds. This will not occur if sleep is
-#'    NULL. This parameter was mostly made for testing purposes. Default is NULL.
 #'
 #'@examples
 #' \dontrun{
@@ -40,7 +37,7 @@
 #'}
 #'@export
 #'
-repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce = F, use_wd = T, sleep = NULL)
+repRev <- function (path = Sys.getenv("RevBayesPath"), useHistory = T, viewCode = F, coerce = F, use_wd = T)
 {
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
@@ -85,23 +82,24 @@ repRev <- function (path = revEnv$RevPath, useHistory = T, viewCode = F, coerce 
       next
     }
 
+    if(str_detect(ginput, "clearRev\\(([0-9]+)\\)")){
+      clearRev(as.integer(str_extract(ginput, "[0-9]+")))
+      next
+    }
+
     if(ginput == "getRevVars()"){
-      print(getRevVars())
+      cat(getRevVars(), sep = "\n")
       next()
     }
 
     if(ginput == "getRevHistory()"){
-      print(getRevHistory())
+      cat(getRevHistory(), sep = "\n")
       next()
     }
 
 
-    else{print(doRev(ginput, viewCode = viewCode, coerce = coerce))}
+    else{cat(doRev(ginput, viewCode = viewCode, coerce = coerce))}
 
-
-    if(!is.null(sleep)){
-      Sys.sleep(sleep)
-    }
 
   }
 }

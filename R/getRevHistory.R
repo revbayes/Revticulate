@@ -8,7 +8,7 @@
 #'
 getRevHistory <- function(){
 
-  return(comprehenr::to_vec(for(i in revEnv$allCode) i))
+  return(readLines(Sys.getenv("RevHistory"), warn = FALSE))
 
 }
 
