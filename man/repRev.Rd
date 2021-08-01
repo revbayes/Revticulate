@@ -5,19 +5,18 @@
 \title{Continuous interactive session with rb.exe}
 \usage{
 repRev(
-  path = revEnv$RevPath,
+  path = Sys.getenv("RevBayesPath"),
   useHistory = T,
   viewCode = F,
   coerce = F,
-  use_wd = T,
-  sleep = NULL
+  use_wd = T
 )
 }
 \arguments{
-\item{path}{Path to rb.exe. Defaults to revEnv$RevPath, so
-InitRev() must typically be called first.}
+\item{path}{Path to rb.exe. Defaults to Sys.getenv(RevBayesPath), so
+initRev() may need to be called first.}
 
-\item{useHistory}{Should rb input be saved to .Rhistory? If so, the up arrow key can be used
+\item{useHistory}{Should rb input be saved to .Revhistory? If so, the up arrow key can be used
 while repRev() is active to navigate previous inputs. Default is TRUE.}
 
 \item{viewCode}{If TRUE, String-formatted code in the temporary file used to interact with
@@ -28,10 +27,6 @@ TRUE, repRev() will attempt to coerce output into a suitable R object. Default i
 
 \item{use_wd}{If T, temporary rb.exe session will use the same working directory as
 the active R session. If F, it will use its default. Default is T.}
-
-\item{sleep}{Integer. If a number of seconds are provided, Sys.sleep() will run after user
-rb.exe input is provided for the given number of seconds. This will not occur if sleep is
-NULL. This parameter was mostly made for testing purposes. Default is NULL.}
 }
 \description{
 Allows user to continuously call rb.exe without having to retype function.

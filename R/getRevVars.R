@@ -7,6 +7,8 @@
 #'
 getRevVars <- function(){
 
-  cat(stringr::str_squish(revEnv$vars), sep = "\n")
+  cat(
+    grep("<-| = |:=|~", readLines(Sys.getenv("RevHistory")), value = TRUE)
+    )
 
 }

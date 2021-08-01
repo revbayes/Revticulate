@@ -7,7 +7,7 @@
 callRev(
   ...,
   coerce = FALSE,
-  path = revEnv$RevPath,
+  path = Sys.getenv("RevBayesPath"),
   viewCode = F,
   use_wd = T,
   knit = F,
@@ -20,7 +20,7 @@ callRev(
 \item{coerce}{If TRUE, attempts to coerce output to an R object. If FALSE, output
 will remain in String format. Default is FALSE.}
 
-\item{path}{Path to rb.exe. Default is revEnv$RevPath, which is created with InitRev().}
+\item{path}{Path to rb.exe. Default is Sys.getEnv("RevBayesPath"), which is created with initRev().}
 
 \item{viewCode}{If TRUE, the input input and output in the temporary file used to interact
 with rb.exe will be displayed in the viewing pane. This option may be useful for

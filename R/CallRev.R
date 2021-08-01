@@ -6,7 +6,7 @@
 #' @param ... String input to send to RevBayes.
 #' @param coerce If TRUE, attempts to coerce output to an R object. If FALSE, output
 #'     will remain in String format. Default is FALSE.
-#' @param path Path to rb.exe. Default is revEnv$RevPath, which is created with InitRev().
+#' @param path Path to rb.exe. Default is Sys.getEnv("RevBayesPath"), which is created with initRev().
 #' @param viewCode If TRUE, the input input and output in the temporary file used to interact
 #'     with rb.exe will be displayed in the viewing pane. This option may be useful for
 #'     diagnosing errors.
@@ -29,9 +29,14 @@
 #'@export
 #'
 
-callRev <- function (..., coerce = FALSE, path = revEnv$RevPath, viewCode = F,
+callRev <- function (..., coerce = FALSE, path = Sys.getenv("RevBayesPath"), viewCode = F,
                      use_wd = T, knit = F, timeout = 5){
+
   argu <- c(...)
+
+  for(file in list.files(Sys.getenv("RevTemps"), full.names = T))
+    unlink(file)
+
   if (knit) {
     clumpBrackets <- function(stringVector) {
       openBraces <- stringr::str_count(stringVector, "\\{")
@@ -79,11 +84,7 @@ callRev <- function (..., coerce = FALSE, path = revEnv$RevPath, viewCode = F,
     argu <- clumpBrackets(c(...))
     argu <- stringr::str_squish(argu)
     argu <- argu[which(argu != "")]
-    revEnv$vars <- c(revEnv$vars, argu[stringr::str_which(argu,
-                                                          " = |:=|<-|~")])
-    copy <- c(revEnv$vars, "")
-    copyTwo <- c("", revEnv$vars)
-    revEnv$vars <- copy[which(copy != copyTwo)]
+
   }
   argu <- c(argu)
   if (use_wd == T) {
@@ -92,9 +93,11 @@ callRev <- function (..., coerce = FALSE, path = revEnv$RevPath, viewCode = F,
     argu <- c("setwd(\"" %+% wd %+% "\")", argu)
   }
 
-  tf <- tempfile(pattern = "file", tmpdir = paste(getwd(),
+  tf <- tempfile(pattern = "file", tmpdir = paste(Sys.getenv("RevTemps"),
                                                   "/", sep = ""), fileext = ".rev")
-  tf <- gsub(pattern = "\\\\", "//", tf)
+
+  tf <- suppressWarnings((gsub(pattern = "\\\\", "/", tf)))
+
   fopen <- file(tf)
   ret <- unlist(argu)
   writeLines(ret, fopen, sep = "\n")
@@ -109,10 +112,9 @@ callRev <- function (..., coerce = FALSE, path = revEnv$RevPath, viewCode = F,
     utils::capture.output(viewOut)
   }
   close(fopen)
-  revEnv$temps <- c(revEnv$temps, tf)
-  for (i in revEnv$temps) {
-    unlink(i)
-  }
+
+  for(file in list.files(Sys.getenv("RevTemps"), full.names = T))
+    unlink(file)
 
   if (coerce == FALSE) {
     return(out)

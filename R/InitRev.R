@@ -7,10 +7,8 @@
 #'    to provide the path to rb.exe once, and can change the path at any time by applying it again
 #'    in initRev().
 #'
-#'@param path String path to rb.exe
+#'@param searchPath Full path or directtory to search for the RevBayes executable.
 #'
-#'@param useHistory boolean Should the code from the previous Revticulate session be written into
-#'                  revEnv$allCode? Default is FALSE.
 #'
 #'@examples
 #' \dontrun{
@@ -18,20 +16,21 @@
 #'initRev(RevPath)
 #'}
 #'@export
-initRev <- function(path = NULL, useHistory = FALSE){
-  revEnv <<- new.env(parent = globalenv())
+initRev <- function(searchPath = "~"){
 
-  if(!is.null(path)){
-    revEnv$RevPath <- path
-    cat(path, file = list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt", fill = T)
+  path <- findRev(searchPath)[1]
+
+  if(file.exists(path) == TRUE){
+    Sys.setenv("RevBayesPath" = path)
   }
   else{
-    revEnv$RevPath <-  readLines(list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt")
+    stop("RevBayes executable not found!")
   }
 
-  revEnv$vars <- c()
-  revEnv$temps <- c()
-  revEnv$revHistory <- list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/Revhistory.Rhistory"
-  cat("", file = revEnv$revHistory , append = useHistory)
-  revEnv$allCode <- readLines(revEnv$revHistory)
+  Sys.setenv("RevHistory" = (list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/.Revhistory")[1])
+
+  Sys.setenv("RevTemps" = (list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/temps"))
+
+  if(!dir.exists(Sys.getenv("RevTemps")))
+    dir.create(Sys.getenv("RevTemps"), showWarnings = F)
 }
