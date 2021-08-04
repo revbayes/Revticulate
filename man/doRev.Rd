@@ -2,13 +2,12 @@
 % Please edit documentation in R/doRev.R
 \name{doRev}
 \alias{doRev}
-\title{Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
-refer to objects that have been defined in rb but not in the revEnv.}
+\title{Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.}
 \usage{
 doRev(input, viewCode = FALSE, coerce = FALSE, timeout = 5)
 }
 \arguments{
-\item{input}{Code snippet to be ran in rb.exe.}
+\item{input}{Code snippet to run in the RevBayes executable}
 
 \item{viewCode}{If true, Rev code input and output will be displayed in the viewing pane.}
 
@@ -17,6 +16,5 @@ doRev(input, viewCode = FALSE, coerce = FALSE, timeout = 5)
 \item{timeout}{Determines how long the system2() call should wait before timing out (seconds). Default is 5.}
 }
 \description{
-Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
-refer to objects that have been defined in rb but not in the revEnv.
+Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.
 }

@@ -7,5 +7,5 @@
 getRevHistory()
 }
 \description{
-Prints revEnv$allCode
+Returns a vector of the lines of code in the .Revhistory file
 }

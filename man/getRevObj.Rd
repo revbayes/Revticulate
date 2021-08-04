@@ -2,7 +2,7 @@
 % Please edit documentation in R/getRevObj.R
 \name{getRevObj}
 \alias{getRevObj}
-\title{Getter function to retrieve objects created in rb.exe.}
+\title{Getter function to retrieve objects created in RevBayes}
 \usage{
 getRevObj(name, coerce = FALSE)
 }
@@ -13,5 +13,5 @@ getRevObj(name, coerce = FALSE)
 a comparable R object. Default is FALSE.}
 }
 \description{
-Getter function to retrieve objects created in rb.exe.
+Getter function to retrieve objects created in RevBayes
 }

@@ -1,11 +1,10 @@
 Package: Revticulate
 Type: Package
-Title: Interaction With RevBayes in R
+Title: Interaction with RevBayes in R
 Version: 0.1.0
 Author: Caleb Charpentier
 Maintainer: Caleb Charpentier <caleb.charpentier@selu.edu>
-Description: Allows for interaction with rb.exe in R. Objects created in RevBayes are 
-    replicated as similar R formatted objects in an environment called revEnv.
+Description: Interaction with RevBayes via R. Objects created in RevBayes can be passed into the R environment, and many types can be converted into similar R objects.
 License: MIT + file LICENSE
 Depends:
   R (>= 2.10)

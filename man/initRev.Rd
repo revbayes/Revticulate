@@ -2,19 +2,15 @@
 % Please edit documentation in R/InitRev.R
 \name{initRev}
 \alias{initRev}
-\title{Create an environment for interacting with RevBayes}
+\title{Initializes external variables for interaction with RevBayes}
 \usage{
 initRev(searchPath = "~")
 }
 \arguments{
-\item{searchPath}{Full path or directtory to search for the RevBayes executable.}
+\item{searchPath}{Full path or directory to search for the RevBayes executable. Default is the user's root directory (~).}
 }
 \description{
-Creates an environment for interecting with rb.exe. This environment contains the variable
-RevPath for storing the path to rb.exe. If no path is provided, it will default to trying
-to use a path stored in Revticulate/RevPath.txt in .libPaths(). This means the user only has
-to provide the path to rb.exe once, and can change the path at any time by applying it again
-in initRev().
+Creates external variables for storing the paths to the RevBayes executable and .Revhistory files, as well as initiating a folder to store temp files for RevBayes interactions.
 }
 \examples{
 \dontrun{

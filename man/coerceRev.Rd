@@ -9,7 +9,7 @@ coerceRev(out)
 \arguments{
 \item{out}{String formatted representation of a Rev language object.
 coerceRev() will recognize the formatting of most commonly used
-Rev objects and will convert them into equivalent R objects. If coerceReV()
+Rev objects and will convert them into equivalent R objects. If coerceRev()
 does not recognize the objects formatting, the initial String representation
 will be returned.}
 }
@@ -18,7 +18,7 @@ out Coerce output of the RevBayes output string.
 }
 \description{
 Coerces string of RevBayes output into an equivalent R object.
-Uses the structure of the characters within the string to identify an appropiate R object type (a list, vector,
+Uses the structure of the characters within the string to identify an appropriate R object type (a list, vector,
 or even phylo tree) to coerce the string into.
 }
 \examples{

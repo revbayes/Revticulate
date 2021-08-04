@@ -1,4 +1,4 @@
-#'Getter function to retrieve objects created in rb.exe.
+#'Getter function to retrieve objects created in RevBayes
 #'
 #'@param name String. Name of object to retrieve
 #'
@@ -10,5 +10,5 @@
 #'
 
 getRevObj <- function(name, coerce = FALSE){
-  return(doRev(name, viewCode = FALSE, coerce = coerce))
+  return(doRev(str_squish(name), viewCode = FALSE, coerce = coerce))
 }

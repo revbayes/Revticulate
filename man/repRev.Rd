@@ -2,39 +2,29 @@
 % Please edit documentation in R/RepRev.R
 \name{repRev}
 \alias{repRev}
-\title{Continuous interactive session with rb.exe}
+\title{Continuous interactive session with RevBayes}
 \usage{
-repRev(
-  path = Sys.getenv("RevBayesPath"),
-  useHistory = T,
-  viewCode = F,
-  coerce = F,
-  use_wd = T
-)
+repRev(path = Sys.getenv("RevBayesPath"), viewCode = F, coerce = F, use_wd = T)
 }
 \arguments{
-\item{path}{Path to rb.exe. Defaults to Sys.getenv(RevBayesPath), so
-initRev() may need to be called first.}
+\item{path}{Path to the RevBayes executable. Defaults to Sys.getenv("RevBayesPath"), so
+initRev() should be called first.}
 
-\item{useHistory}{Should rb input be saved to .Revhistory? If so, the up arrow key can be used
-while repRev() is active to navigate previous inputs. Default is TRUE.}
+\item{viewCode}{If TRUE, code from the temporary file used to interact with
+RevBayes will be displayed in the viewing pane. Default is FALSE.}
 
-\item{viewCode}{If TRUE, String-formatted code in the temporary file used to interact with
-rb.exe will be displayed in the viewing pane. Default is FALSE.}
+\item{coerce}{If FALSE, output from RevBayes will be returned in String format. If
+TRUE, repRev() will attempt to coerce output into a suitable R object. Default is FALSE.}
 
-\item{coerce}{If FALSE, output from rb.exe will be returned in String format. If
-TRUE, repRev() will attempt to coerce output into a suitable R object. Default is TRUE.}
-
-\item{use_wd}{If T, temporary rb.exe session will use the same working directory as
-the active R session. If F, it will use its default. Default is T.}
+\item{use_wd}{If TRUE, the simulated Revbayes session will use the same working directory as
+the active R session. If FALSE, it will use its default. Default is T.}
 }
 \description{
-Allows user to continuously call rb.exe without having to retype function.
+Simulates a continuous, interactive session with RevBayes. While this session is active, all code will be interpreted as Rev code, and attempting to run R code may result in error.
 }
 \details{
-To exit session, type quit().
-
-clearRev() and getrRev() can be called from within session for ease of use.
+The exit the session, type 'quit()' or hit the 'esc' key.
+clearRev(), getRevVars(), and getRevHistory can be called from within the session for user convenience
 }
 \examples{
 \dontrun{
