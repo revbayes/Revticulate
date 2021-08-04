@@ -1,10 +1,10 @@
 library(Revticulate)
 library(comprehenr)
+library(knitr)
 
 test_that(
   "Testing knitRev()",
   {
-    skip_on_cran()
 
     knitRev()
 

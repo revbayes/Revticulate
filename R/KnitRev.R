@@ -1,9 +1,7 @@
 
 #' Knitr engine for RevBayes
 #'
-#'Rev code is ran directly in knitr chunks, and using the wrapper functions isn't necessary.
-#'Any created variables will be put in RevEnv, and defined variables can be used across multiple
-#'chunks.
+#' Rev code can be ran directly in knitr chunks, without the use of the functions doRev() or repRev(). History is accessed with the .Revhistory file and persists between chunks.
 #'
 #'
 #'@export

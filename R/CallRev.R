@@ -1,17 +1,17 @@
-#' Submit input to rb.exe and return output
+#' Submit input to RevBayes and return output
 #'
-#' Submits input to rb.exe and returns output to R in string format. If coerce = T, the function
-#'    will try to coerce output to a similar R object.
+#' Submits input to the RevBayes executable and returns output to R in string format. If coerce = T, the function coerRev()
+#'    will attempt to coerce output to a similar R object.
 #'
 #' @param ... String input to send to RevBayes.
 #' @param coerce If TRUE, attempts to coerce output to an R object. If FALSE, output
 #'     will remain in String format. Default is FALSE.
-#' @param path Path to rb.exe. Default is Sys.getEnv("RevBayesPath"), which is created with initRev().
-#' @param viewCode If TRUE, the input input and output in the temporary file used to interact
-#'     with rb.exe will be displayed in the viewing pane. This option may be useful for
-#'     diagnosing errors.
+#' @param path Path to the RevBayes executable. Default is Sys.getEnv("RevBayesPath"), which is created with initRev().
+#' @param viewCode If TRUE, the input and output in the temporary file used to interact
+#'     with RevBayes will be displayed in the viewing pane. This option may be useful for
+#'     diagnosing code errors.
 #' @param use_wd If TRUE, sets the working directory in the temporary RevBayes session
-#'     to the working directory of the active R session.
+#'     to the working directory of the active R session. Default is TRUE.
 #' @param knit Argument used to manage output formatting for knitRev(). This argument
 #'             should generally be ignored by the user.
 #' @param timeout Determines how long the system2() call should wait before timing out (seconds). Default is 5.

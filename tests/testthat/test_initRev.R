@@ -5,19 +5,19 @@ library(comprehenr)
 test_that(
   "Testing initRev()",
   {
-    skip_on_cran()
+    #skip_on_cran()
 
     clearRev()
 
     initRev()
 
-    expect_length(revEnv$allCode, 0)
+    expect_length(getRevHistory(), 0)
 
-    expect_true(str_ends(revEnv$revHistory, "Revticulate/Revhistory.Rhistory"))
+    expect_true(str_ends(Sys.getenv("RevHistory"), "Revticulate/.Revhistory"))
 
     doRev('"This is a test string"')
 
-    initRev(useHistory = TRUE)
+    initRev()
 
     expect_equal(getRevHistory()[1], '\"This is a test string\"')
 

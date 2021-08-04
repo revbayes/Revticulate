@@ -1,6 +1,6 @@
 #'Get full history of rb code from RevEnv
 #'
-#'Prints revEnv$allCode
+#'Returns a vector of the lines of code in the .Revhistory file
 #'
 #'@import comprehenr
 #'
@@ -8,8 +8,9 @@
 #'
 getRevHistory <- function(){
 
-  return(readLines(Sys.getenv("RevHistory"), warn = FALSE))
+  lines <- readLines(Sys.getenv("RevHistory"), warn = FALSE)
 
+  return(lines)
 }
 
 

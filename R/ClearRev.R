@@ -1,9 +1,9 @@
 
-#'Empties revEnv
+#'Removes lines from RevBayes history
 #'
-#'Clears all code, or a user-specified amount of code, and vars from revEnv.
+#'Removes lines of code from the .Revhistory file used for managing RevBayes interactions.
 #'
-#'@param n How many lines to remove. Should be an integer
+#'@param n How many lines to remove. If n = NULL, all lines are removed.
 #'
 #'@examples
 #' \dontrun{
@@ -15,13 +15,13 @@ clearRev <- function(n = NULL){
 
   undoRev <- function(n){
 
-   if(n > length(getRevHistory())/2)
+   if(n > length(getRevHistory()))
       return(message("Cannot remove more items than exist in Rev History!"))
 
 
    if (!is.null(n)){
       file = getRevHistory()
-      remove = length(file)-(n*2)
+      remove = length(file)-n
       file <- file[1:remove]
       cat(file, file = Sys.getenv("RevHistory"), sep = "\n" ,append = F)
     }

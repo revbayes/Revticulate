@@ -2,15 +2,15 @@
 % Please edit documentation in R/ClearRev.R
 \name{clearRev}
 \alias{clearRev}
-\title{Empties revEnv}
+\title{Removes lines from RevBayes history}
 \usage{
 clearRev(n = NULL)
 }
 \arguments{
-\item{n}{How many lines to remove. Should be an integer}
+\item{n}{How many lines to remove. If n = NULL, all lines are removed.}
 }
 \description{
-Clears all code, or a user-specified amount of code, and vars from revEnv.
+Removes lines of code from the .Revhistory file used for managing RevBayes interactions.
 }
 \examples{
 \dontrun{
