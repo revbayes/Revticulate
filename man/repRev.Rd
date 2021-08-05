@@ -23,6 +23,8 @@ the active R session. If FALSE, it will use its default. Default is T.}
 Simulates a continuous, interactive session with RevBayes. While this session is active, all code will be interpreted as Rev code, and attempting to run R code may result in error.
 }
 \details{
+By default, the interactive session uses the present R working directory as the RevBayes working directory. This behavior can be turned off with use_wd = FALSE
+
 The exit the session, type 'quit()' or hit the 'esc' key.
 clearRev(), getRevVars(), and getRevHistory can be called from within the session for user convenience
 }
