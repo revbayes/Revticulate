@@ -2,6 +2,8 @@
 #'
 #'    Simulates a continuous, interactive session with RevBayes. While this session is active, all code will be interpreted as Rev code, and attempting to run R code may result in error.
 #'
+#'    By default, the interactive session uses the present R working directory as the RevBayes working directory. This behavior can be turned off with use_wd = FALSE
+#'
 #'    The exit the session, type 'quit()' or hit the 'esc' key.
 #
 #'    clearRev(), getRevVars(), and getRevHistory can be called from within the session for user convenience
@@ -89,13 +91,20 @@ repRev <- function (path = Sys.getenv("RevBayesPath"), viewCode = F, coerce = F,
       next()
     }
 
+    if(str_detect(ginput, pattern = "^getRevVars\\(\".+\"\\)$")){
+      args <- str_remove_all(str_extract(ginput, "\\(.+\\)"), "\\(|\\)|\"")
+      cat(getRevVars(args))
+      next()
+    }
+
+
     if(ginput == "getRevHistory()"){
       cat(getRevHistory(), sep = "\n")
       next()
     }
 
 
-    else{cat(doRev(ginput, viewCode = viewCode, coerce = coerce))}
+    else{cat(doRev(ginput, viewCode = viewCode, coerce = coerce), sep = "\n\n")}
 
 
   }

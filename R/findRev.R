@@ -18,6 +18,12 @@
 #'
 findRev <- function(parentDirectory = "~") {
 
+  if(str_ends(parentDirectory, "rb|rb.exe"))
+    if(!file.exists(parentDirectory))
+      stop("No existing RevBayes version can be found in the path provided!")
+    else
+      return(parentDirectory)
+
   if(parentDirectory == "~"){
     if(Sys.info()["sysname"] == "Windows"){
     PATH <- unlist(str_split(Sys.getenv("PATH"), pattern = ";"))
@@ -43,6 +49,8 @@ findRev <- function(parentDirectory = "~") {
     getPaths <- grep(list.files(parentDirectory, recursive = T, full.names = T), pattern = "/rb$|/rb.exe$", value = T)
   }
 
+  if(length(getPaths) == 0)
+    stop("No existing RevBayes version can be found in the path provided!")
 
   return(getPaths)
 }
