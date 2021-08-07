@@ -14,7 +14,7 @@ does not recognize the objects formatting, the initial String representation
 will be returned.}
 }
 \value{
-out Coerce output of the RevBayes output string.
+out: Type varies depending on Rev object type. R object-formatted output coerced from a RevBayes output string.
 }
 \description{
 Coerces string of RevBayes output into an equivalent R object.

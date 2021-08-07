@@ -9,6 +9,11 @@ clearRev(n = NULL)
 \arguments{
 \item{n}{How many lines to remove. If n = NULL, all lines are removed.}
 }
+\value{
+pseudoError: NULL. Message warning user that they attempted to erase more items from the Rev history than exist. message() is used instead of stop() so that clearRev() functions in repRev().
+
+undoRev(n): NULL. Removes n number of lines from .Revhistory and cats the remaining history to the screen.
+}
 \description{
 Removes lines of code from the .Revhistory file used for managing RevBayes interactions.
 }
@@ -17,4 +22,5 @@ Removes lines of code from the .Revhistory file used for managing RevBayes inter
 clearRev() #Clear all objects from RevBayes
 clearRev(n = 1) # Clear the last line input to RevBayes
 }
+
 }

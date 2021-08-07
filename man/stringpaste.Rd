@@ -11,6 +11,9 @@ a \%+\% b
 
 \item{b}{The second String}
 }
+\value{
+character formatted concatenation of both input strings.
+}
 \description{
 Rapid string parsing
 }

@@ -5,7 +5,6 @@ library(comprehenr)
 test_that(
   "Testing getRevVars()",
   {
-
     clearRev()
 
     nums <- as.integer(runif(10, 1, 100))

@@ -5,6 +5,7 @@ library(comprehenr)
 test_that(
   "Ensure callRev() coerces as expected",
   {
+    clearRev()
 
     expect_equal(to_vec(for(i in 1:10) as.character(i**2)) , to_vec(for(i in 1:10) stringr::str_squish(callRev(i %+% "^ 2"))))
 
@@ -19,6 +20,7 @@ test_that(
     testthat::expect_equal(Revticulate::callRev("simTree(2)"), "   (Taxon_1[&index=2]:1.000000,Taxon_2[&index=1]:1.000000)[&index=3]:0.000000;")
 
 
+    clearRev()
     }
 )
 

@@ -4,10 +4,15 @@
 \alias{initRev}
 \title{Initializes external variables for interaction with RevBayes}
 \usage{
-initRev(searchPath = "~")
+initRev(searchPath = "~", infoDir = getwd())
 }
 \arguments{
 \item{searchPath}{Full path or directory to search for the RevBayes executable. Default is the user's root directory (~).}
+
+\item{infoDir}{Path to parent directory of the RevInfo folder used for managing RevBayes interactions. Default is the user's working directory. If a RevInfo folder already exists in this directory, history stored in the existing folder will be used. Else, a new folder will be created.}
+}
+\value{
+No return. Initiates external environmental variables and directory for mediating interaction between R and RevBayes.
 }
 \description{
 Creates external variables for storing the paths to the RevBayes executable and .Revhistory files, as well as initiating a folder to store temp files for RevBayes interactions.
@@ -17,4 +22,5 @@ Creates external variables for storing the paths to the RevBayes executable and 
 RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
 initRev(RevPath)
 }
+
 }

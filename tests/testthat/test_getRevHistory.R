@@ -4,9 +4,9 @@ library(Revticulate)
 test_that(
   "Testing getRevHistory()",
   {
-
     clearRev()
-    expect_equal(getRevHistory(), character(0))
+
+     expect_equal(getRevHistory(), character(0))
 
     times <- as.integer(runif(1)*15)
 
@@ -16,6 +16,6 @@ test_that(
 
     expect_length(getRevHistory(), times)
 
-
+    clearRev()
   }
 )
