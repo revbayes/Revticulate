@@ -5,14 +5,18 @@
 #'
 #'@param searchPath Full path or directory to search for the RevBayes executable. Default is the user's root directory (~).
 #'
+#'@param infoDir Path to parent directory of the RevInfo folder used for managing RevBayes interactions. Default is the user's working directory. If a RevInfo folder already exists in this directory, history stored in the existing folder will be used. Else, a new folder will be created.
 #'
 #'@examples
 #' \dontrun{
 #'RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
 #'initRev(RevPath)
 #'}
+#'
+#'@return No return. Initiates external environmental variables and directory for mediating interaction between R and RevBayes.
+#'
 #'@export
-initRev <- function(searchPath = "~"){
+initRev <- function(searchPath = "~", infoDir = getwd()){
 
   path <- findRev(searchPath)
 
@@ -23,15 +27,18 @@ initRev <- function(searchPath = "~"){
     stop("RevBayes executable not found!")
   }
 
-  Sys.setenv("RevHistory" = (list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/.Revhistory")[1])
+  Sys.setenv("RevHistory" = (infoDir %+% "/RevInfo/.Revhistory"))
 
-  Sys.setenv("RevTemps" = (list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/temps"))
+  Sys.setenv("RevTemps" = (infoDir %+% "/RevInfo/temps"))
+
+  if(!dir.exists(infoDir %+% "/RevInfo"))
+    dir.create(infoDir %+% "/RevInfo", showWarnings = FALSE)
 
   if(!file.exists(Sys.getenv("RevHistory")))
-    file.create(Sys.getenv("RevHistory"), showWarnings = F)
+    file.create(Sys.getenv("RevHistory"), showWarnings = FALSE)
 
   if(!dir.exists(Sys.getenv("RevTemps")))
-    dir.create(Sys.getenv("RevTemps"), showWarnings = F)
+    dir.create(Sys.getenv("RevTemps"), showWarnings = FALSE)
 
 
 }

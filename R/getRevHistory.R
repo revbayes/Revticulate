@@ -1,8 +1,10 @@
-#'Get full history of rb code from RevEnv
+#'Get full history of RevBayes code from RevEnv
 #'
 #'Returns a vector of the lines of code in the .Revhistory file
 #'
 #'@import comprehenr
+#'
+#'@return lines: character. Lines read from .Revhistory file.
 #'
 #'@export
 #'

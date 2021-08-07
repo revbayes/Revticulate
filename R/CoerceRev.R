@@ -10,7 +10,7 @@
 #'            does not recognize the objects formatting, the initial String representation
 #'            will be returned.
 #'
-#' @return out Coerce output of the RevBayes output string.
+#' @return out: Type varies depending on Rev object type. R object-formatted output coerced from a RevBayes output string.
 #'
 #' @examples
 #' \dontrun{
@@ -94,7 +94,7 @@ coerceRev <- function(out){
   }
 
   coerce_phylo <- function(out){
-    out = grep(out, pattern = "\\[&index=", value = T)
+    out = grep(out, pattern = "\\[&index=", value = TRUE)
     out = ape::read.tree(text = out)
 
     return(out)
@@ -189,7 +189,7 @@ coerceRev <- function(out){
 
   #coerce trees
   if(test_phylo(out) == TRUE){
-    out <- grep("\\[&index=", out, value = T)
+    out <- grep("\\[&index=", out, value = TRUE)
     out <- coerce_phylo(out)
     return(out)
   }

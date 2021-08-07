@@ -3,6 +3,7 @@
 #'
 #' Rev code can be ran directly in knitr chunks, without the use of the functions doRev() or repRev(). History is accessed with the .Revhistory file and persists between chunks.
 #'
+#' @return No return. Initiates knitr engine for RevBayes.
 #'
 #'@export
 knitRev <- function(){

@@ -8,9 +8,9 @@ callRev(
   ...,
   coerce = FALSE,
   path = Sys.getenv("RevBayesPath"),
-  viewCode = F,
-  use_wd = T,
-  knit = F,
+  viewCode = FALSE,
+  use_wd = TRUE,
+  knit = FALSE,
   timeout = 5
 )
 }
@@ -35,16 +35,17 @@ should generally be ignored by the user.}
 \item{timeout}{Determines how long the system2() call should wait before timing out (seconds). Default is 5.}
 }
 \value{
-out Output from RevBayes. If coerce = FALSE, out will be in String format.
-If coerce = TRUE, the function will attempt to coerce the String to an R object.
+out: character. String formatted output from RevBayes
+
+coercedOut: type varies. R object formatted output from RevBayes. Object type varies according to Rev output (Ex: numeric vector or ape::Phylo object)
 }
 \description{
-Submits input to the RevBayes executable and returns output to R in string format. If coerce = T, the function coerRev()
+Submits input to the RevBayes executable and returns output to R in string format. If coerce = TRUE, the function coerRev()
 will attempt to coerce output to a similar R object.
 }
 \examples{
 \dontrun{
 callRev("2^3")
-callRev("2^3", coerce = FALSE, viewcode = T)
+callRev("2^3", coerce = FALSE, viewcode = TRUE)
 }
 }

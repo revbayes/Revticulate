@@ -5,6 +5,7 @@ library(comprehenr)
 test_that(
   "Testing ClearRev()",
   {
+    clearRev()
 
     for(i in 1:30){
       doRev(i)
@@ -24,6 +25,6 @@ test_that(
 
     expect_message(clearRev(), "Successfully reset Rev History!")
 
-
+    clearRev()
   }
 )

@@ -4,7 +4,12 @@
 \alias{repRev}
 \title{Continuous interactive session with RevBayes}
 \usage{
-repRev(path = Sys.getenv("RevBayesPath"), viewCode = F, coerce = F, use_wd = T)
+repRev(
+  path = Sys.getenv("RevBayesPath"),
+  viewCode = FALSE,
+  coerce = FALSE,
+  use_wd = TRUE
+)
 }
 \arguments{
 \item{path}{Path to the RevBayes executable. Defaults to Sys.getenv("RevBayesPath"), so
@@ -13,11 +18,14 @@ initRev() should be called first.}
 \item{viewCode}{If TRUE, code from the temporary file used to interact with
 RevBayes will be displayed in the viewing pane. Default is FALSE.}
 
-\item{coerce}{If FALSE, output from RevBayes will be returned in String format. If
+\item{coerce}{If FALSE, output from RevBayes will be printed to the console in character format. If
 TRUE, repRev() will attempt to coerce output into a suitable R object. Default is FALSE.}
 
 \item{use_wd}{If TRUE, the simulated Revbayes session will use the same working directory as
-the active R session. If FALSE, it will use its default. Default is T.}
+the active R session. If FALSE, it will use its default. Default is TRUE.}
+}
+\value{
+No return. Acts as an interactive session with the RevBayes. RevBayes output is printed to the console via cat(), and Rev variables can be referenced externally via doRev() and getRevObj().
 }
 \description{
 Simulates a continuous, interactive session with RevBayes. While this session is active, all code will be interpreted as Rev code, and attempting to run R code may result in error.

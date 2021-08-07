@@ -2,11 +2,13 @@
 #'
 #'@param input Code snippet to run in the RevBayes executable
 #'
-#'@param viewCode If true, Rev code input and output will be displayed in the viewing pane.
+#'@param viewCode If TRUE, Rev code input and output will be displayed in the viewing pane.
 #'
-#'@param coerce If true, the output from RevBayes will be coerced into R format with coerceRev()
+#'@param coerce If TRUE, the output from RevBayes will be coerced into R format with coerceRev()
 #'
 #'@param timeout Determines how long the system2() call should wait before timing out (seconds). Default is 5.
+#'
+#'@return now: type varies. If coerce = TRUE, coerceRev() will attempt to convert RevBayes output into an equivalent R object. Else, return type is character.
 #'
 #'@export
 #'
@@ -23,10 +25,10 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE, timeout = 5){
   allCode <- getRevHistory()
 
   try({
-    first <- callRev(getRevHistory(), coerce = F, timeout = timeout)
+    first <- callRev(getRevHistory(), coerce = FALSE, timeout = timeout)
     cat(input, file = Sys.getenv("RevHistory"), append = TRUE, sep = "\n")
-    last <- callRev(getRevHistory(), coerce = F, viewCode = viewCode, timeout = timeout)
-  }, silent = T)
+    last <- callRev(getRevHistory(), coerce = FALSE, viewCode = viewCode, timeout = timeout)
+  }, silent = TRUE)
   if(length(first) != 0)
     now <- last[-c(1:length(first))]
   else now <- last
@@ -35,15 +37,17 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE, timeout = 5){
     now <- ""
 
   if (any(str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
-    cat(allCode, file = Sys.getenv("RevHistory"), append = F, sep = "\n")
+    cat(allCode, file = Sys.getenv("RevHistory"), append = FALSE, sep = "\n")
     if(coerce){
       warning(stringr::str_squish(now))
       return("")
     }
   }
 
-  if(coerce)
-    return(coerceRev(now))
+  if(coerce){
+    now <- coerceRev(now)
+    return(now)
+  }
 
   now <- stringr::str_squish(now)
 

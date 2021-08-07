@@ -14,12 +14,13 @@
 #'@param viewCode If TRUE, code from the temporary file used to interact with
 #'    RevBayes will be displayed in the viewing pane. Default is FALSE.
 #'
-#'@param coerce If FALSE, output from RevBayes will be returned in String format. If
+#'@param coerce If FALSE, output from RevBayes will be printed to the console in character format. If
 #'    TRUE, repRev() will attempt to coerce output into a suitable R object. Default is FALSE.
 #'
 #'@param use_wd If TRUE, the simulated Revbayes session will use the same working directory as
-#'    the active R session. If FALSE, it will use its default. Default is T.
+#'    the active R session. If FALSE, it will use its default. Default is TRUE.
 #'
+#'@return No return. Acts as an interactive session with the RevBayes. RevBayes output is printed to the console via cat(), and Rev variables can be referenced externally via doRev() and getRevObj().
 #'
 #'@examples
 #' \dontrun{
@@ -36,7 +37,7 @@
 #'}
 #'@export
 #'
-repRev <- function (path = Sys.getenv("RevBayesPath"), viewCode = F, coerce = F, use_wd = T)
+repRev <- function (path = Sys.getenv("RevBayesPath"), viewCode = FALSE, coerce = FALSE, use_wd = TRUE)
 {
   while (TRUE) {
     ginput <- readline(prompt = "rb>>>")
@@ -70,8 +71,6 @@ repRev <- function (path = Sys.getenv("RevBayesPath"), viewCode = F, coerce = F,
 
     }
 
-
-
     if (ginput == "quit()") {
       break
     }
@@ -93,7 +92,7 @@ repRev <- function (path = Sys.getenv("RevBayesPath"), viewCode = F, coerce = F,
 
     if(str_detect(ginput, pattern = "^getRevVars\\(\".+\"\\)$")){
       args <- str_remove_all(str_extract(ginput, "\\(.+\\)"), "\\(|\\)|\"")
-      cat(getRevVars(args))
+      cat(getRevVars(args), sep = "\n")
       next()
     }
 

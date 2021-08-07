@@ -9,6 +9,9 @@ findRev(parentDirectory = "~")
 \arguments{
 \item{parentDirectory}{Parent directory to recursively search for the RevBayes executable. Default is the user's root directory ('~'). Because many sub-directories likely exist within the root directory, the search time will greatly decrease by providing a lower level directory path to the RevBayes executable.}
 }
+\value{
+getPaths: character. Located path to RevBayes executable.
+}
 \description{
 Recursively searches the users machine for the RevBayes executable and returns a vector of possible paths
 }

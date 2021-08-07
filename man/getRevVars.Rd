@@ -9,6 +9,11 @@ getRevVars(varName = NULL)
 \arguments{
 \item{varName}{Only returns lines where specific variable names are defined. If NULL, all lines are returned}
 }
+\value{
+varList: character. Vector of lines from .Revhistory containing assignment variables.
+
+singleVar: character. Vector of lines from .Revhistory containing an assignment variable for a specific variable name.
+}
 \description{
 Returns vector of lines in .Revhistory containing variable definitions
 }
