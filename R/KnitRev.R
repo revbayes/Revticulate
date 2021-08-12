@@ -6,7 +6,12 @@
 #' @return No return. Initiates knitr engine for RevBayes.
 #'
 #'@export
-knitRev <- function(){
+knitRev <- function(clear = FALSE){
+
+  if(clear == TRUE){
+    clearRev()
+  }
+
   knitr::knit_engines$set(rb = function(options) {
 
     output <- doRev(options$code)
