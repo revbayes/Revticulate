@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -94,10 +94,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/BasicTutorial.html">Using Rev Knitr</a>
+      <a href="../articles/BasicTutorial.html">Usage of Revticulate</a>
     </li>
     <li>
-      <a href="../articles/SampleKnitrDocument.html">Discrete morphology - Multistate Characters</a>
+      <a href="../articles/SampleKnitrDocument.html">Discrete morphology example</a>
     </li>
   </ul>
 </li>
@@ -145,13 +145,13 @@
         <td>
           <p><code><a href="callRev.html">callRev()</a></code> </p>
         </td>
-        <td><p>Submit input to rb.exe and return output</p></td>
+        <td><p>Submit input to RevBayes and return output</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="clearRev.html">clearRev()</a></code> </p>
         </td>
-        <td><p>Empties revEnv</p></td>
+        <td><p>Removes lines from RevBayes history</p></td>
       </tr><tr>
         
         <td>
@@ -163,20 +163,25 @@
         <td>
           <p><code><a href="doRev.html">doRev()</a></code> </p>
         </td>
-        <td><p>Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
-refer to objects that have been defined in rb but not in the revEnv.</p></td>
+        <td><p>Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="findRev.html">findRev()</a></code> </p>
+        </td>
+        <td><p>Searches for the RevBayes executable</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="getRevHistory.html">getRevHistory()</a></code> </p>
         </td>
-        <td><p>Get full history of rb code from RevEnv</p></td>
+        <td><p>Get full history of RevBayes code from RevEnv</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="getRevObj.html">getRevObj()</a></code> </p>
         </td>
-        <td><p>Getter function to retrieve objects created in rb.exe.</p></td>
+        <td><p>Getter function to retrieve objects created in RevBayes</p></td>
       </tr><tr>
         
         <td>
@@ -188,7 +193,7 @@ refer to objects that have been defined in rb but not in the revEnv.</p></td>
         <td>
           <p><code><a href="initRev.html">initRev()</a></code> </p>
         </td>
-        <td><p>Create an environment for interacting with RevBayes</p></td>
+        <td><p>Initializes external variables for interaction with RevBayes</p></td>
       </tr><tr>
         
         <td>
@@ -200,19 +205,13 @@ refer to objects that have been defined in rb but not in the revEnv.</p></td>
         <td>
           <p><code><a href="repRev.html">repRev()</a></code> </p>
         </td>
-        <td><p>Continuous interactive session with rb.exe</p></td>
+        <td><p>Continuous interactive session with RevBayes</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="stringpaste.html">`%+%`</a></code> </p>
         </td>
         <td><p>Operator for concatenation.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="undoRev.html">undoRev()</a></code> </p>
-        </td>
-        <td><p>Undo n number of previous Rev commands.</p></td>
       </tr>
     </tbody>
     </table>
@@ -228,7 +227,7 @@ refer to objects that have been defined in rb but not in the revEnv.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Caleb Charpentier.</p>
+  <p>Developed by Caleb Charpentier, April Wright.</p>
 </div>
 
 <div class="pkgdown">

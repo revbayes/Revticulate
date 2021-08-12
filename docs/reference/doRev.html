@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
-refer to objects that have been defined in rb but not in the revEnv. — doRev • Revticulate</title>
+<title>Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions. — doRev • Revticulate</title>
 
 
 <!-- jquery -->
@@ -40,10 +39,8 @@ refer to objects that have been defined in rb but not in the revEnv. — doRev �
 
 
 
-<meta property="og:title" content="Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
-refer to objects that have been defined in rb but not in the revEnv. — doRev" />
-<meta property="og:description" content="Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
-refer to objects that have been defined in rb but not in the revEnv." />
+<meta property="og:title" content="Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions. — doRev" />
+<meta property="og:description" content="Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions." />
 
 
 
@@ -83,7 +80,7 @@ refer to objects that have been defined in rb but not in the revEnv." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -98,10 +95,10 @@ refer to objects that have been defined in rb but not in the revEnv." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/BasicTutorial.html">Using Rev Knitr</a>
+      <a href="../articles/BasicTutorial.html">Usage of Revticulate</a>
     </li>
     <li>
-      <a href="../articles/SampleKnitrDocument.html">Discrete morphology - Multistate Characters</a>
+      <a href="../articles/SampleKnitrDocument.html">Discrete morphology example</a>
     </li>
   </ul>
 </li>
@@ -121,36 +118,41 @@ refer to objects that have been defined in rb but not in the revEnv." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
-refer to objects that have been defined in rb but not in the revEnv.</h1>
+    <h1>Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.</h1>
     
     <div class="hidden name"><code>doRev.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
-refer to objects that have been defined in rb but not in the revEnv.</p>
+    <p>Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>doRev</span><span class='op'>(</span><span class='va'>input</span>, viewCode <span class='op'>=</span> <span class='cn'>FALSE</span>, coerce <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>doRev</span><span class='op'>(</span><span class='va'>input</span>, viewCode <span class='op'>=</span> <span class='cn'>FALSE</span>, coerce <span class='op'>=</span> <span class='cn'>FALSE</span>, timeout <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>input</th>
-      <td><p>Code snippet to be ran in rb.exe.</p></td>
+      <td><p>Code snippet to run in the RevBayes executable</p></td>
     </tr>
     <tr>
       <th>viewCode</th>
-      <td><p>If true, Rev code input and output will be displayed in the viewing pane.</p></td>
+      <td><p>If TRUE, Rev code input and output will be displayed in the viewing pane.</p></td>
     </tr>
     <tr>
       <th>coerce</th>
-      <td><p>If true, the output from RevBayes will be coerced into R format with coerceRev()</p></td>
+      <td><p>If TRUE, the output from RevBayes will be coerced into R format with coerceRev()</p></td>
+    </tr>
+    <tr>
+      <th>timeout</th>
+      <td><p>Determines how long the system2() call should wait before timing out (seconds). Default is 5.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>now: type varies. If coerce = TRUE, coerceRev() will attempt to convert RevBayes output into an equivalent R object. Else, return type is character.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -163,7 +165,7 @@ refer to objects that have been defined in rb but not in the revEnv.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Caleb Charpentier.</p>
+  <p>Developed by Caleb Charpentier, April Wright.</p>
 </div>
 
 <div class="pkgdown">

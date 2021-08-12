@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Empties revEnv — clearRev • Revticulate</title>
+<title>Removes lines from RevBayes history — clearRev • Revticulate</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Empties revEnv — clearRev" />
-<meta property="og:description" content="Clears all code, or a user-specified amount of code, and vars from revEnv." />
+<meta property="og:title" content="Removes lines from RevBayes history — clearRev" />
+<meta property="og:description" content="Removes lines of code from the .Revhistory file used for managing RevBayes interactions." />
 
 
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,10 +95,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/BasicTutorial.html">Using Rev Knitr</a>
+      <a href="../articles/BasicTutorial.html">Usage of Revticulate</a>
     </li>
     <li>
-      <a href="../articles/SampleKnitrDocument.html">Discrete morphology - Multistate Characters</a>
+      <a href="../articles/SampleKnitrDocument.html">Discrete morphology example</a>
     </li>
   </ul>
 </li>
@@ -118,13 +118,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Empties revEnv</h1>
+    <h1>Removes lines from RevBayes history</h1>
     
     <div class="hidden name"><code>clearRev.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Clears all code, or a user-specified amount of code, and vars from revEnv.</p>
+    <p>Removes lines of code from the .Revhistory file used for managing RevBayes interactions.</p>
     </div>
 
     <pre class="usage"><span class='fu'>clearRev</span><span class='op'>(</span>n <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
@@ -134,16 +134,21 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>n</th>
-      <td><p>How many lines to remove. Should be an integer</p></td>
+      <td><p>How many lines to remove. If n = NULL, all lines are removed.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>pseudoError: NULL. Message warning user that they attempted to erase more items from the Rev history than exist. message() is used instead of stop() so that clearRev() functions in repRev().</p>
+<p>undoRev(n): NULL. Removes n number of lines from .Revhistory and cats the remaining history to the screen.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'>clearRev</span><span class='op'>(</span><span class='op'>)</span> <span class='co'>#Clear all objects from RevBayes</span>
 <span class='fu'>clearRev</span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='co'># Clear the last line input to RevBayes</span>
 <span class='op'>}</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -156,7 +161,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Caleb Charpentier.</p>
+  <p>Developed by Caleb Charpentier, April Wright.</p>
 </div>
 
 <div class="pkgdown">
