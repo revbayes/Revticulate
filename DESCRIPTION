@@ -20,7 +20,8 @@ Imports:
     stringi,
     knitr,
     utils,
-    comprehenr
+    comprehenr,
+    phytools
 RoxygenNote: 7.1.1
 Suggests: 
     markdown,
