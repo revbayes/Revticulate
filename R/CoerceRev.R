@@ -18,6 +18,7 @@
 #'}
 #'@import stringr
 #'@import comprehenr
+#'@import phytools
 #'
 #' @export
 #'

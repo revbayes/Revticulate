@@ -6,9 +6,6 @@
 \usage{
 knitRev()
 }
-\arguments{
-\item{clear}{If TRUE, Rev history will be cleared when running knitRev().}
-}
 \value{
 No return. Initiates knitr engine for RevBayes.
 }
