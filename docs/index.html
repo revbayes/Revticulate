@@ -5,15 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interaction With RevBayes in R • Revticulate</title>
+<title>Interaction with "RevBayes" in R • Revticulate</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Interaction With RevBayes in R">
-<meta property="og:description" content="Allows for interaction with rb.exe in R. Objects created in RevBayes are 
-    replicated as similar R formatted objects in an environment called RevEnv.">
+<script src="pkgdown.js"></script><meta property="og:title" content="Interaction with " revbayes in r>
+<meta property="og:description" content='Interaction with "RevBayes" via R. Objects created in "RevBayes" can be passed into the R environment, and many types can be converted into similar R objects. To download "RevBayes", go to &lt;https://revbayes.github.io/download&gt;.'>
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -40,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -55,10 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/BasicTutorial.html">Using Rev Knitr</a>
+      <a href="articles/BasicTutorial.html">Usage of Revticulate</a>
     </li>
     <li>
-      <a href="articles/SampleKnitrDocument.html">Discrete morphology - Multistate Characters</a>
+      <a href="articles/SampleKnitrDocument.html">Discrete morphology example</a>
     </li>
   </ul>
 </li>
@@ -77,18 +76,15 @@
   <div class="contents col-md-9">
 
 
+<p><code>{r setup, include=TRUE} library(Revticulate) knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE) InitRev("/Users/april/software/rb") KnitRev()</code></p>
 <div id="revbayes-and-r" class="section level2">
 <h2 class="hasAnchor">
 <a href="#revbayes-and-r" class="anchor"></a>RevBayes and R</h2>
-<p>Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes <a href="https://revbayes.github.io/download">installed</a> on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called “rb” (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on Windows, your copy will be called “rb.exe.”</p>
-<p>In the above chunk, you will see the command <code>initRev</code>. This is a function in the <code>Revticulate</code> R package. This R package can be installed using the popular <code>devtools</code> R package like so:</p>
-<p><code>{r, eval=FALSE} devtools::install_github("paleantology/Revticulate")</code></p>
-<p>You’ll likely want to include a block like the below that loads the <code>revticulate</code> library:</p>
-<pre class="{r}"><code>library(Revticulate)
-initRev("/Users/april/software/rb", useHistory = FALSE)
-knitRev()</code></pre>
-<p>The <code>initRev</code> function creates a RevBayes running environment, called “revEnv”, which will allow you to interact with RevBayes through R. <code>initRev</code> takes two arguments: path and useHistory. path is the file path to your RevBayes executable, and useHistory determines whether or not to load the RevBayes history from the last Revticulate session into the RevBayes running environment. Because useHistory defaults to FALSE, and there will be no history for the user’s first session, it is not shown in the example above. Delete my sample path and enter your path above.</p>
-<p>The next line, <code>knitRev</code> establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.</p>
+<p>Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes <a href="https://revbayes.github.io/download">installed</a> on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called “rb” (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on PC, your copy will be called “rb.exe.”</p>
+<p>In the above chunk, you will see the command <code>InitRev</code>. This is a function in the <code>Revticulate</code> R package. This R package can be installed using the popular <code>devtools</code> R package like so:</p>
+<p><code>{r, include=FALSE} devtools::install_github("revbayes/Revticulate")</code></p>
+<p>The <code>InitRev</code> function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. <code>InitRev</code> takes one argument: where RevBayes lives on your computer. Delete my sample path and enter your path above.</p>
+<p>The next line, <code>KnitRev</code> establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.</p>
 </div>
 <div id="using-revbayes-in-a-knitr-chunk" class="section level2">
 <h2 class="hasAnchor">
@@ -96,10 +92,10 @@ knitRev()</code></pre>
 <p>RevBayes can be used in a KnitR chunk by changing the header to <code>rb</code> instead of <code>r</code>. In the below chunk, we create an object called <code>example</code> and use the assignment operator to give it the value 1. Then we print it.</p>
 <pre class="{rb}"><code>example &lt;- 1.0
 example</code></pre>
-<p>This is not an overtly useful thing to do, however. Let’s erase the previous chunk using the <code>ClearRev()</code> function. This removes prior code and objects from the RevBayes environment. Very handy if you make a mistake!</p>
+<p>This is not an overtly useful thing to do, however. Let’s erase the previous chunk using the <code><a href="reference/clearRev.html">clearRev()</a></code> function. This removes prior code and objects from the RevBayes environment. Very handy if you make a mistake!</p>
 <pre class="{r}"><code><a href="reference/clearRev.html">clearRev()</a></code></pre>
 <p>We could, instead, choose to do something a little more useful. How about reading in a data matrix and making a quick starting tree?</p>
-<pre class="{rb}"><code>morpho &lt;- readDiscreteCharacterData("inst/extdata/Cinctans.nex")
+<pre class="{rb}"><code>morpho &lt;- readDiscreteCharacterData("../data/Cinctans.nex")
 num_taxa &lt;- morpho.size()
 num_branches &lt;- 2 * num_taxa - 2
 taxa &lt;- morpho.names()
@@ -107,7 +103,7 @@ br_len_lambda ~ dnExp(0.2)
 phylogeny ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda))
 phylogeny</code></pre>
 <p>Anything entered in an <code>rb</code> block will be interepreted as Rev code, and all the normal Rev syntax will apply. For a nice overview of Rev language and syntax, please see <a href="https://revbayes.github.io/tutorials/intro/rev">this tutorial</a>.</p>
-<p>One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. The <code>getRevObj</code> function is then used to extract the object. In this case, a phylogeny is not a simple numeric type, and we use <code>coerce=TRUE</code> to coerce from a string to a Newick tree that can be read by Phytools or similar.</p>
+<p>One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. Right now, the best way to do this is to use phytools or ape to read in a RevBayes tree and plot to screen. Coercion of tree objects from RevBayes to R is still an area under active development.</p>
 <pre class="{r}"><code>phylogeny &lt;- getRevObj(name = "phylogeny", coerce = TRUE)
 
 phytools::plotTree(phylogeny)</code></pre>
@@ -125,8 +121,8 @@ hist(draws)</a></code></pre>
 <h3 class="hasAnchor">
 <a href="#simulate-coin-flips" class="anchor"></a>Simulate coin flips</h3>
 <p>It’s adviseable if you’re switching gears to a new activity to clear the Rev environment of workspace objects from old activities:</p>
-<pre class="{r}"><code><a href="reference/clearRev.html">
-clearRev()</a></code></pre>
+<pre class="{r}"><code>
+ClearRev()</code></pre>
 <p>Note that <code>ClearRev</code> is an R function, and must be executed in an R chunk.</p>
 <pre class="{rb}"><code># The number of coin flips
 n &lt;- 100
@@ -160,13 +156,13 @@ p &lt;- rbeta (n=1, alpha, beta) [1]</code></pre>
 <div id="the-reprev-environment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#the-reprev-environment" class="anchor"></a>The RepRev() environment</h2>
-<p>The function <code><a href="reference/repRev.html">repRev()</a></code> can be called in the console (or in non-RStudio versions of R) to use RevBayes directly to program interactively. The RepRev() environment is denoted with <code>rb&gt;&gt;&gt;</code>. To exit, type Ctrl + C.</p>
-<pre><code><a href="reference/repRev.html">
-repRev()
+<p>The function <code>RepRev()</code> can be called in the console (or in non-RStudio versions of R) to use RevBayes directly to program interactively. The RepRev() environment is denoted with <code>rb&gt;&gt;&gt;</code>. To exit, type Ctrl + C.</p>
+<pre class="{r}"><code>
+RepRev()
 
 # rb&gt;&gt;&gt; 1+2
 
-# [1] 3</a></code></pre>
+# [1] 3</code></pre>
 </div>
 <div id="limitations-of-revticulate" class="section level2">
 <h2 class="hasAnchor">
@@ -179,16 +175,26 @@ repRev()
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=Revticulate">https://​cloud.r-project.org/​package=Revticulate</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a></li>
+<li>
+<a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Caleb Charpentier <br><small class="roles"> Maintainer </small>  </li>
+<li>Caleb Charpentier <br><small class="roles"> Author, maintainer </small>  </li>
+<li>April Wright <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
@@ -203,7 +209,7 @@ repRev()
 
 
       <footer><div class="copyright">
-  <p>Developed by Caleb Charpentier.</p>
+  <p>Developed by Caleb Charpentier, April Wright.</p>
 </div>
 
 <div class="pkgdown">

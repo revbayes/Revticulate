@@ -40,9 +40,7 @@
 
 
 <meta property="og:title" content="Knitr engine for RevBayes — knitRev" />
-<meta property="og:description" content="Rev code is ran directly in knitr chunks, and using the wrapper functions isn't necessary.
-Any created variables will be put in RevEnv, and defined variables can be used across multiple
-chunks." />
+<meta property="og:description" content="Rev code can be ran directly in knitr chunks, without the use of the functions doRev() or repRev(). History is accessed with the .Revhistory file and persists between chunks." />
 
 
 
@@ -82,7 +80,7 @@ chunks." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -97,10 +95,10 @@ chunks." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/BasicTutorial.html">Using Rev Knitr</a>
+      <a href="../articles/BasicTutorial.html">Usage of Revticulate</a>
     </li>
     <li>
-      <a href="../articles/SampleKnitrDocument.html">Discrete morphology - Multistate Characters</a>
+      <a href="../articles/SampleKnitrDocument.html">Discrete morphology example</a>
     </li>
   </ul>
 </li>
@@ -126,14 +124,23 @@ chunks." />
     </div>
 
     <div class="ref-description">
-    <p>Rev code is ran directly in knitr chunks, and using the wrapper functions isn't necessary.
-Any created variables will be put in RevEnv, and defined variables can be used across multiple
-chunks.</p>
+    <p>Rev code can be ran directly in knitr chunks, without the use of the functions doRev() or repRev(). History is accessed with the .Revhistory file and persists between chunks.</p>
     </div>
 
     <pre class="usage"><span class='fu'>knitRev</span><span class='op'>(</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>clear</th>
+      <td><p>If TRUE, Rev history will be cleared when running knitRev().</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>No return. Initiates knitr engine for RevBayes.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -146,7 +153,7 @@ chunks.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Caleb Charpentier.</p>
+  <p>Developed by Caleb Charpentier, April Wright.</p>
 </div>
 
 <div class="pkgdown">
