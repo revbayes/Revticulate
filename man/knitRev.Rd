@@ -4,7 +4,7 @@
 \alias{knitRev}
 \title{Knitr engine for RevBayes}
 \usage{
-knitRev(clear = FALSE)
+knitRev()
 }
 \arguments{
 \item{clear}{If TRUE, Rev history will be cleared when running knitRev().}
