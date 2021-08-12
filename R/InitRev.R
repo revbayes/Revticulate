@@ -5,7 +5,7 @@
 #'
 #'@param searchPath Full path or directory to search for the RevBayes executable. Default is the user's root directory (~).
 #'
-#'@param infoDir Path to parent directory of the RevInfo folder used for managing RevBayes interactions. Default is the user's working directory. If a RevInfo folder already exists in this directory, history stored in the existing folder will be used. Else, a new folder will be created.
+#'@param infoDir Path to parent directory of the RevInfo folder used for managing RevBayes interactions. Default is the parent directory of the user's working directory. If a RevInfo folder already exists in this directory, history stored in the existing folder will be used. Else, a new folder will be created.
 #'
 #'@examples
 #' \dontrun{
@@ -16,7 +16,7 @@
 #'@return No return. Initiates external environmental variables and directory for mediating interaction between R and RevBayes.
 #'
 #'@export
-initRev <- function(searchPath = "~", infoDir = getwd()){
+initRev <- function(searchPath = "~", infoDir = dirname(getwd())){
 
   path <- findRev(searchPath)
 

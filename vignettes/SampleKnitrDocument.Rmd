@@ -109,7 +109,7 @@ It is important to be aware that some PDF viewers may render some characters giv
 
 >First create a directory for this tutorial and name it **RB_MultistateCharacters_Tutorial**, or any name you like. Navigate to this new directory and create subdirectories called **data** and **scripts**.  
 >
->Download the data file called [`Cinctans.nex`](data/Cinctans.nex) and save it to your `data` directory.
+>Download the data file called [`Cinctans.nex`] and save it to your `data` directory.
 
 ### Creating Rev Files 
 
