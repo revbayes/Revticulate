@@ -1,6 +1,6 @@
 Package: Revticulate
 Type: Package
-Title: Interaction with RevBayes in R
+Title: Interaction with "RevBayes" in R
 Version: 0.1.0
 Authors@R: c(person(given = "Caleb",
                     family = "Charpentier",
@@ -10,7 +10,7 @@ Authors@R: c(person(given = "Caleb",
                     family = "Wright",
                     role = c("aut"),
                     email = "april.wright@southeastern.edu"))
-Description: Interaction with RevBayes via R. Objects created in RevBayes can be passed into the R environment, and many types can be converted into similar R objects. To download RevBayes, go to https://revbayes.github.io/download.
+Description: Interaction with "RevBayes" via R. Objects created in "RevBayes" can be passed into the R environment, and many types can be converted into similar R objects. To download "RevBayes", go to <https://revbayes.github.io/download>.
 License: MIT + file LICENSE
 Depends:
   R (>= 2.10)
