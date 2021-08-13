@@ -3,8 +3,10 @@ title: "Discrete morphology example"
 author: "Caleb Charpentier and April Wright"
 date: Sys.Date()
 output: rmarkdown::html_vignette
+bibliography: refs.bib
+
 vignette: >
-  %\VignetteIndexEntry{Getting Started With The treedata.table Package}
+  %\VignetteIndexEntry{Discrete morphology example}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -129,6 +131,7 @@ clearRev()
 
 ```{rb}
 morpho <- readDiscreteCharacterData("Cinctans.nex")
+morpho
 ```
 
 ### Create Helper Variables 
@@ -180,7 +183,7 @@ phylogeny
 
 You can even look at the phylogeny using Phytools:
 
-```{r, purl=FALSE}
+```{r}
 phylogeny <- getRevObj(name = "phylogeny", coerce = TRUE)
 
 phytools::plotTree(phylogeny)
@@ -197,7 +200,7 @@ moves.append(mvScale(alpha_morpho, lambda=1, weight=2.0))
 
 If you aren't a big stats person, this might not mean much to you, in terms of what this distribution actually looks like. But it is important to develop intuitions for what common distributions look like and what this says about our data. So, we can use R's built-in graphics capabilities to have a look at what 1000 draws from this gamma will look like. 
 
-```{r, purl=FALSE}
+```{r}
 doRev('
 alpha_morpho ~ dnUniform( 0, 1E6 );
 rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
