@@ -11,7 +11,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval=TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
 ```
 
 First, load the Revticulate package and tell it where to find the RevBayes executeable.
