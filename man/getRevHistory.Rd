@@ -2,10 +2,13 @@
 % Please edit documentation in R/getRevHistory.R
 \name{getRevHistory}
 \alias{getRevHistory}
-\title{Get full history of rb code from RevEnv}
+\title{Get full history of RevBayes code from RevEnv}
 \usage{
 getRevHistory()
 }
+\value{
+lines: character. Lines read from .Revhistory file.
+}
 \description{
-Prints revEnv$allCode
+Returns a vector of the lines of code in the .Revhistory file
 }

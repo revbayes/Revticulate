@@ -4,32 +4,6 @@ library(Revticulate)
 test_that(
   "Testing getRevObj()",
   {
-    skip_on_cran()
-
-
-
-    skip_if_not_init <- function(){
-      if(exists("revEnv")){
-        if(exists("RevPath", envir = revEnv)){
-          if(file.exists(revEnv$RevPath)){
-            return(invisible(TRUE))
-          }
-          else{
-            skip("RevPath is not an existing file!")
-          }
-        }
-        else{
-          skip("revEnv not initiated!")
-        }
-      }
-      else{
-        skip("RevPath not initiated!")
-      }
-    }
-
-
-    skip_if_not_init()
-
     clearRev()
 
     for(i in 1:10){
@@ -52,7 +26,7 @@ test_that(
 
     for(i in 1:8){
       doRev("b ~ dnDirichlet([0, 1, 0, 1])")
-      expect_equal(sum(getRevObj("b", coerce = T), na.rm = T), 1)
+      expect_equal(sum(getRevObj("b", coerce = TRUE), na.rm = TRUE), 1)
       clearRev()
     }
 
@@ -61,19 +35,16 @@ test_that(
     for(i in 1:10){
       doRev("var1 <- " %+% i %+% "; var2 := var1 * 10")
 
-      expect_equal(getRevObj("var1", coerce = T), i)
-      expect_equal(getRevObj("var2", coerce = T), i*10)
+      expect_equal(getRevObj("var1", coerce = TRUE), i)
+      expect_equal(getRevObj("var2", coerce = TRUE), i*10)
 
       doRev("var1 <- " %+% (i*10))
 
-      expect_equal(getRevObj("var1", coerce = T), i*10)
-      expect_equal(getRevObj("var2", coerce = T), i*100)
+      expect_equal(getRevObj("var1", coerce = TRUE), i*10)
+      expect_equal(getRevObj("var2", coerce = TRUE), i*100)
 
     }
 
-
-
-
-
+    clearRev()
   }
 )

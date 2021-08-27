@@ -2,26 +2,25 @@
 % Please edit documentation in R/InitRev.R
 \name{initRev}
 \alias{initRev}
-\title{Create an environment for interacting with RevBayes}
+\title{Initializes external variables for interaction with RevBayes}
 \usage{
-initRev(path = NULL, useHistory = FALSE)
+initRev(searchPath = "~", infoDir = dirname(getwd()))
 }
 \arguments{
-\item{path}{String path to rb.exe}
+\item{searchPath}{Full path or directory to search for the RevBayes executable. Default is the user's root directory (~).}
 
-\item{useHistory}{boolean Should the code from the previous Revticulate session be written into
-revEnv$allCode? Default is FALSE.}
+\item{infoDir}{Path to parent directory of the RevInfo folder used for managing RevBayes interactions. Default is the parent directory of the user's working directory. If a RevInfo folder already exists in this directory, history stored in the existing folder will be used. Else, a new folder will be created.}
+}
+\value{
+No return. Initiates external environmental variables and directory for mediating interaction between R and RevBayes.
 }
 \description{
-Creates an environment for interecting with rb.exe. This environment contains the variable
-RevPath for storing the path to rb.exe. If no path is provided, it will default to trying
-to use a path stored in Revticulate/RevPath.txt in .libPaths(). This means the user only has
-to provide the path to rb.exe once, and can change the path at any time by applying it again
-in initRev().
+Creates external variables for storing the paths to the RevBayes executable and .Revhistory files, as well as initiating a folder to store temp files for RevBayes interactions.
 }
 \examples{
 \dontrun{
 RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
 initRev(RevPath)
 }
+
 }

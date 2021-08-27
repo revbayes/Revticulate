@@ -4,34 +4,9 @@ library(Revticulate)
 test_that(
   "Testing getRevHistory()",
   {
-    skip_on_cran()
-
-
-
-    skip_if_not_init <- function(){
-      if(exists("revEnv")){
-        if(exists("RevPath", envir = revEnv)){
-          if(file.exists(revEnv$RevPath)){
-            return(invisible(TRUE))
-          }
-          else{
-            skip("RevPath is not an existing file!")
-          }
-        }
-        else{
-          skip("revEnv not initiated!")
-        }
-      }
-      else{
-        skip("RevPath not initiated!")
-      }
-    }
-
-
-    skip_if_not_init()
-
     clearRev()
-    expect_null(getRevHistory())
+
+     expect_equal(getRevHistory(), character(0))
 
     times <- as.integer(runif(1)*15)
 
@@ -41,6 +16,6 @@ test_that(
 
     expect_length(getRevHistory(), times)
 
-
+    clearRev()
   }
 )

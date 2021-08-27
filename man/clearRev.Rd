@@ -2,19 +2,25 @@
 % Please edit documentation in R/ClearRev.R
 \name{clearRev}
 \alias{clearRev}
-\title{Empties revEnv}
+\title{Removes lines from RevBayes history}
 \usage{
 clearRev(n = NULL)
 }
 \arguments{
-\item{n}{How many lines to remove. Should be an integer}
+\item{n}{How many lines to remove. If n = NULL, all lines are removed.}
+}
+\value{
+pseudoError: NULL. Message warning user that they attempted to erase more items from the Rev history than exist. message() is used instead of stop() so that clearRev() functions in repRev().
+
+undoRev(n): NULL. Removes n number of lines from .Revhistory and cats the remaining history to the screen.
 }
 \description{
-Clears all code, or a user-specified amount of code, and vars from revEnv.
+Removes lines of code from the .Revhistory file used for managing RevBayes interactions.
 }
 \examples{
 \dontrun{
 clearRev() #Clear all objects from RevBayes
 clearRev(n = 1) # Clear the last line input to RevBayes
 }
+
 }

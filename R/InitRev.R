@@ -1,37 +1,44 @@
 
-#'Create an environment for interacting with RevBayes
+#'Initializes external variables for interaction with RevBayes
 #'
-#'Creates an environment for interecting with rb.exe. This environment contains the variable
-#'    RevPath for storing the path to rb.exe. If no path is provided, it will default to trying
-#'    to use a path stored in Revticulate/RevPath.txt in .libPaths(). This means the user only has
-#'    to provide the path to rb.exe once, and can change the path at any time by applying it again
-#'    in initRev().
+#'Creates external variables for storing the paths to the RevBayes executable and .Revhistory files, as well as initiating a folder to store temp files for RevBayes interactions.
 #'
-#'@param path String path to rb.exe
+#'@param searchPath Full path or directory to search for the RevBayes executable. Default is the user's root directory (~).
 #'
-#'@param useHistory boolean Should the code from the previous Revticulate session be written into
-#'                  revEnv$allCode? Default is FALSE.
+#'@param infoDir Path to parent directory of the RevInfo folder used for managing RevBayes interactions. Default is the parent directory of the user's working directory. If a RevInfo folder already exists in this directory, history stored in the existing folder will be used. Else, a new folder will be created.
 #'
 #'@examples
 #' \dontrun{
 #'RevPath <- "C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"
 #'initRev(RevPath)
 #'}
+#'
+#'@return No return. Initiates external environmental variables and directory for mediating interaction between R and RevBayes.
+#'
 #'@export
-initRev <- function(path = NULL, useHistory = FALSE){
-  revEnv <<- new.env(parent = globalenv())
+initRev <- function(searchPath = "~", infoDir = dirname(getwd())){
 
-  if(!is.null(path)){
-    revEnv$RevPath <- path
-    cat(path, file = list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt", fill = T)
+  path <- findRev(searchPath)
+
+  if(file.exists(path)){
+    Sys.setenv("RevBayesPath" = path[1])
   }
   else{
-    revEnv$RevPath <-  readLines(list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/RevPath.txt")
+    stop("RevBayes executable not found!")
   }
 
-  revEnv$vars <- c()
-  revEnv$temps <- c()
-  revEnv$revHistory <- list.files(.libPaths(), "Revticulate", full.names = TRUE) %+% "/Revhistory.Rhistory"
-  cat("", file = revEnv$revHistory , append = useHistory)
-  revEnv$allCode <- readLines(revEnv$revHistory)
+  Sys.setenv("RevHistory" = (infoDir %+% "/RevInfo/.Revhistory"))
+
+  Sys.setenv("RevTemps" = (infoDir %+% "/RevInfo/temps"))
+
+  if(!dir.exists(infoDir %+% "/RevInfo"))
+    dir.create(infoDir %+% "/RevInfo", showWarnings = FALSE)
+
+  if(!file.exists(Sys.getenv("RevHistory")))
+    file.create(Sys.getenv("RevHistory"), showWarnings = FALSE)
+
+  if(!dir.exists(Sys.getenv("RevTemps")))
+    dir.create(Sys.getenv("RevTemps"), showWarnings = FALSE)
+
+
 }

@@ -1,15 +1,18 @@
-#'Get full history of rb code from RevEnv
+#'Get full history of RevBayes code from RevEnv
 #'
-#'Prints revEnv$allCode
+#'Returns a vector of the lines of code in the .Revhistory file
 #'
 #'@import comprehenr
+#'
+#'@return lines: character. Lines read from .Revhistory file.
 #'
 #'@export
 #'
 getRevHistory <- function(){
 
-  return(comprehenr::to_vec(for(i in revEnv$allCode) i))
+  lines <- readLines(Sys.getenv("RevHistory"), warn = FALSE)
 
+  return(lines)
 }
 
 

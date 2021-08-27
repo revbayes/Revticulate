@@ -1,54 +1,49 @@
 
-#'Empties revEnv
+#'Removes lines from RevBayes history
 #'
-#'Clears all code, or a user-specified amount of code, and vars from revEnv.
+#'Removes lines of code from the .Revhistory file used for managing RevBayes interactions.
 #'
-#'@param n How many lines to remove. Should be an integer
+#'@param n How many lines to remove. If n = NULL, all lines are removed.
 #'
 #'@examples
 #' \dontrun{
 #' clearRev() #Clear all objects from RevBayes
 #' clearRev(n = 1) # Clear the last line input to RevBayes
 #' }
+#'
+#' @return pseudoError: NULL. Message warning user that they attempted to erase more items from the Rev history than exist. message() is used instead of stop() so that clearRev() functions in repRev().
+#'
+#' @return undoRev(n): NULL. Removes n number of lines from .Revhistory and cats the remaining history to the screen.
+#'
 #'@export
 clearRev <- function(n = NULL){
 
-  #prevent temp file list from getting too large
-  if(length(revEnv$temps) > 50){
-    revEnv$temps <- c()
-  }
-
   undoRev <- function(n){
-    revEnv$allCode <- revEnv$allCode[1:(length(revEnv$allCode)-n)]
-    cat(getRevHistory(), file = revEnv$revHistory, append = F)
 
-    revEnv$vars <- c()
+   if(n > length(getRevHistory())){
+      pseudoError <- message("Cannot remove more items than exist in Rev History!")
+      return(pseudoError)
+   }
 
-    #update revEnv$vars
-    for(j in getRevHistory()) {
-      if(stringr::str_detect(j, "<-| = |:=|~"))
-        revEnv$vars <- c(revEnv$vars, j)
+   if (!is.null(n)){
+      file = getRevHistory()
+      remove = length(file)-n
+      file <- file[1:remove]
+      cat(file, file = Sys.getenv("RevHistory"), sep = "\n", append = FALSE)
     }
 
-    return(cat(getRevHistory(), sep = "\n"))
+    message("Removed " %+% n %+% " item(s) from Rev History!")
+
+    currentHistory <- function() cat("Current History: ", getRevHistory(), sep = "\n")
+    return(currentHistory)
   }
 
   if(!is.null(n)){
     return(undoRev(n))
   }
 
-  cat("", file = revEnv$revHistory, append = F)
+  cat("", file = Sys.getenv("RevHistory"), append = FALSE)
 
-  if (is.null(n)){
-  remove(list = ls(envir = revEnv)[which(ls(envir = revEnv) != "RevPath" & ls(envir = revEnv) != "temps" & ls(envir = revEnv) != "revHistory")],
-         envir = revEnv)
-
-  message("Successfully reset revEnv!")
-  } else if (!is.null(n)){
-    file = readLines(revEnv$revHistory)
-    remove = length(file)-n
-    edited = file[-(remove : length(file))]
-    writeLines(revEnv$revHistory, edited)
-  }
+  message("Successfully reset Rev History!")
 
 }

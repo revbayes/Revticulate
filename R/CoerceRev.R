@@ -1,16 +1,16 @@
 #' Coerces string of RevBayes output into an equivalent R object.
 #'
 #' Coerces string of RevBayes output into an equivalent R object.
-#' Uses the structure of the characters within the string to identify an appropiate R object type (a list, vector,
+#' Uses the structure of the characters within the string to identify an appropriate R object type (a list, vector,
 #' or even phylo tree) to coerce the string into.
 #'
 #' @param out String formatted representation of a Rev language object.
 #'            coerceRev() will recognize the formatting of most commonly used
-#'            Rev objects and will convert them into equivalent R objects. If coerceReV()
+#'            Rev objects and will convert them into equivalent R objects. If coerceRev()
 #'            does not recognize the objects formatting, the initial String representation
 #'            will be returned.
 #'
-#' @return out Coerce output of the RevBayes output string.
+#' @return out: Type varies depending on Rev object type. R object-formatted output coerced from a RevBayes output string.
 #'
 #' @examples
 #' \dontrun{
@@ -18,6 +18,7 @@
 #'}
 #'@import stringr
 #'@import comprehenr
+#'@import phytools
 #'
 #' @export
 #'
@@ -94,7 +95,7 @@ coerceRev <- function(out){
   }
 
   coerce_phylo <- function(out){
-    out = grep(out, pattern = "\\[&index=", value = T)
+    out = grep(out, pattern = "\\[&index=", value = TRUE)
     out = ape::read.tree(text = out)
 
     return(out)
@@ -189,7 +190,7 @@ coerceRev <- function(out){
 
   #coerce trees
   if(test_phylo(out) == TRUE){
-    out <- grep("\\[&index=", out, value = T)
+    out <- grep("\\[&index=", out, value = TRUE)
     out <- coerce_phylo(out)
     return(out)
   }

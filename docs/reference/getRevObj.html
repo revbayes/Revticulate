@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Getter function to retrieve objects created in rb.exe. — getRevObj • Revticulate</title>
+<title>Getter function to retrieve objects created in RevBayes — getRevObj • Revticulate</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Getter function to retrieve objects created in rb.exe. — getRevObj" />
-<meta property="og:description" content="Getter function to retrieve objects created in rb.exe." />
+<meta property="og:title" content="Getter function to retrieve objects created in RevBayes — getRevObj" />
+<meta property="og:description" content="Getter function to retrieve objects created in RevBayes" />
 
 
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,10 +95,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/BasicTutorial.html">Using Rev Knitr</a>
+      <a href="../articles/BasicTutorial.html">Usage of Revticulate</a>
     </li>
     <li>
-      <a href="../articles/SampleKnitrDocument.html">Discrete morphology - Multistate Characters</a>
+      <a href="../articles/SampleKnitrDocument.html">Discrete morphology example</a>
     </li>
   </ul>
 </li>
@@ -118,13 +118,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Getter function to retrieve objects created in rb.exe.</h1>
+    <h1>Getter function to retrieve objects created in RevBayes</h1>
     
     <div class="hidden name"><code>getRevObj.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Getter function to retrieve objects created in rb.exe.</p>
+    <p>Getter function to retrieve objects created in RevBayes</p>
     </div>
 
     <pre class="usage"><span class='fu'>getRevObj</span><span class='op'>(</span><span class='va'>name</span>, coerce <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
@@ -138,11 +138,14 @@
     </tr>
     <tr>
       <th>coerce</th>
-      <td><p>boolean. If true, Revticulate attempts to coerce the String formatted Rev object into
+      <td><p>Boolean. If true, Revticulate attempts to coerce the String formatted Rev object into
 a comparable R object. Default is FALSE.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>revObject: type varies. Object returned from RevBayes that was previously defined in .Revhistory. If coerce == FALSE, returns character. Else, returns type determined by coerceRev().</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -155,7 +158,7 @@ a comparable R object. Default is FALSE.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Caleb Charpentier.</p>
+  <p>Developed by Caleb Charpentier, April Wright.</p>
 </div>
 
 <div class="pkgdown">
