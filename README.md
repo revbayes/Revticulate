@@ -4,8 +4,8 @@
 ```{r setup, include=TRUE}
 library(Revticulate)
 knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE)
-initRev("/Users/april/software/rb")
-knitRev()
+InitRev("/Users/april/software/rb")
+KnitRev()
 ```
 
 ## RevBayes and R
