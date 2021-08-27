@@ -71,7 +71,7 @@ repRev <- function (path = Sys.getenv("RevBayesPath"), viewCode = FALSE, coerce 
 
     }
 
-    if (ginput == "quit()") {
+    if (ginput == "quit()" || ginput == "q()") {
       break
     }
 
