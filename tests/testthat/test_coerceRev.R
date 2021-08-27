@@ -3,31 +3,7 @@ library(Revticulate)
 test_that(
   "Testing coerceRev()",
   {
-    skip_on_cran()
-
-
-
-    skip_if_not_init <- function(){
-      if(exists("revEnv")){
-        if(exists("RevPath", envir = revEnv)){
-          if(file.exists(revEnv$RevPath)){
-            return(invisible(TRUE))
-          }
-          else{
-            skip("RevPath is not an existing file!")
-          }
-        }
-        else{
-          skip("revEnv not initiated!")
-        }
-      }
-      else{
-        skip("RevPath not initiated!")
-      }
-    }
-
-
-    skip_if_not_init()
+    clearRev()
 
     nums <- unlist(runif(10))
 
@@ -47,15 +23,15 @@ test_that(
 
     for(i in 1:10){
       nonvar <- paste(LETTERS[as.integer(runif(10)*26)], collapse = "")
-      expect_message(doRev(nonvar, coerce = T), "Missing Variable: Variable " %+% nonvar %+% " does not exist")
+      expect_warning(doRev(nonvar, coerce = TRUE), "Missing Variable: Variable " %+% nonvar %+% " does not exist")
     }
 
     for(i in 1:10){
       pow <- 2**i
-      expect_s3_class(doRev("simTree(" %+% pow %+% ")", coerce = T), class = "phylo")
+      expect_s3_class(doRev("simTree(" %+% pow %+% ")", coerce = TRUE), class = "phylo")
     }
 
-
+    clearRev()
   }
 )
 

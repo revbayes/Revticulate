@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create an environment for interacting with RevBayes — initRev • Revticulate</title>
+<title>Initializes external variables for interaction with RevBayes — initRev • Revticulate</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,8 @@
 
 
 
-<meta property="og:title" content="Create an environment for interacting with RevBayes — initRev" />
-<meta property="og:description" content="Creates an environment for interecting with rb.exe. This environment contains the variable
-   RevPath for storing the path to rb.exe. If no path is provided, it will default to trying
-   to use a path stored in Revticulate/RevPath.txt in .libPaths(). This means the user only has
-   to provide the path to rb.exe once, and can change the path at any time by applying it again
-   in initRev()." />
+<meta property="og:title" content="Initializes external variables for interaction with RevBayes — initRev" />
+<meta property="og:description" content="Creates external variables for storing the paths to the RevBayes executable and .Revhistory files, as well as initiating a folder to store temp files for RevBayes interactions." />
 
 
 
@@ -84,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,10 +95,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/BasicTutorial.html">Using Rev Knitr</a>
+      <a href="../articles/BasicTutorial.html">Usage of Revticulate</a>
     </li>
     <li>
-      <a href="../articles/SampleKnitrDocument.html">Discrete morphology - Multistate Characters</a>
+      <a href="../articles/SampleKnitrDocument.html">Discrete morphology example</a>
     </li>
   </ul>
 </li>
@@ -122,41 +118,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create an environment for interacting with RevBayes</h1>
+    <h1>Initializes external variables for interaction with RevBayes</h1>
     
     <div class="hidden name"><code>initRev.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates an environment for interecting with rb.exe. This environment contains the variable
-   RevPath for storing the path to rb.exe. If no path is provided, it will default to trying
-   to use a path stored in Revticulate/RevPath.txt in .libPaths(). This means the user only has
-   to provide the path to rb.exe once, and can change the path at any time by applying it again
-   in initRev().</p>
+    <p>Creates external variables for storing the paths to the RevBayes executable and .Revhistory files, as well as initiating a folder to store temp files for RevBayes interactions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>initRev</span><span class='op'>(</span>path <span class='op'>=</span> <span class='cn'>NULL</span>, useHistory <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>initRev</span><span class='op'>(</span>searchPath <span class='op'>=</span> <span class='st'>"~"</span>, infoDir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/basename.html'>dirname</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>path</th>
-      <td><p>String path to rb.exe</p></td>
+      <th>searchPath</th>
+      <td><p>Full path or directory to search for the RevBayes executable. Default is the user's root directory (~).</p></td>
     </tr>
     <tr>
-      <th>useHistory</th>
-      <td><p>boolean Should the code from the previous Revticulate session be written into
-revEnv$allCode? Default is FALSE.</p></td>
+      <th>infoDir</th>
+      <td><p>Path to parent directory of the RevInfo folder used for managing RevBayes interactions. Default is the parent directory of the user's working directory. If a RevInfo folder already exists in this directory, history stored in the existing folder will be used. Else, a new folder will be created.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>No return. Initiates external environmental variables and directory for mediating interaction between R and RevBayes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>RevPath</span> <span class='op'>&lt;-</span> <span class='st'>"C://Users/Caleb/Documents/WrightLab/RevBayes_Win_v1.0.13/RevBayes_Win_v1.0.13/rb.exe"</span>
 <span class='fu'>initRev</span><span class='op'>(</span><span class='va'>RevPath</span><span class='op'>)</span>
 <span class='op'>}</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -169,7 +164,7 @@ revEnv$allCode? Default is FALSE.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Caleb Charpentier.</p>
+  <p>Developed by Caleb Charpentier, April Wright.</p>
 </div>
 
 <div class="pkgdown">

@@ -1,69 +1,59 @@
-#'Wrapper for callRev(). Runs previous code in revEnv$allCode to allow the user to
-#'refer to objects that have been defined in rb but not in the revEnv.
+#'Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.
 #'
-#'@param input Code snippet to be ran in rb.exe.
+#'@param input Code snippet to run in the RevBayes executable
 #'
-#'@param viewCode If true, Rev code input and output will be displayed in the viewing pane.
+#'@param viewCode If TRUE, Rev code input and output will be displayed in the viewing pane.
 #'
-#'@param coerce If true, the output from RevBayes will be coerced into R format with coerceRev()
+#'@param coerce If TRUE, the output from RevBayes will be coerced into R format with coerceRev()
 #'
 #'@param timeout Determines how long the system2() call should wait before timing out (seconds). Default is 5.
+#'
+#'@return now: type varies. If coerce = TRUE, coerceRev() will attempt to convert RevBayes output into an equivalent R object. Else, return type is character.
 #'
 #'@export
 #'
 
 doRev <- function(input, viewCode = FALSE, coerce = FALSE, timeout = 5){
-  revEnv$allCode <- readLines(revEnv$revHistory, warn = F)
+
+  if(length(input) != 1)
+    stop("Input length must equal one.")
 
   if(!all((str_count(input, c("\\(", "\\{", "\\[")) == str_count(input, c("\\)", "\\}", "\\]"))))){
-    warning("rb command cannot have uneven number of open and closing braces!")
-    return("")
+    stop("RevBayes command must have an equal number of open and closing braces!")
   }
 
+  allCode <- getRevHistory()
+
   try({
-    first <- callRev(getRevHistory(), coerce = F, timeout = timeout)
-    revEnv$allCode <- c(revEnv$allCode, input)
-    last <- callRev(getRevHistory(), coerce = F, viewCode = viewCode, timeout = timeout)
-
-    if(length(first) != 0)
-      now <- last[-c(1:length(first))]
-    else now <- last
-
-    if (any(str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
-      revEnv$allCode <- revEnv$allCode[-c(length(revEnv$allCode))]
-      if(coerce){
-        message(stringr::str_squish(now))
-        return("")
-      }
-    }
-    else {
-      cat(input, file = revEnv$revHistory, append = TRUE, sep = "\n")
-    }
-
-    }, silent = T)
-
+    first <- callRev(getRevHistory(), coerce = FALSE, timeout = timeout)
+    cat(input, file = Sys.getenv("RevHistory"), append = TRUE, sep = "\n")
+    last <- callRev(getRevHistory(), coerce = FALSE, viewCode = viewCode, timeout = timeout)
+  }, silent = TRUE)
+  if(length(first) != 0)
+    now <- last[-c(1:length(first))]
+  else now <- last
 
   if(length(now) == 0)
     now <- ""
 
-
-
-  #update revEnv$vars
-  for(j in unlist(stringr::str_split(input, ";"))){
-    if(stringr::str_detect(j, "<-| = |:=|~"))
-      revEnv$vars <- c(revEnv$vars, j)
+  if (any(str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
+    cat(allCode, file = Sys.getenv("RevHistory"), append = FALSE, sep = "\n")
+    if(coerce){
+      warning(stringr::str_squish(now))
+      return("")
+    }
   }
 
+  if(coerce){
+    now <- coerceRev(now)
+    return(now)
+  }
 
   now <- stringr::str_squish(now)
 
   if(length(now) > 1)
     now <- now[which(now != "")]
 
-
-  if(coerce){
-    return(coerceRev(now))#paste(now, collapse = "")))
-  }
 
   return(now)
 }
