@@ -96,7 +96,7 @@
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>Morphological data is commonly used for estimating phylogenetic trees from fossils. This tutorial will focus on estimating phylogenetic trees from <em>discrete</em> characters, those characters which can be broken into non-overlapping character states. This type of data has been used for estimation of phylogenetic trees for many years. In the past twenty years, Bayesian methods for estimating phylogeny from this type of data have become increasingly common.</p>
-<p>This tutorial will give an overview of common models and assumptions when estimating a tree from discrete morphological data. We will use a dataset from <span class="citation">[@zamora2013]</span>. This dataset contains 27 extinct echinoderm taxa and 60 binary and multistate characters.</p>
+<p>This tutorial will give an overview of common models and assumptions when estimating a tree from discrete morphological data. We will use a dataset from <span class="citation">(Zamora, Rahman, and Smith 2013)</span>. This dataset contains 27 extinct echinoderm taxa and 60 binary and multistate characters.</p>
 <div id="overview-of-discrete-morphology-models" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview-of-discrete-morphology-models" class="anchor"></a>Overview of Discrete Morphology Models</h2>
@@ -104,7 +104,7 @@
 <p>Modeling discrete morphological data requires an understanding of the underlying properties of the data. When we work with molecular data, we know <em>a priori</em> that certain types of changes are more likely than others. For example, changes within a type of base (purine and pyrimidine) are much more likely than changes between types of bases. This information can be used to add parameters to the phylogenetic model. There are no equivalent and generalizable truths across characters in a morphological data matrix. For example, while <code>0</code> and <code>1</code> are commonly coded to “presence” and “absence”, this is not always the case, nor are all characters atomized at the same magnitude. For instance, at one character, changing character states may not reflect a large amount of genetic changes. Theca shape (character 2 in the Zamora et al. 2013 dataset), for example appears quite labile. At another, the changes to the character state may reflect a rearrangement of genetic elements, or might have larger ramifications for the organism’s life and behavior. Character 38, the central plate of the lintel, may be one such character, as it changes seldom.</p>
 <p>When we work with morphological data in a Bayesian context, we are performing these analyses after a long history of workers performing phylogenetic analysis in a maximum parsimony framework. Under maximum parsimony, trees are proposed. The number of changes in the data implied by the tree are then counted. The tree implying the fewest changes is considered the best. There may be multiple most parsimonious trees in a dataset. Parsimony has been the dominant method for estimating phylogenetic trees from discrete morphological data. Characters that cannot be used to discriminate between tree topologies are not typically collected by workers using parsimony. For example, characters that do not vary are not collected, as they all have the same length (0 steps) on a tree. Likewise, autapomorphies are typically not collected. As we will see later, this has ramifications for how we model the data.</p>
 <p>{% figure Mk_model %} <img src="figures/tikz/Mk_model.png" width="800"> {% figcaption %} Graphical model showing the Mk model (left panel) and corresponding Rev code (right panel). {% endfigcaption %} {% endfigure %}</p>
-<p>For many years, parsimony was the only way to estimate a phylogenetic tree from morphological data. In 2001, Paul Lewis published the Mk model of morphological evolution. The Mk model <span class="citation">[@Lewis2001]</span> is a generalization of the Jukes-Cantor model <span class="citation">[@Jukes1969]</span> of nucleotide sequence evolution. This model, while simple, has allowed researchers to access the toolkit of phylogenetic methods available to researchers working with other discretely-valued data, such as nucleotides or amino acids.</p>
+<p>For many years, parsimony was the only way to estimate a phylogenetic tree from morphological data. In 2001, Paul Lewis published the Mk model of morphological evolution. The Mk model <span class="citation">(Lewis 2001)</span> is a generalization of the Jukes-Cantor model <span class="citation">(Jukes and Cantor 1969)</span> of nucleotide sequence evolution. This model, while simple, has allowed researchers to access the toolkit of phylogenetic methods available to researchers working with other discretely-valued data, such as nucleotides or amino acids.</p>
 <div id="the-mk-model" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-mk-model" class="anchor"></a>The Mk Model</h3>
@@ -125,11 +125,11 @@
 \mu &amp; \mu &amp; \mu &amp; -(k-1)\mu \\
 \end{pmatrix} \mbox{  ,}\]</span></p>
 <p>You might notice that these transition rates are not different than what we might expect from an equal-weights parsimony matrix. In practice, the Mk model makes very few assumptions due to the complexity and non-generalizability of morphological data.</p>
-<p>This model may strike some readers as too simplistic to be adequate for morphological data. However, Bayesian methods are less likely to be mislead by homoplasy than is parsimony [<span class="citation">@Felsenstein1983</span>. More recent work has demonstrated that the model outperforms parsimony in many situations, particularly those in which there is high homoplasy <span class="citation">[@Wright2014]</span>, with empirical work demonstrating that it fits many datasets reasonably well <span class="citation">[@Wright2016]</span>.</p>
+<p>This model may strike some readers as too simplistic to be adequate for morphological data. However, Bayesian methods are less likely to be mislead by homoplasy than is parsimony [<span class="citation">Felsenstein (1983)</span>. More recent work has demonstrated that the model outperforms parsimony in many situations, particularly those in which there is high homoplasy <span class="citation">(Wright and Hillis 2014)</span>, with empirical work demonstrating that it fits many datasets reasonably well <span class="citation">(Wright, Lloyd, and Hillis 2016)</span>.</p>
 <p>In the first part of this tutorial, we will estimate a tree under the Mk model as proposed by Lewis (2001). We will then relax core parameters of the model.</p>
 <p>{% subsubsection Ascertainment Bias %}</p>
 <p>One remaining component of the model we have not yet discussed is ascertainment bias. Because workers using parsimony do not collect invariant characters and seldom collect autapomorphies, our data are <em>biased</em>. Imagine, for a moment, that you were to measure the average height in a room. But first, you asked the 10 shortest people to leave. Your estimate of the average height would be too tall! In effect, this happens in the morphological data, as well. Because the characters with the fewest changes are not collected, we over estimate the amount of evolutionary change on the tree. At the time of publication, Lewis (2001) also included a correction factor for this bias.</p>
-<p>These original corrections involved simulating parsimony non-informative characters along each proposed tree. These would be used to normalize the likelihood value. While this procedure is statistically valid, it is a bit slow. There are multiple ways to perform this correction <span class="citation">[@allman08b]</span>. RevBayes uses a dynamic likelihood approach to avoid repeated simulations.</p>
+<p>These original corrections involved simulating parsimony non-informative characters along each proposed tree. These would be used to normalize the likelihood value. While this procedure is statistically valid, it is a bit slow. There are multiple ways to perform this correction <span class="citation">(Allman and Rhodes 2008)</span>. RevBayes uses a dynamic likelihood approach to avoid repeated simulations.</p>
 </div>
 </div>
 </div>
@@ -380,9 +380,32 @@ phyMorpho.clamp(morpho)</code></pre>
 <p>This model can be embedded in the for loop seen in {% ref subsec_Mk_model %} to work with multi-state characters. An example is provided in script <code>mkv_model_gamma_discretized_multistate.Rev</code>.</p>
 </div>
 </div>
-<div id="references" class="section level1">
+<div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
+<div id="refs" class="references hanging-indent">
+<div id="ref-allman08b">
+<p>Allman, E. S., and J. A. Rhodes. 2008. “Identifying Evolutionary Trees and Substitution Parameters for the General Markov Model with Invariable Sites.” <em>Mathematical Biosciences</em> 211: 18–33.</p>
+</div>
+<div id="ref-Felsenstein1983">
+<p>Felsenstein, J. 1983. “Parsimony in Systematics: Biological and Statistical Issues.” <em>Annual Review of Ecology and Systematics</em> 14: 313–33.</p>
+</div>
+<div id="ref-Jukes1969">
+<p>Jukes, TH, and CR Cantor. 1969. “Evolution of Protein Molecules.” <em>Mammalian Protein Metabolism</em> 3: 21–132.</p>
+</div>
+<div id="ref-Lewis2001">
+<p>Lewis, Paul O. 2001. “A Likelihood Approach to Estimating Phylogeny from Discrete Morphological Character Data.” <em>Systematic Biology</em> 50 (6): 913–25.</p>
+</div>
+<div id="ref-Wright2014">
+<p>Wright, April M, and David M Hillis. 2014. “Bayesian Analysis Using a Simple Likelihood Model Outperforms Parsimony for Estimation of Phylogeny from Discrete Morphological Data.” <em>PLoS One</em> 9 (10): e109210.</p>
+</div>
+<div id="ref-Wright2016">
+<p>Wright, April M., Graeme T. Lloyd, and David M. Hillis. 2016. “Modeling Character Change Heterogeneity in Phylogenetic Analyses of Morphology Through the Use of Priors.” <em>Systematic Biology</em> 65 (4): 602–11.</p>
+</div>
+<div id="ref-zamora2013">
+<p>Zamora, Samuel, Imran A Rahman, and Andrew B Smith. 2013. “The Ontogeny of Cinctans (Stem-Group Echinodermata) as Revealed by a New Genus, Graciacystis, from the Middle Cambrian of Spain.” <em>Palaeontology</em> 56 (2): 399–410.</p>
+</div>
+</div>
 </div>
   </div>
 

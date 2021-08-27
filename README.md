@@ -5,7 +5,7 @@
 ```{r setup, include=TRUE}
 library(Revticulate)
 knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE)
-InitRev("/Users/april/software/rb")
+initRev("/Users/april/software/rb")
 KnitRev()
 ```
 
@@ -13,13 +13,13 @@ KnitRev()
 
 Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on PC, your copy will be called "rb.exe."
 
-In the above chunk, you will see the command `InitRev`. This is a function in the `Revticulate` R package. This R package can be installed using the popular `devtools` R package like so:
+In the above chunk, you will see the command `initRev`. This is a function in the `Revticulate` R package. This R package can be installed using the popular `devtools` R package like so:
 
 ```{r, include=FALSE}
 devtools::install_github("revbayes/Revticulate")
 ```
 
-The `InitRev` function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. `InitRev` takes one argument: where RevBayes lives on your computer. Delete my sample path and enter your path above.
+The `initRev` function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. `initRev` takes one argument: where RevBayes lives on your computer. Delete my sample path and enter your path above.
 
 The next line, `KnitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.
 
