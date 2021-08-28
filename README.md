@@ -1,17 +1,6 @@
----
-output: github_document
----
-
 
 [![Build Status](https://travis-ci.com/Paleantology/Revticulate.svg?branch=master)](https://travis-ci.com/Paleantology/Revticulate)
 
-
-```{r}
-library(Revticulate)
-knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE)
-initRev("/Users/april/software/rb")
-KnitRev()
-```
 
 ## RevBayes and R
 
@@ -19,8 +8,11 @@ Calling external software from R can be a bit tricky, and RevBayes is no excepti
 
 In the above chunk, you will see the command `initRev`. This is a function in the `Revticulate` R package. This R package can be installed using the popular `devtools` R package like so:
 
-```{r, include=FALSE}
+```{r}
 devtools::install_github("revbayes/Revticulate")
+library(Revticulate)
+initRev("/Users/april/software/rb")
+KnitRev()
 ```
 
 The `initRev` function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. `initRev` takes one argument: where RevBayes lives on your computer. Delete my sample path and enter your path above.
