@@ -1,10 +1,13 @@
 library(testthat)
-library(Revticulate)
-library(comprehenr)
 
 test_that(
   "Testing ClearRev()",
   {
+    skip_on_os("windows")
+
+    library(Revticulate)
+    library(comprehenr)
+
     clearRev()
 
     for(i in 1:30){

@@ -3,6 +3,8 @@ library(Revticulate)
 test_that(
   "Testing coerceRev()",
   {
+    skip_on_os("windows")
+
     clearRev()
 
     nums <- unlist(runif(10))

@@ -2,6 +2,8 @@ library(Revticulate)
 test_that(
   "Testing doRev()",
   {
+    skip_on_os("windows")
+
     clearRev()
 
     testthat::expect_error(doRev(c("2+2", "3+3")), "Input length must equal one.")

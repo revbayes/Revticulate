@@ -4,6 +4,8 @@ library(Revticulate)
 test_that(
   "Testing getRevObj()",
   {
+    skip_on_os("windows")
+
     clearRev()
 
     for(i in 1:10){
