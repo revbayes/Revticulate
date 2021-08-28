@@ -1,11 +1,13 @@
 library(testthat)
 library(Revticulate)
-library(comprehenr)
 library(stringr)
 
 test_that(
   "Testing initRev()",
   {
+    skip_on_os("windows")
+
+    library(comprehenr)
 
     clearRev()
 

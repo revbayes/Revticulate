@@ -1,10 +1,13 @@
 library(testthat)
-library(Revticulate)
-library(comprehenr)
 
 test_that(
   "Ensure callRev() coerces as expected",
   {
+    skip_on_os("windows")
+
+    library(Revticulate)
+    library(comprehenr)
+
     clearRev()
 
     expect_equal(to_vec(for(i in 1:10) as.character(i**2)) , to_vec(for(i in 1:10) stringr::str_squish(callRev(i %+% "^ 2"))))

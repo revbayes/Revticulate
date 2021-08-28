@@ -4,6 +4,8 @@ library(Revticulate)
 test_that(
   "Testing getRevHistory()",
   {
+    skip_on_os("windows")
+
     clearRev()
 
      expect_equal(getRevHistory(), character(0))

@@ -1,6 +1,8 @@
 library(Revticulate)
-library(comprehenr)
 library(knitr)
+if(Sys.info()["sysname"] != "Windows")
+  library(comprehenr)
+
 
 test_that(
   "Testing knitRev()",

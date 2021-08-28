@@ -1,10 +1,13 @@
 library(testthat)
-library(Revticulate)
-library(comprehenr)
 
 test_that(
   "Testing getRevVars()",
   {
+    skip_on_os("windows")
+
+    library(Revticulate)
+    library(comprehenr)
+
     clearRev()
 
     nums <- as.integer(runif(10, 1, 100))
