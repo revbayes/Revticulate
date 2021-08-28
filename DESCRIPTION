@@ -1,7 +1,7 @@
 Package: Revticulate
 Type: Package
 Title: Interaction with "RevBayes" in R
-Version: 0.1.0
+Version: 0.3.0
 Authors@R: c(person(given = "Caleb",
                     family = "Charpentier",
                     role = c("aut", "cre"),
