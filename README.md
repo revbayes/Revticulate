@@ -1,8 +1,12 @@
+---
+output: github_document
+---
+
 
 [![Build Status](https://travis-ci.com/Paleantology/Revticulate.svg?branch=master)](https://travis-ci.com/Paleantology/Revticulate)
 
 
-```{r setup, include=TRUE}
+```{r}
 library(Revticulate)
 knitr::opts_chunk$set(echo = TRUE, eval=TRUE, echo=TRUE)
 initRev("/Users/april/software/rb")
