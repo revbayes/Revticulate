@@ -15,16 +15,21 @@ devtools::install_github("revbayes/Revticulate")
 library(Revticulate)
 ```
 
-To function properly, Revticulate package must be connected to the underlying RevBayes executeable. This is done via the `initRev` function, which accepts an absolute path to RevBayes. For example, below, my rb executeable is stored in my (April) user software folder.
+To function properly, Revticulate package must be connected to the underlying RevBayes executeable. This is done via the `initRev` function, which accepts an absolute path to RevBayes. For example, below, my rb executeable is stored in my (April) user software folder. Delete my sample path and enter your path above.
+The `initRev` function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. 
 
 ```
 initRev("/Users/april/software/rb")
+```
+
+If you will be using RevBayes in the R or RStudio console, you should be good to go. The next line, `KnitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to. If you will be using RevBayes via Knitr, you will also need to begin a KnitR session like so:
+
+```
 KnitRev()
 ```
 
-The `initRev` function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. `initRev` takes one argument: where RevBayes lives on your computer. Delete my sample path and enter your path above.
+**Please note** that you will need to call `initRev` whenever you open a new R or RStudio Console session. `initRev` and `knitRev` should be included in _each_ Knitr document you make.
 
-The next line, `KnitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.
 
 ## Using RevBayes in a KnitR Chunk
 
