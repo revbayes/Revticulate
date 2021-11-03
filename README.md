@@ -6,11 +6,18 @@
 
 Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on PC, your copy will be called "rb.exe."
 
+## Setup
+
 In the above chunk, you will see the command `initRev`. This is a function in the `Revticulate` R package. This R package can be installed using the popular `devtools` R package like so:
 
 ```{r}
 devtools::install_github("revbayes/Revticulate")
 library(Revticulate)
+```
+
+To function properly, Revticulate package must be connected to the underlying RevBayes executeable. This is done via the `initRev` function, which accepts an absolute path to RevBayes. For example, below, my rb executeable is stored in my (April) user software folder.
+
+```
 initRev("/Users/april/software/rb")
 KnitRev()
 ```
