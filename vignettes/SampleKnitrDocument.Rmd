@@ -131,7 +131,6 @@ clearRev()
 
 ```{rb}
 morpho <- readDiscreteCharacterData("Cinctans.nex")
-morpho
 ```
 
 ### Create Helper Variables 
