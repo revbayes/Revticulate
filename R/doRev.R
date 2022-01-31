@@ -13,7 +13,9 @@
 #'@export
 #'
 
-doRev <- function(input, viewCode = FALSE, coerce = FALSE, timeout = 5){
+doRev <- function(input, viewCode = FALSE, coerce = TRUE, timeout = 5){
+
+  input <- unlist(input)
 
   if(length(input) != 1)
     stop("Input length must equal one.")
@@ -26,7 +28,7 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE, timeout = 5){
 
   try({
     first <- callRev(getRevHistory(), coerce = FALSE, timeout = timeout)
-    cat(input, file = Sys.getenv("RevHistory"), append = TRUE, sep = "\n")
+    cat(input, file = Sys.getenv("revHistory"), append = TRUE, sep = "\n")
     last <- callRev(getRevHistory(), coerce = FALSE, viewCode = viewCode, timeout = timeout)
   }, silent = TRUE)
   if(length(first) != 0)
@@ -37,7 +39,7 @@ doRev <- function(input, viewCode = FALSE, coerce = FALSE, timeout = 5){
     now <- ""
 
   if (any(str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
-    cat(allCode, file = Sys.getenv("RevHistory"), append = FALSE, sep = "\n")
+    cat(allCode, file = Sys.getenv("revHistory"), append = FALSE, sep = "\n")
     if(coerce){
       warning(stringr::str_squish(now))
       return("")

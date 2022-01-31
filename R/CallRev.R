@@ -30,12 +30,12 @@
 #'@export
 #'
 
-callRev <- function (..., coerce = FALSE, path = Sys.getenv("RevBayesPath"), viewCode = FALSE,
+callRev <- function (..., coerce = FALSE, path = Sys.getenv("rb"), viewCode = FALSE,
                      use_wd = TRUE, knit = FALSE, timeout = 5){
 
   argu <- c(...)
 
-  for(file in list.files(Sys.getenv("RevTemps"), full.names = TRUE))
+  for(file in list.files(Sys.getenv("revTemps"), full.names = TRUE))
     unlink(file)
 
   if (knit) {
@@ -88,7 +88,7 @@ callRev <- function (..., coerce = FALSE, path = Sys.getenv("RevBayesPath"), vie
 
   }
 
-  argu <- c(argu)
+  argu <- c(paste0("seed(", Sys.getenv("revSeed"), ")"), argu)
 
   if (use_wd) {
     wd <- stringr::str_replace_all(normalizePath(getwd()),
@@ -96,7 +96,7 @@ callRev <- function (..., coerce = FALSE, path = Sys.getenv("RevBayesPath"), vie
     argu <- c("setwd(\"" %+% wd %+% "\")", argu)
   }
 
-  tf <- tempfile(pattern = "file", tmpdir = paste(Sys.getenv("RevTemps"),
+  tf <- tempfile(pattern = "file", tmpdir = paste(Sys.getenv("revTemps"),
                                                   "/", sep = ""), fileext = ".rev")
 
   tf <- suppressWarnings((gsub(pattern = "\\\\", "/", tf)))
@@ -116,7 +116,7 @@ callRev <- function (..., coerce = FALSE, path = Sys.getenv("RevBayesPath"), vie
   }
   close(fopen)
 
-  for(file in list.files(Sys.getenv("RevTemps"), full.names = TRUE))
+  for(file in list.files(Sys.getenv("revTemps"), full.names = TRUE))
     unlink(file)
 
   if (coerce == FALSE) {

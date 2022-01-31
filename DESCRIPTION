@@ -22,7 +22,7 @@ Imports:
     utils,
     comprehenr,
     phytools
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     markdown,
     rmarkdown,
@@ -31,5 +31,3 @@ Suggests:
     devtools
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-VignetteBuilder: knitr
-

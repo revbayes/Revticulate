@@ -1,0 +1,193 @@
+---
+title: "Usage of Revticulate"
+author: "Caleb Charpentier and April Wright"
+date: Sys.Date()
+output: rmarkdown::html_vignette
+bibliography: refs.bib
+vignette: >
+  %\VignetteIndexEntry{Usage of Revticulate}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+```
+
+First, load the Revticulate package and tell it where to find the RevBayes executeable.
+
+```{r}
+library(Revticulate)
+initRev("/Users/april/software/rb")
+knitRev()
+```
+
+
+
+## RevBayes and R
+
+Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on Windows, your copy will be called "rb.exe."
+
+In the above chunk, you will see the command `initRev`. This is a function in the `RevKnitR` R package. This R package can be installed using the popular `devtools` R package like so:
+
+```{r, eval=FALSE}
+devtools::install_github("paleantology/Revticulate")
+```
+
+The `initRev` function creates a RevBayes running environment, called "revEnv", which will allow you to interact with RevBayes through R. `initRev` takes two arguments: path and useHistory. path is the file path to your RevBayes executable, and useHistory determines whether or not to load the RevBayes history from the last Revticulate session into the RevBayes running environment. Because useHistory defaults to FALSE, and there will be no history for the user's first session, it is not shown in the example above. Delete my sample path and enter your path above.
+
+The next line, `knitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.
+
+## Using RevBayes in a KnitR Chunk
+
+RevBayes can be used in a KnitR chunk by changing the header to `rb` instead of `r`. In the below chunk, we create an object called `example` and use the assignment operator to give it the value 1. Then we print it. 
+```{rb}
+example <- 1.0
+example
+```
+
+This is not an overtly useful thing to do, however. Let's erase the previous chunk using the `clearRev()` function. This removes prior code from the RevBayes environment. Very handy if you make a mistake!
+
+```{r}
+clearRev()
+```
+
+We could, instead, choose to do something a little more useful. How about reading in a data matrix and making a quick starting tree? 
+
+```{rb}
+morpho <- readDiscreteCharacterData("Cinctans.nex")
+num_taxa <- morpho.size()
+num_branches <- 2 * num_taxa - 2
+taxa <- morpho.names()
+br_len_lambda ~ dnExp(0.2)
+phylogeny ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda))
+phylogeny
+```
+Anything entered in an `rb` block will be interpreted as Rev code, and all the normal Rev syntax will apply. For a nice overview of Rev language and syntax, please see [this tutorial](https://revbayes.github.io/tutorials/intro/rev). 
+
+One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. The best way to accomplish this is with the `doRev()` function. When using this function, the RevCode you'd like to run goes in the parentheses of the `doRev` function. These are then exportable to R.
+```{r}
+doRev(input = 'morpho <- readDiscreteCharacterData("Cinctans.nex")
+num_taxa <- morpho.size()
+num_branches <- 2 * num_taxa - 2
+taxa <- morpho.names()
+br_len_lambda ~ dnExp(0.2)
+phylogeny ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda))
+phylogeny')
+```
+
+The `getRevObj` function is then used to extract the object. In this case, a phylogeny is not a simple numeric type, and we use `coerce=TRUE` to coerce from a string to a Newick tree that can be read by Phytools or similar. 
+
+```{r}
+phylogeny <- getRevObj(name = "phylogeny", coerce = TRUE)
+
+phytools::plotTree(phylogeny)
+```
+
+
+We may choose to clear RevBayes objects out of memory so that they are not being consistently echoed to the screen. 
+
+```{r}
+
+clearRev()
+
+```
+
+
+One nice facet of having RevBayes running in an R notebook is the ability to flip to visualizations of the different distributions we use. For example, here is the code for a common parameterization of the discrete Gamma distribution on site rates.
+
+```{rb}
+alpha_morpho ~ dnUniform( 0, 1E6 );
+rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
+alpha_morpho
+```
+
+If you aren't a big stats person, this might not mean much to you, in terms of what this distribution actually looks like. But it is important to develop intuitions for what common distributions look like and what this says about our data. So, we can use R's built-in graphics capabilities to have a look at what 1000 draws from this gamma will look like. 
+
+```{r}
+doRev('alpha_morpho ~ dnUniform( 0, 1E6 );
+rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
+')
+
+library(ggplot2)
+alpha_value <- getRevObj(name = "alpha_morpho", coerce = TRUE)
+alpha_value
+
+draws <- rgamma(1000, shape = alpha_value, rate = alpha_value)
+hist(draws, xlab = "Value")
+```
+
+
+
+### Simulate coin flips
+
+It's adviseable if you're switching gears to a new activity to clear the Rev environment of workspace objects from old activities:
+
+```{r}
+
+clearRev()
+```
+
+
+Note that `clearRev` is an R function, and must be executed in an R chunk.
+
+```{rb}
+# The number of coin flips
+n <- 100
+
+# The number of heads
+x <- 50
+x
+```
+
+### Initialize Markov Chain
+We have to start MCMC off with some initial parameter values. One way to do this is to randomly draw values of the parameter ($p$) from the prior distribution. We assume a flat beta prior distribution ($\alpha = 1$ and $\beta = 1$).
+
+```{rb}
+alpha <- 1
+beta <- 1
+p <- rbeta (n=1, alpha, beta) [1]
+p
+```
+
+### Likelihood Function
+We next specify the likelihood function. We use the binomial probability for the likelihood function. Since the likelihood is defined only for $p$ between 0 and 1, we return 0 if $p$ is outside this range.
+
+```{rb}
+function likelihood(p) {
+    if(p < 0 || p > 1)
+        return 0
+    l<-dbinomial(x,p,n,log=false)
+    return l
+    
+}
+```
+
+The function can then be executed in the next cell:
+
+```{rb}
+likelihood(p)
+```
+## The RepRev() environment
+
+The function `repRev()` can be called in the console (or in non-RStudio versions of R) to use RevBayes directly to program interactively. The `repRev()` environment is denoted with `rb>>>`. To exit, type Ctrl + C. It is not compatible with KnitR, being a console tool.
+
+```{r}
+
+# repRev()
+
+# rb>>> 1+2
+
+# [1] 3
+```
+
+## Limitations of RevKnitR
+
+Revticulate functions use a forced timeout to get output from rb. This may result in seemingly out-of-place timeout warnings. This is because it relies on System2 to run the underlying RevBayes executeable. To run your actual MCMC, it's probably best to save your code to a script and run it in the terminal.
+
+RevBayes sometimes asks for user input when it is unsure of what to do. For example, if you try to overwrite a previously named function with a new function of the same name, it will ask if the user really wants to do this and will prompt them to answer yes/no. Because of the way Revticulate captures Rev output from the command line, it does not know how to handle this, and will only allow doRev() to output "" from then on.
+To circumvent this issue, you can clear the Rev environment, or use callRev(). Because callRev() does not access the Revhistory.Rhistory file, it will not cause this issue. However, anything defined in callRev() will not be used in future calls to rb.
+
+
+
+
