@@ -4,7 +4,7 @@
 \alias{doRev}
 \title{Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.}
 \usage{
-doRev(input, viewCode = FALSE, coerce = FALSE, timeout = 5)
+doRev(input, viewCode = FALSE, coerce = TRUE, timeout = 5)
 }
 \arguments{
 \item{input}{Code snippet to run in the RevBayes executable}

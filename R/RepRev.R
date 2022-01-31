@@ -37,10 +37,10 @@
 #'}
 #'@export
 #'
-repRev <- function (path = Sys.getenv("RevBayesPath"), viewCode = FALSE, coerce = FALSE, use_wd = TRUE)
+repRev <- function (path = Sys.getenv("rb"), viewCode = FALSE, coerce = TRUE, use_wd = TRUE)
 {
   while (TRUE) {
-    ginput <- readline(prompt = "rb>>>")
+    ginput <- readline(prompt = "rb>>> ")
 
     numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
     numberOfClosedBraces <- stringr::str_count(ginput, "\\}")
@@ -103,7 +103,12 @@ repRev <- function (path = Sys.getenv("RevBayesPath"), viewCode = FALSE, coerce 
     }
 
 
-    else{cat(doRev(ginput, viewCode = viewCode, coerce = coerce), sep = "\n\n")}
+    else{
+      if(coerce)
+        cat(capture.output(doRev(ginput, viewCode = viewCode, coerce = coerce)), sep = "\n")
+      else
+        cat(doRev(ginput, viewCode = viewCode, coerce = coerce), sep = "\n")
+      }
 
 
   }

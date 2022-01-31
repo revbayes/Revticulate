@@ -7,7 +7,7 @@
 callRev(
   ...,
   coerce = FALSE,
-  path = Sys.getenv("RevBayesPath"),
+  path = Sys.getenv("rb"),
   viewCode = FALSE,
   use_wd = TRUE,
   knit = FALSE,

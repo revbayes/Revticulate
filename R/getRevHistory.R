@@ -10,7 +10,7 @@
 #'
 getRevHistory <- function(){
 
-  lines <- readLines(Sys.getenv("RevHistory"), warn = FALSE)
+  lines <- readLines(Sys.getenv("revHistory"), warn = FALSE)
 
   return(lines)
 }

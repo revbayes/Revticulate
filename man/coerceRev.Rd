@@ -4,17 +4,17 @@
 \alias{coerceRev}
 \title{Coerces string of RevBayes output into an equivalent R object.}
 \usage{
-coerceRev(out)
+coerceRev(revString)
 }
 \arguments{
-\item{out}{String formatted representation of a Rev language object.
+\item{revString}{String formatted representation of a Rev language object.
 coerceRev() will recognize the formatting of most commonly used
 Rev objects and will convert them into equivalent R objects. If coerceRev()
 does not recognize the objects formatting, the initial String representation
 will be returned.}
 }
 \value{
-out: Type varies depending on Rev object type. R object-formatted output coerced from a RevBayes output string.
+rObject: Type varies depending on Rev object type. R object-formatted output coerced from a RevBayes output string.
 }
 \description{
 Coerces string of RevBayes output into an equivalent R object.

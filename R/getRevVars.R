@@ -19,7 +19,7 @@
 #'@export
 #'
 getRevVars <- function(varName = NULL){
-    varList <- grep(" <- | = | := | ~ ", readLines(Sys.getenv("RevHistory")), value = TRUE)
+    varList <- grep(" <- | = | := | ~ ", readLines(Sys.getenv("revHistory")), value = TRUE)
     if(is.null(varName))
       return(varList)
     else{

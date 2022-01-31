@@ -29,7 +29,7 @@ clearRev <- function(n = NULL){
       file = getRevHistory()
       remove = length(file)-n
       file <- file[1:remove]
-      cat(file, file = Sys.getenv("RevHistory"), sep = "\n", append = FALSE)
+      cat(file, file = Sys.getenv("revHistory"), sep = "\n", append = FALSE)
     }
 
     message("Removed " %+% n %+% " item(s) from Rev History!")
@@ -42,7 +42,7 @@ clearRev <- function(n = NULL){
     return(undoRev(n))
   }
 
-  cat("\n", file = Sys.getenv("RevHistory"), append = FALSE)
+  cat("\n", file = Sys.getenv("revHistory"), append = FALSE)
 
   message("Successfully reset Rev History!")
 

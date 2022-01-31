@@ -4,12 +4,7 @@
 \alias{repRev}
 \title{Continuous interactive session with RevBayes}
 \usage{
-repRev(
-  path = Sys.getenv("RevBayesPath"),
-  viewCode = FALSE,
-  coerce = FALSE,
-  use_wd = TRUE
-)
+repRev(path = Sys.getenv("rb"), viewCode = FALSE, coerce = TRUE, use_wd = TRUE)
 }
 \arguments{
 \item{path}{Path to the RevBayes executable. Defaults to Sys.getenv("RevBayesPath"), so
