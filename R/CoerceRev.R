@@ -63,8 +63,8 @@ coerceRev <- function(revString){
     return(rObj)
   }
 
+  if(length(rObj) == 0)
+     return(invisible())
   return(rObj)
 }
-
-
 

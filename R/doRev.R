@@ -27,9 +27,11 @@ doRev <- function(input, viewCode = FALSE, coerce = TRUE, timeout = 5){
   allCode <- getRevHistory()
 
   try({
+
     first <- callRev(getRevHistory(), coerce = FALSE, timeout = timeout)
     cat(input, file = Sys.getenv("revHistory"), append = TRUE, sep = "\n")
     last <- callRev(getRevHistory(), coerce = FALSE, viewCode = viewCode, timeout = timeout)
+
   }, silent = TRUE)
   if(length(first) != 0)
     now <- last[-c(1:length(first))]
@@ -41,8 +43,8 @@ doRev <- function(input, viewCode = FALSE, coerce = TRUE, timeout = 5){
   if (any(str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
     cat(allCode, file = Sys.getenv("revHistory"), append = FALSE, sep = "\n")
     if(coerce){
-      warning(stringr::str_squish(now))
-      return("")
+      cat(stringr::str_squish(now), file = stderr(), sep = "\n")
+      return(invisible())
     }
   }
 
@@ -50,12 +52,6 @@ doRev <- function(input, viewCode = FALSE, coerce = TRUE, timeout = 5){
     now <- coerceRev(now)
     return(now)
   }
-
-  now <- stringr::str_squish(now)
-
-  if(length(now) > 1)
-    now <- now[which(now != "")]
-
 
   return(now)
 }
