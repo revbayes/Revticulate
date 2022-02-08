@@ -58,7 +58,7 @@ repRev <- function (path = Sys.getenv("rb"), viewCode = FALSE, coerce = TRUE, us
         (numberOfOpenBraces < numberOfClosedBraces)
       ) break();
 
-      ginput <- ginput %+% readline(prompt <- "rb>>>")
+      ginput <- ginput %+% readline(prompt <- "rb>>> ")
 
       numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
       numberOfClosedBraces <- stringr::str_count(ginput, "\\}")
