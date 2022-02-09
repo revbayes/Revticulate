@@ -121,7 +121,8 @@ coerceRev <- function(revString){
       charData <- append(charData, paste0(cleanedData[start:stop], collapse = " "))
     }
 
-    charData <- str_split(as.list(charData), " ")
+    charData <- as.list(charData)
+    charData <- stringr::str_split(charData, " ")
 
     charData <- as.matrix(charData)
     names(charData) <- charNames

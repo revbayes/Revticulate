@@ -25,6 +25,7 @@
 
   if(!file.exists(Sys.getenv("revHistory"))){
     file.create(Sys.getenv("revHistory"))
+    cat("#START\n", file = Sys.getenv("revHistory"))
   }
 
 }
