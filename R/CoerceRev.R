@@ -34,7 +34,7 @@ coerceRev <- function(revString){
     rObj <- rObj[rObj != ""]
   }
 
-  if(length(rObj) == 0){
+  if(length(rObj) == 1){
     if(stringr::str_detect(rObj, "^inf?")){
       return(Inf)
     }
@@ -94,6 +94,40 @@ coerceRev <- function(revString){
     stringr::str_detect(x, "^[-]?[0-9]+[.]?[0-9]*|[-]?[0-9]+[L]?|[-]?[0-9]+[.]?[0-9]*[eE][0-9]+$")
   }
 
+  isDiscreteCharacterMatrix <- function(data){
+    cleanedData <- str_remove_all(data, "\"")
+    points <- (str_detect(cleanedData, "(^(([:alnum:]|-)\\s)+([:alnum:]|-))$"))
+    if(length(points[points == FALSE]) >= 1 & (length(points[points == TRUE]) >= length(points[points == FALSE]))){
+      return(TRUE)
+    }
+    else{
+      return(FALSE)
+    }
+  }
+
+  asDiscreteCharacterMatrix <- function(data){
+    cleanedData <- str_remove_all(data, "\"")
+    points <- (str_detect(cleanedData, "(^(([:alnum:]|-)\\s)+([:alnum:]|-))$"))
+
+    charNames <- cleanedData[!points]
+    charData <- c()
+
+    starts <- which(!points)+1
+    stops <- c((which(!points)-1)[-c(1)], length(points))
+
+    for(i in 1:length(starts)){
+      start <- starts[i]
+      stop <- stops[i]
+      charData <- append(charData, paste0(cleanedData[start:stop], collapse = " "))
+    }
+
+    charData <- str_split(as.list(charData), " ")
+
+    charData <- as.matrix(charData)
+    names(charData) <- charNames
+    return(charData)
+  }
+
   if(jsonlite::validate(rObj) == TRUE){
     rObj <- fromJSON(rObj)
     return(rObj)
@@ -106,6 +140,11 @@ coerceRev <- function(revString){
 
   if(all(detectNumeric(rObj))){
     return(as.numeric(rObj))
+  }
+
+  if(length(rObj) >= 2)
+  if(isDiscreteCharacterMatrix(rObj)){
+    return(asDiscreteCharacterMatrix(rObj))
   }
 
   return(rObj)
