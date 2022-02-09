@@ -42,7 +42,7 @@ clearRev <- function(n = NULL){
     return(undoRev(n))
   }
 
-  cat("\n", file = Sys.getenv("revHistory"), append = FALSE)
+  cat("#START\n", file = Sys.getenv("revHistory"), append = FALSE)
 
   message("Successfully reset Rev History!")
 
