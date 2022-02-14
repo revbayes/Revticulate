@@ -13,6 +13,6 @@ knitRev <- function(){
 
     output <- doRev(paste(options$code, collapse = "\n"))
 
-    return(knitr::engine_output(options, code = options$code, out = c(output)))
+    return(knitr::engine_output(options, code = options$code, out = output))
   })
 }

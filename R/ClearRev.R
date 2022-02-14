@@ -33,17 +33,13 @@ clearRev <- function(n = NULL){
     }
 
     message("Removed " %+% n %+% " item(s) from Rev History!")
-
-    currentHistory <- function() cat("Current History: ", getRevHistory(), sep = "\n")
-    return(currentHistory)
   }
 
   if(!is.null(n)){
     return(undoRev(n))
   }
-
-  cat("#START\n", file = Sys.getenv("revHistory"), append = FALSE)
-
-  message("Successfully reset Rev History!")
-
+  else{
+    message("Successfully reset Rev History!")
+    cat("#START\n", file = Sys.getenv("revHistory"), append = FALSE)
+  }
 }
