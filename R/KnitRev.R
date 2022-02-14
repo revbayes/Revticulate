@@ -11,7 +11,7 @@ knitRev <- function(){
 
   knitr::knit_engines$set(rb = function(options) {
 
-    output <- doRev(options$code)
+    output <- capture.output(doRev(options$code))
 
     return(knitr::engine_output(options, code = options$code, out = output))
   })
