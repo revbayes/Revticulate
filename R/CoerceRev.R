@@ -96,7 +96,7 @@ coerceRev <- function(revString){
 
   isDiscreteCharacterMatrix <- function(data){
     cleanedData <- str_remove_all(data, "\"")
-    points <- (str_detect(cleanedData, "(^(([:alnum:]|-)\\s)+([:alnum:]|-))$"))
+    points <- (str_detect(cleanedData, "(^(([:alnum:]|[:punct:])\\s)+([:alnum:]|[:punct:]))$"))
     if(length(points[points == FALSE]) >= 1 & (length(points[points == TRUE]) >= length(points[points == FALSE]))){
       return(TRUE)
     }
@@ -107,7 +107,7 @@ coerceRev <- function(revString){
 
   asDiscreteCharacterMatrix <- function(data){
     cleanedData <- str_remove_all(data, "\"")
-    points <- (str_detect(cleanedData, "(^(([:alnum:]|-)\\s)+([:alnum:]|-))$"))
+    points <- (str_detect(cleanedData, "(^(([:alnum:]|[:punct:])\\s)+([:alnum:]|[:punct:]))$"))
 
     charNames <- cleanedData[!points]
     charData <- c()
