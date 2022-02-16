@@ -73,17 +73,8 @@ coerceRev <- function(revString){
   rObj <- copy
 
   validateTree <- function(treeString) {
-    simplifiedTree <- stringr::str_remove_all(treeString, "[^)(,]")
-
-    openCount <- sum(stringr::str_count(simplifiedTree, "\\("))
-    closeCount <- sum(stringr::str_count(simplifiedTree, "\\)"))
-
-    if(openCount == closeCount & openCount > 1){
-      return(TRUE)
-    }
-    else{
-      return(FALSE)
-    }
+    isTree <- !is.null(ape::read.tree(text = treeString))
+    return(isTree)
   }
 
   toJSONVector <- function(stringArg) {
@@ -92,41 +83,6 @@ coerceRev <- function(revString){
 
   detectNumeric <- function(x){
     stringr::str_detect(x, "^[-]?[0-9]+[.]?[0-9]*|[-]?[0-9]+[L]?|[-]?[0-9]+[.]?[0-9]*[eE][0-9]+$")
-  }
-
-  isDiscreteCharacterMatrix <- function(data){
-    cleanedData <- str_remove_all(data, "\"")
-    points <- (str_detect(cleanedData, "(^\\(*(([:alnum:]|[:punct:])\\s)+([:alnum:]|[:punct:]))\\)*$"))
-    if(length(points[points == FALSE]) >= 1 & (length(points[points == TRUE]) >= length(points[points == FALSE]))){
-      return(TRUE)
-    }
-    else{
-      return(FALSE)
-    }
-  }
-
-  asDiscreteCharacterMatrix <- function(data){
-    cleanedData <- str_remove_all(data, "\"")
-    points <- (str_detect(cleanedData, "(^\\(*(([:alnum:]|[:punct:])\\s)+([:alnum:]|[:punct:]))\\)*$"))
-
-    charNames <- cleanedData[!points]
-    charData <- c()
-
-    starts <- which(!points)+1
-    stops <- c((which(!points)-1)[-c(1)], length(points))
-
-    for(i in 1:length(starts)){
-      start <- starts[i]
-      stop <- stops[i]
-      charData <- append(charData, paste0(cleanedData[start:stop], collapse = " "))
-    }
-
-    charData <- as.list(charData)
-    charData <- stringr::str_split(charData, " ")
-
-    charData <- as.matrix(charData)
-    names(charData) <- charNames
-    return(charData)
   }
 
   if(jsonlite::validate(rObj) == TRUE){
@@ -141,11 +97,6 @@ coerceRev <- function(revString){
 
   if(all(detectNumeric(rObj))){
     return(as.numeric(rObj))
-  }
-
-  if(length(rObj) >= 2)
-  if(isDiscreteCharacterMatrix(rObj)){
-    return(asDiscreteCharacterMatrix(rObj))
   }
 
   return(rObj)
