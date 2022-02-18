@@ -95,6 +95,7 @@ coerceRev <- function(revString){
     return(rObj)
   }
 
+
   if(all(detectNumeric(rObj))){
     return(as.numeric(rObj))
   }

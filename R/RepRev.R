@@ -55,10 +55,10 @@ repRev <- function (path = Sys.getenv("rb"), viewCode = FALSE, coerce = TRUE, us
 
       if(
         (numberOfOpenBraces < numberOfClosedBraces) |
-        (numberOfOpenBraces < numberOfClosedBraces)
+        (numberOfOpenParenthesis < numberOfClosedParenthesis)
       ) break();
 
-      ginput <- ginput %+% readline(prompt <- "rb>>> ")
+      ginput <- ginput %+% "\n" %+% readline(prompt <- "rb>>> ")
 
       numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
       numberOfClosedBraces <- stringr::str_count(ginput, "\\}")
@@ -74,36 +74,30 @@ repRev <- function (path = Sys.getenv("rb"), viewCode = FALSE, coerce = TRUE, us
     if (ginput == "quit()" || ginput == "q()") {
       break
     }
-
-    if (ginput == "clearRev()"){
+    else if (ginput == "clearRev()"){
       clearRev()
       next
     }
-
-    if(str_detect(ginput, "clearRev\\(([0-9]+)\\)")){
+    else if(str_detect(ginput, "clearRev\\(([0-9]+)\\)")){
       clearRev(as.integer(str_extract(ginput, "[0-9]+")))
       next
     }
-
-    if(ginput == "getRevVars()"){
+    else if(ginput == "getRevVars()"){
       cat(getRevVars(), sep = "\n")
       next()
     }
-
-    if(str_detect(ginput, pattern = "^getRevVars\\(\".+\"\\)$")){
+    else if(str_detect(ginput, pattern = "^getRevVars\\(\".+\"\\)$")){
       args <- str_remove_all(str_extract(ginput, "\\(.+\\)"), "\\(|\\)|\"")
       cat(getRevVars(args), sep = "\n")
       next()
     }
-
-
-    if(ginput == "getRevHistory()"){
+    else if(ginput == "getRevHistory()"){
       cat(getRevHistory(), sep = "\n")
       next()
     }
-
-
     else{
+      #ginput <- str_replace_all(ginput, "\\{", "\\{\n\t")
+      #ginput <- str_replace_all(ginput, "\\}", "\n\\}\n\t")
       if(coerce)
         cat(capture.output(doRev(ginput, viewCode = viewCode, coerce = coerce)), sep = "\n")
       else
