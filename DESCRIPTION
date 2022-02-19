@@ -21,7 +21,10 @@ Imports:
     knitr,
     utils,
     comprehenr,
-    phytools
+    phytools,
+    jsonlite,
+    usethis,
+    rstudioapi
 RoxygenNote: 7.1.2
 Suggests: 
     markdown,

@@ -4,7 +4,9 @@
 #'Removes code from .Revhistory file used for managing Revticulate history.
 #'Clears all code by default, or last 'n' lines of code specifed by the user.
 #'
-#'@param n How many lines to remove. If n = NULL, all lines are removed.
+#'@param n integer - How many lines to remove. If n = NULL, all lines are removed.
+#'
+#'@param silent logical - If TRUE, output messages will be silenced. Default is FALSE.
 #'
 #'@examples
 #' \dontrun{

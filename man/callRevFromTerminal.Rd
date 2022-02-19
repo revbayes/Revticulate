@@ -7,7 +7,7 @@
 callRevFromTerminal(revscript)
 }
 \arguments{
-\item{revscript}{.rev file to execute in RevBayes}
+\item{revscript}{character - .rev file to execute in RevBayes}
 }
 \value{
 termID Unique identifier of the terminal used to call RevBayes

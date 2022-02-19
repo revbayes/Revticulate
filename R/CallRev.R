@@ -7,20 +7,20 @@
 #'          mostly intended to provide basic functionalities for other methods. For
 #'          more effective RevBayes calls, use doRev().
 #'
-#' @param ... String input to send to RevBayes.
-#' @param coerce If TRUE, attempts to coerce output to an R object. If FALSE, output
+#' @param ... character -  input to send to RevBayes.
+#' @param coerce logical - If TRUE, attempts to coerce output to an R object. If FALSE, output
 #'     will remain in String format. Default is FALSE.
-#' @param path Path to the RevBayes executable. Default is Sys.getEnv("RevBayesPath"), which is created with initRev().
-#' @param viewCode If TRUE, the input and output in the temporary file used to interact
+#' @param path character - Path to the RevBayes executable. Default is Sys.getEnv("RevBayesPath"), which is created with initRev().
+#' @param viewCode logical - If TRUE, the input and output in the temporary file used to interact
 #'     with RevBayes will be displayed in the viewing pane. This option may be useful for
 #'     diagnosing code errors.
-#' @param use_wd If TRUE, sets the working directory in the temporary RevBayes session
+#' @param use_wd logical - If TRUE, sets the working directory in the temporary RevBayes session
 #'     to the working directory of the active R session. Default is TRUE.
-#' @param knit Argument used to manage output formatting for knitRev(). This argument
+#' @param knit logical - Argument used to manage output formatting for knitRev(). This argument
 #'             should generally be ignored by the user.
-#' @param timeout Determines how long the system2() call should wait before timing out (seconds). Default is 5.
+#' @param timeout integer - Determines how long the system2() call should wait before timing out (seconds). Default is 5.
 #'
-#' @return out: character. String formatted output from RevBayes
+#' @return out: character - String formatted output from RevBayes
 #' @return coercedOut: type varies. R object formatted output from RevBayes. Object type varies according to Rev output (Ex: numeric vector or ape::Phylo object)
 #'
 #' @examples

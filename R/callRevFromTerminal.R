@@ -9,7 +9,7 @@
 #'via callRevFromTerminal(). Output files can then be explored and visualized with the
 #'RevGadgets package.
 #'
-#'@param revscript .rev file to execute in RevBayes
+#'@param revscript character - .rev file to execute in RevBayes
 #'
 #'@return termID Unique identifier of the terminal used to call RevBayes
 #'
@@ -26,11 +26,6 @@ callRevFromTerminal <- function(revscript){
   rbPath <- Sys.getenv("rb")
 
   script <- normalizePath(revscript, winslash = "/")
-  wd <- normalizePath(getwd(), winslash = "/")
-  if(Sys.info()['sysname'] == 'Windows'){
-    script <- str_replace_all(script, "/", "//")
-    wd <- str_replace_all(wd, "/", "//")
-  }
 
   termID = terminalExecute(paste(rbPath, script))
 

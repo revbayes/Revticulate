@@ -2,8 +2,8 @@
 #'
 #'Reads in the code from a .Rev file and writes it into the current Revticulate history.
 #'
-#'@param filepath File to load .Revhistory from
-#'@param overwrite If TRUE, the code in the file at 'filepath' will overwrite current .Revhistory. If FALSE, it will be appended to the end of it.
+#'@param filepath character - File to load .Revhistory from
+#'@param overwrite logical - If TRUE, the code in the file at 'filepath' will overwrite current .Revhistory. If FALSE, it will be appended to the end of it.
 #'
 #'@examples
 #' \dontrun{
@@ -22,6 +22,6 @@ loadRevHistory <- function(filepath, overwrite=FALSE){
   }
   else{
     rbHistory <- readLines(filepath)
-    cat(rbHistory, file = Sys.getenv(Sys.getenv("revHistory")), sep = "\n", append = !overwrite)
+    cat(rbHistory, file = Sys.getenv("revHistory"), sep = "\n", append = !overwrite)
   }
 }
