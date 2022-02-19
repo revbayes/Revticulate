@@ -16,7 +16,7 @@
 #' @return undoRev(n): NULL. Removes n number of lines from .Revhistory and cats the remaining history to the screen.
 #'
 #'@export
-clearRev <- function(n = NULL){
+clearRev <- function(n = NULL, silent=FALSE){
 
   undoRev <- function(n){
 
@@ -31,8 +31,8 @@ clearRev <- function(n = NULL){
       file <- file[1:remove]
       cat(file, file = Sys.getenv("revHistory"), sep = "\n", append = FALSE)
     }
-
-    message("Removed " %+% n %+% " item(s) from Rev History!")
+    if(!silent)
+      message("Removed " %+% n %+% " item(s) from Rev History!")
   }
 
   if(!is.null(n)){

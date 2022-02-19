@@ -6,6 +6,13 @@
 #'
 #'@return lines: character. Lines read from .Revhistory file.
 #'
+#'@examples
+#' \dontrun{
+#' getRevHistory()
+#'
+#' cat(getRevHistory(), sep="\n")
+#' }
+#'
 #'@export
 #'
 getRevHistory <- function(){

@@ -9,13 +9,15 @@ loadRevHistory(filepath, overwrite = FALSE)
 \arguments{
 \item{filepath}{File to load .Revhistory from}
 
-\item{overwrite}{If TRUE, history load from filepath will overwrite current .Revhistory. If FALSE, it will be appended to the end of it.}
+\item{overwrite}{If TRUE, the code in the file at 'filepath' will overwrite current .Revhistory. If FALSE, it will be appended to the end of it.}
 }
 \description{
-Load in Rev history from a .Rev file
+Reads in the code from a .Rev file and writes it into the current Rev history.
 }
 \examples{
 \dontrun{
+     loadRevHistory("someCode.rev")
+     loadRevHistory("someMoreCode.rev", overwrite=TRUE)
 }
 
 

@@ -10,6 +10,13 @@
 #'
 #'@return now: type varies. If coerce = TRUE, coerceRev() will attempt to convert RevBayes output into an equivalent R object. Else, return type is character.
 #'
+#'@examples
+#' \dontrun{
+#' doRev("simTree(16)", coerce=FALSE)
+#' doRev("a <- 10")
+#' doRev("a * 100")
+#'}
+#'
 #'@export
 #'
 

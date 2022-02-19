@@ -4,7 +4,7 @@
 \alias{clearRev}
 \title{Removes lines from RevBayes history}
 \usage{
-clearRev(n = NULL)
+clearRev(n = NULL, silent = FALSE)
 }
 \arguments{
 \item{n}{How many lines to remove. If n = NULL, all lines are removed.}

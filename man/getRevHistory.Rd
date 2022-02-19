@@ -12,3 +12,11 @@ lines: character. Lines read from .Revhistory file.
 \description{
 Returns a vector of the lines of code in the .Revhistory file
 }
+\examples{
+\dontrun{
+getRevHistory()
+
+cat(getRevHistory(), sep="\n")
+}
+
+}

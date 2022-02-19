@@ -2,7 +2,7 @@
 % Please edit documentation in R/callRevFromTerminal.R
 \name{callRevFromTerminal}
 \alias{callRevFromTerminal}
-\title{Execute a .rev file in RevBayes through the R studio terminal}
+\title{Execute a .rev file in RevBayes through an RStudio terminal}
 \usage{
 callRevFromTerminal(revscript)
 }
@@ -13,5 +13,13 @@ callRevFromTerminal(revscript)
 termID Unique identifier of the terminal used to call RevBayes
 }
 \description{
-Execute a .rev file in RevBayes through the R studio terminal
+Accesses an RStudio terminal through the RStudio API and runs a .rev script.
+This allows users to submit mcmcs and longer scripts after writing them in R Markdown through knitr or interactively with repRev()
+}
+\examples{
+\dontrun{
+saveRev("archertutorial.rev", use_quit=TRUE)
+callRevFromTerminal("archertutorial.rev")
+}
+
 }
