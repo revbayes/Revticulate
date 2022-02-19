@@ -1,29 +1,19 @@
-#'Get variable definitions from RevEnv
+#'Show variables that have been defined in RevBayes
 #'
-#'Returns vector of lines in .Revhistory containing variable definitions
-#'
-#'@param varName Only returns lines where specific variable names are defined. If NULL, all lines are returned
+#'Wrapper for RevBayes ls() function. Displays variables that have been defined in the working RevBayes session.
 #'
 #' @examples
 #' \dontrun{
 #' getRevVars()
 #' }
-#' \dontrun{
-#' getRevVars("var1")
-#' }
 #'
-#' @return varList: character. Vector of lines from .Revhistory containing assignment variables.
+#' @return No return - wrapper for RevBayes ls() function to show variables in rb environment
 #'
-#' @return singleVar: character. Vector of lines from .Revhistory containing an assignment variable for a specific variable name.
 #'
 #'@export
 #'
-getRevVars <- function(varName = NULL){
-    varList <- grep(" <- | = | := | ~ ", readLines(Sys.getenv("revHistory")), value = TRUE)
-    if(is.null(varName))
-      return(varList)
-    else{
-      singleVar <- grep("^" %+% varName %+% " ", varList, value = TRUE)
-      return(singleVar)
-    }
+getRevVars <- function(){
+    vars <- doRev("ls()")
+    clearRev(1, silent = TRUE)
+    cat(vars, sep = "\n")
 }

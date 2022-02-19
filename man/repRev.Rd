@@ -2,25 +2,25 @@
 % Please edit documentation in R/RepRev.R
 \name{repRev}
 \alias{repRev}
-\title{Continuous interactive session with RevBayes}
+\title{Interactive Session with RevBayes}
 \usage{
 repRev(path = Sys.getenv("rb"), viewCode = FALSE, coerce = TRUE, use_wd = TRUE)
 }
 \arguments{
-\item{path}{Path to the RevBayes executable. Defaults to Sys.getenv("RevBayesPath"), so
-initRev() should be called first.}
+\item{path}{Path to the RevBayes executable. Defaults to Sys.getenv("rb"), which should be assigned upon first loading the package.}
 
-\item{viewCode}{If TRUE, code from the temporary file used to interact with
-RevBayes will be displayed in the viewing pane. Default is FALSE.}
+\item{viewCode}{If TRUE, code from the temporary file used to interact with RevBayes will be displayed in
+the viewing pane. Default is FALSE. The option is mostly for developer convenience, and can be ignored
+by most users.}
 
-\item{coerce}{If FALSE, output from RevBayes will be printed to the console in character format. If
-TRUE, repRev() will attempt to coerce output into a suitable R object. Default is FALSE.}
+\item{coerce}{If FALSE, RevBayes output will be printed to the console in character format. If
+TRUE, coerceRev() will attempt to coerce output into a suitable R object. Default is TRUE.}
 
 \item{use_wd}{If TRUE, the simulated Revbayes session will use the same working directory as
-the active R session. If FALSE, it will use its default. Default is TRUE.}
+the active R session. If FALSE, it will use the default for the RevBayes executable. Default is TRUE.}
 }
 \value{
-No return. Acts as an interactive session with the RevBayes. RevBayes output is printed to the console via cat(), and Rev variables can be referenced externally via doRev() and getRevObj().
+No return. RevBayes variables assigned within the session can be accessed externally via doRev() or viewed with getRevVars().
 }
 \description{
 Simulates a continuous, interactive session with RevBayes. While this session is active, all code will be interpreted as Rev code, and attempting to run R code may result in error.
@@ -28,8 +28,8 @@ Simulates a continuous, interactive session with RevBayes. While this session is
 \details{
 By default, the interactive session uses the present R working directory as the RevBayes working directory. This behavior can be turned off with use_wd = FALSE
 
-The exit the session, type 'quit()' or hit the 'esc' key.
-clearRev(), getRevVars(), and getRevHistory can be called from within the session for user convenience
+The exit the session, type 'quit()', 'q()', or hit the 'esc' key.
+clearRev(), getRevVars(), and getRevHistory() can still be called from within the session for user convenience
 }
 \examples{
 \dontrun{

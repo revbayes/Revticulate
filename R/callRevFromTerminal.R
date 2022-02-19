@@ -1,11 +1,19 @@
-#'Execute a .rev file in RevBayes through the R studio terminal
+#'Execute a .rev file in RevBayes through an RStudio terminal
+#'
+#'Accesses an RStudio terminal through the RStudio API and runs a .rev script.
+#'This allows users to submit mcmcs and longer scripts after writing them in R Markdown through knitr or interactively with repRev()
 #'
 #'@param revscript .rev file to execute in RevBayes
 #'
 #'@return termID Unique identifier of the terminal used to call RevBayes
 #'
-#'@export
+#'@examples
+#'\dontrun{
+#'saveRev("archertutorial.rev", use_quit=TRUE)
+#'callRevFromTerminal("archertutorial.rev")
+#'}
 #'
+#'@export
 callRevFromTerminal <- function(revscript){
   rbPath <- Sys.getenv("rb")
 
