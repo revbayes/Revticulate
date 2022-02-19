@@ -13,8 +13,9 @@ knitRev <- function(){
 
     code <- paste0(options$code, collapse = "\n")
 
-    output <- capture.output(doRev(code))
+    output <- capture.output(doRev(code, evaluate = options$rb_eval))
 
     return(knitr::engine_output(options, code = options$code, out = output))
   })
+
 }

@@ -13,9 +13,14 @@
 #'@export
 #'
 
-doRev <- function(input, viewCode = FALSE, coerce = TRUE, timeout = 5){
+doRev <- function(input, coerce = TRUE, evaluate = TRUE, viewCode = FALSE, timeout = 5){
 
   input <- unlist(input)
+
+  if(!evaluate){
+    cat(input, file = Sys.getenv("revHistory"), append = TRUE, sep = "\n")
+    return("")
+  }
 
   if(length(input) != 1)
     stop("Input length must equal one.")
