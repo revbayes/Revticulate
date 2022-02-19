@@ -18,7 +18,6 @@ First, load the Revticulate package and tell it where to find the RevBayes execu
 
 ```{r}
 library(Revticulate)
-initRev("/Users/april/software/rb")
 knitRev()
 ```
 
