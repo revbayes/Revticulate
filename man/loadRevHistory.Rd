@@ -2,21 +2,26 @@
 % Please edit documentation in R/loadRevHistory.R
 \name{loadRevHistory}
 \alias{loadRevHistory}
-\title{Load in Rev history from a .Rev file}
+\title{Load Revticulate History from a .Rev File}
 \usage{
 loadRevHistory(filepath, overwrite = FALSE)
 }
 \arguments{
-\item{filepath}{File to load .Revhistory from}
+\item{filepath}{character - File to load .Revhistory from}
 
-\item{overwrite}{If TRUE, history load from filepath will overwrite current .Revhistory. If FALSE, it will be appended to the end of it.}
+\item{overwrite}{logical - If TRUE, the code in the file at 'filepath' will overwrite current .Revhistory. If FALSE, it will be appended to the end of it.}
+}
+\value{
+No return - reads in new code to the .Revhistory file
 }
 \description{
-Load in Rev history from a .Rev file
+Reads in the code from a .Rev file and writes it into the current Revticulate history.
 }
 \examples{
 \dontrun{
-}
+     loadRevHistory("someCode.rev")
 
+     loadRevHistory("someMoreCode.rev", overwrite=TRUE)
+}
 
 }

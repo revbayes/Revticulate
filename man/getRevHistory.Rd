@@ -2,13 +2,21 @@
 % Please edit documentation in R/getRevHistory.R
 \name{getRevHistory}
 \alias{getRevHistory}
-\title{Get full history of RevBayes code from RevEnv}
+\title{Get Revticulate History}
 \usage{
 getRevHistory()
 }
 \value{
-lines: character. Lines read from .Revhistory file.
+lines - character. A vector of the line-by-line Revticulate history
 }
 \description{
-Returns a vector of the lines of code in the .Revhistory file
+Return the history of RevBayes code submitted with doRev() and similar functions
+}
+\examples{
+\dontrun{
+getRevHistory()
+
+cat(getRevHistory(), sep="\n")
+}
+
 }
