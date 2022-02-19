@@ -8,7 +8,7 @@ test_that(
 
     expect_false(file.exists(file))
 
-    doRev("2")
+    doRev("2", evaluate = F)
 
     saveRev(file)
 
