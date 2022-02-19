@@ -8,6 +8,7 @@
 #'@examples
 #' \dontrun{
 #'      loadRevHistory("someCode.rev")
+#'
 #'      loadRevHistory("someMoreCode.rev", overwrite=TRUE)
 #' }
 #'

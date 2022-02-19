@@ -17,6 +17,7 @@ Reads in the code from a .Rev file and writes it into the current Rev history.
 \examples{
 \dontrun{
      loadRevHistory("someCode.rev")
+
      loadRevHistory("someMoreCode.rev", overwrite=TRUE)
 }
 
