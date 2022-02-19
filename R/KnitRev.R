@@ -21,7 +21,7 @@ knitRev <- function(){
 
     output <- capture.output(doRev(code, evaluate = options$rb_eval, coerce = options$coerce))
 
-    return(knitr::engine_output(options, code = options$code, out = cat(output)))
+    return(knitr::engine_output(options, code = options$code, out = noquote(output)))
   })
 
 }
