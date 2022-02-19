@@ -2,7 +2,7 @@
 % Please edit documentation in R/callRevFromTerminal.R
 \name{callRevFromTerminal}
 \alias{callRevFromTerminal}
-\title{Execute a .rev file in RevBayes through an RStudio terminal}
+\title{Execute a .rev file in RevBayes Through an RStudio Terminal}
 \usage{
 callRevFromTerminal(revscript)
 }
@@ -14,7 +14,14 @@ termID Unique identifier of the terminal used to call RevBayes
 }
 \description{
 Accesses an RStudio terminal through the RStudio API and runs a .rev script.
-This allows users to submit mcmcs and longer scripts after writing them in R Markdown through knitr or interactively with repRev()
+}
+\details{
+Many common RevBayes use-cases, such as generating mcmcs, take a long time to execute.
+Because of this fact, it is inefficient and inadvisable to run them in knitr documents
+or with RevBayes calls through repRev(). Instead, tutorial code or code that has been written
+interactively can be externally saved with saveRev(), and then executed in an RStudio terminal
+via callRevFromTerminal(). Output files can then be explored and visualized with the
+RevGadgets package.
 }
 \examples{
 \dontrun{

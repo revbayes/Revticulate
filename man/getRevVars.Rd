@@ -2,7 +2,7 @@
 % Please edit documentation in R/getRevVars.R
 \name{getRevVars}
 \alias{getRevVars}
-\title{Show variables that have been defined in RevBayes}
+\title{View RevBayes Variables}
 \usage{
 getRevVars()
 }
@@ -14,6 +14,7 @@ Wrapper for RevBayes ls() function. Displays variables that have been defined in
 }
 \examples{
 \dontrun{
+
 getRevVars()
 }
 

@@ -1,9 +1,10 @@
-#'Show variables that have been defined in RevBayes
+#'View RevBayes Variables
 #'
 #'Wrapper for RevBayes ls() function. Displays variables that have been defined in the working RevBayes session.
 #'
 #' @examples
 #' \dontrun{
+#'
 #' getRevVars()
 #' }
 #'

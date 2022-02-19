@@ -2,7 +2,7 @@
 % Please edit documentation in R/ClearRev.R
 \name{clearRev}
 \alias{clearRev}
-\title{Removes lines from RevBayes history}
+\title{Clear Code from Revticulate History}
 \usage{
 clearRev(n = NULL, silent = FALSE)
 }
@@ -15,12 +15,13 @@ pseudoError: NULL. Message warning user that they attempted to erase more items 
 undoRev(n): NULL. Removes n number of lines from .Revhistory and cats the remaining history to the screen.
 }
 \description{
-Removes lines of code from the .Revhistory file used for managing RevBayes interactions.
+Removes code from .Revhistory file used for managing Revticulate history.
+Clears all code by default, or last 'n' lines of code specifed by the user.
 }
 \examples{
 \dontrun{
-clearRev() #Clear all objects from RevBayes
-clearRev(n = 1) # Clear the last line input to RevBayes
+clearRev() #Clear all Revticulate history
+clearRev(n = 3) #Remove the last 3 lines of Revticulate history
 }
 
 }

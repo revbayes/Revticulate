@@ -1,14 +1,10 @@
-#' Coerces string of RevBayes output into an equivalent R object.
+#' Convert RevBayes Output into R Objects
 #'
-#' Coerces string of RevBayes output into an equivalent R object.
-#' Uses the structure of the characters within the string to identify an appropriate R object type (a list, vector,
-#' or even phylo tree) to coerce the string into.
+#' Coerces a RevBayes output string into an equivalent R object.
+#' Automatically determines R object type based on the structure of the string,
+#' and returns the original string if R object equivalent cannot be determined.
 #'
-#' @param revString String formatted representation of a Rev language object.
-#'            coerceRev() will recognize the formatting of most commonly used
-#'            Rev objects and will convert them into equivalent R objects. If coerceRev()
-#'            does not recognize the objects formatting, the initial String representation
-#'            will be returned.
+#' @param revString String-formatted RevBayes output.
 #'
 #' @return rObject: Type varies depending on Rev object type. R object-formatted output coerced from a RevBayes output string.
 #'
@@ -24,8 +20,6 @@
 #'
 #' @export
 #'
-
-
 coerceRev <- function(revString){
 
   rObj <- stringr::str_squish(revString)

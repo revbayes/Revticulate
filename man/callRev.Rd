@@ -2,7 +2,7 @@
 % Please edit documentation in R/CallRev.R
 \name{callRev}
 \alias{callRev}
-\title{Submit input to RevBayes and return output}
+\title{Basic Call to RevBayes}
 \usage{
 callRev(
   ...,
@@ -40,8 +40,13 @@ out: character. String formatted output from RevBayes
 coercedOut: type varies. R object formatted output from RevBayes. Object type varies according to Rev output (Ex: numeric vector or ape::Phylo object)
 }
 \description{
-Submits input to the RevBayes executable and returns output to R in string format. If coerce = TRUE, the function coerRev()
+Submits input to the RevBayes executable and returns output to R in string format. If coerce = TRUE, the function coerceRev()
 will attempt to coerce output to a similar R object.
+}
+\details{
+##NOTE - This function provides very limited interaction with RevBayes, and is
+mostly intended to provide basic functionalities for other methods. For
+more effective RevBayes calls, use doRev().
 }
 \examples{
 \dontrun{
