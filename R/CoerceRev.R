@@ -4,7 +4,7 @@
 #' Automatically determines R object type based on the structure of the string,
 #' and returns the original string if R object equivalent cannot be determined.
 #'
-#' @param revString String-formatted RevBayes output.
+#' @param revString character - Output from RevBayes
 #'
 #' @return rObject: Type varies depending on Rev object type. R object-formatted output coerced from a RevBayes output string.
 #'
@@ -80,7 +80,7 @@ coerceRev <- function(revString){
   }
 
   if(jsonlite::validate(rObj) == TRUE){
-    rObj <- fromJSON(rObj)
+    rObj <- jsonlite::fromJSON(rObj)
     return(rObj)
   }
 

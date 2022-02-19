@@ -1,8 +1,0 @@
-pandoc: 2.10.1
-pkgdown: 1.6.1
-pkgdown_sha: ~
-articles:
-  BasicTutorial: BasicTutorial.html
-  SampleKnitrDocument: SampleKnitrDocument.html
-last_built: 2021-08-27T16:01Z
-

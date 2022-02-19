@@ -7,7 +7,7 @@
 coerceRev(revString)
 }
 \arguments{
-\item{revString}{String-formatted RevBayes output.}
+\item{revString}{character - Output from RevBayes}
 }
 \value{
 rObject: Type varies depending on Rev object type. R object-formatted output coerced from a RevBayes output string.

@@ -7,16 +7,16 @@
 repRev(path = Sys.getenv("rb"), viewCode = FALSE, coerce = TRUE, use_wd = TRUE)
 }
 \arguments{
-\item{path}{Path to the RevBayes executable. Defaults to Sys.getenv("rb"), which should be assigned upon first loading the package.}
+\item{path}{character - Path to the RevBayes executable. Defaults to Sys.getenv("rb"), which should be assigned upon first loading the package.}
 
-\item{viewCode}{If TRUE, code from the temporary file used to interact with RevBayes will be displayed in
+\item{viewCode}{logical - If TRUE, code from the temporary file used to interact with RevBayes will be displayed in
 the viewing pane. Default is FALSE. The option is mostly for developer convenience, and can be ignored
 by most users.}
 
-\item{coerce}{If FALSE, RevBayes output will be printed to the console in character format. If
+\item{coerce}{logical - If FALSE, RevBayes output will be printed to the console in character format. If
 TRUE, coerceRev() will attempt to coerce output into a suitable R object. Default is TRUE.}
 
-\item{use_wd}{If TRUE, the simulated Revbayes session will use the same working directory as
+\item{use_wd}{logical - If TRUE, the simulated Revbayes session will use the same working directory as
 the active R session. If FALSE, it will use the default for the RevBayes executable. Default is TRUE.}
 }
 \value{

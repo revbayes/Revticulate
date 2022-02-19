@@ -8,16 +8,16 @@
 #
 #'    clearRev(), getRevVars(), and getRevHistory() can still be called from within the session for user convenience
 #'
-#'@param path Path to the RevBayes executable. Defaults to Sys.getenv("rb"), which should be assigned upon first loading the package.
+#'@param path character - Path to the RevBayes executable. Defaults to Sys.getenv("rb"), which should be assigned upon first loading the package.
 #'
-#'@param viewCode If TRUE, code from the temporary file used to interact with RevBayes will be displayed in
+#'@param viewCode logical - If TRUE, code from the temporary file used to interact with RevBayes will be displayed in
 #'                the viewing pane. Default is FALSE. The option is mostly for developer convenience, and can be ignored
 #'                by most users.
 #'
-#'@param coerce If FALSE, RevBayes output will be printed to the console in character format. If
+#'@param coerce logical - If FALSE, RevBayes output will be printed to the console in character format. If
 #'    TRUE, coerceRev() will attempt to coerce output into a suitable R object. Default is TRUE.
 #'
-#'@param use_wd If TRUE, the simulated Revbayes session will use the same working directory as
+#'@param use_wd logical - If TRUE, the simulated Revbayes session will use the same working directory as
 #'    the active R session. If FALSE, it will use the default for the RevBayes executable. Default is TRUE.
 #'
 #'@return No return. RevBayes variables assigned within the session can be accessed externally via doRev() or viewed with getRevVars().
@@ -86,24 +86,15 @@ repRev <- function (path = Sys.getenv("rb"), viewCode = FALSE, coerce = TRUE, us
       cat(getRevVars(), sep = "\n")
       next()
     }
-    else if(str_detect(ginput, pattern = "^getRevVars\\(\".+\"\\)$")){
-      args <- str_remove_all(str_extract(ginput, "\\(.+\\)"), "\\(|\\)|\"")
-      cat(getRevVars(args), sep = "\n")
-      next()
-    }
     else if(ginput == "getRevHistory()"){
       cat(getRevHistory(), sep = "\n")
       next()
     }
     else{
-      #ginput <- str_replace_all(ginput, "\\{", "\\{\n\t")
-      #ginput <- str_replace_all(ginput, "\\}", "\n\\}\n\t")
       if(coerce)
         cat(capture.output(doRev(ginput, viewCode = viewCode, coerce = coerce)), sep = "\n")
       else
         cat(doRev(ginput, viewCode = viewCode, coerce = coerce), sep = "\n")
-      }
-
-
+    }
   }
 }

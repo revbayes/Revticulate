@@ -7,7 +7,9 @@
 clearRev(n = NULL, silent = FALSE)
 }
 \arguments{
-\item{n}{How many lines to remove. If n = NULL, all lines are removed.}
+\item{n}{integer - How many lines to remove. If n = NULL, all lines are removed.}
+
+\item{silent}{logical - If TRUE, output messages will be silenced. Default is FALSE.}
 }
 \value{
 pseudoError: NULL. Message warning user that they attempted to erase more items from the Rev history than exist. message() is used instead of stop() so that clearRev() functions in repRev().

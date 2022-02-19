@@ -7,9 +7,9 @@
 loadRevHistory(filepath, overwrite = FALSE)
 }
 \arguments{
-\item{filepath}{File to load .Revhistory from}
+\item{filepath}{character - File to load .Revhistory from}
 
-\item{overwrite}{If TRUE, the code in the file at 'filepath' will overwrite current .Revhistory. If FALSE, it will be appended to the end of it.}
+\item{overwrite}{logical - If TRUE, the code in the file at 'filepath' will overwrite current .Revhistory. If FALSE, it will be appended to the end of it.}
 }
 \value{
 No return - reads in new code to the .Revhistory file
