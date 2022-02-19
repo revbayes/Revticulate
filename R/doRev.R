@@ -1,14 +1,25 @@
-#'Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.
+#'Call RevBayes with Continuous Session History
 #'
-#'@param input Code snippet to run in the RevBayes executable
+#'The basic Revticulate function for interacting with RevBayes
 #'
-#'@param viewCode If TRUE, Rev code input and output will be displayed in the viewing pane.
+#'This function allows users to make multiple calls to RevBayes, while maintaining a
+#'persistent input history. This means that variables defined in one call can be referenced in
+#'another call, giving the feel of a continuous RevBayes session.
 #'
-#'@param coerce If TRUE, the output from RevBayes will be coerced into R format with coerceRev()
+#'Because this function is the basis for repRev() and knitRev(), variables defined in RevBayes
+#'with any of these functions can be referenced by any of the others.
 #'
-#'@param timeout Determines how long the system2() call should wait before timing out (seconds). Default is 5.
+#'@param input character - Rev language expression to execute in RevBayes
 #'
-#'@return now: type varies. If coerce = TRUE, coerceRev() will attempt to convert RevBayes output into an equivalent R object. Else, return type is character.
+#'@param evaluate logical - If FALSE, input will be written to the .Revhistory file, but will not be interpreted in RevBayes. Default is FALSE.
+#'
+#'@param coerce logical - If TRUE, the output from RevBayes will be coerced into R format with coerceRev()
+#'
+#'@param viewCode logical - If TRUE, Rev code input and output will be displayed in the viewing pane. Mostly used for development purposes.
+#'
+#'@param timeout integer - Determines how long the system2() call should wait before timing out. Default is 5 seconds. For longer calls, see 'callRevFromTerminal()'
+#'
+#'@return now - RevBayes output, type varies. If coerce = TRUE, coerceRev() will attempt to convert RevBayes output into an equivalent R object. If else, the return type is character.
 #'
 #'@examples
 #' \dontrun{

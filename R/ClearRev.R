@@ -1,14 +1,15 @@
 
-#'Removes lines from RevBayes history
+#'Clear Code from Revticulate History
 #'
-#'Removes lines of code from the .Revhistory file used for managing RevBayes interactions.
+#'Removes code from .Revhistory file used for managing Revticulate history.
+#'Clears all code by default, or last 'n' lines of code specifed by the user.
 #'
 #'@param n How many lines to remove. If n = NULL, all lines are removed.
 #'
 #'@examples
 #' \dontrun{
-#' clearRev() #Clear all objects from RevBayes
-#' clearRev(n = 1) # Clear the last line input to RevBayes
+#' clearRev() #Clear all Revticulate history
+#' clearRev(n = 3) #Remove the last 3 lines of Revticulate history
 #' }
 #'
 #' @return pseudoError: NULL. Message warning user that they attempted to erase more items from the Rev history than exist. message() is used instead of stop() so that clearRev() functions in repRev().

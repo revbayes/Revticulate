@@ -1,7 +1,11 @@
-#' Submit input to RevBayes and return output
+#' Basic Call to RevBayes
 #'
-#' Submits input to the RevBayes executable and returns output to R in string format. If coerce = TRUE, the function coerRev()
+#' Submits input to the RevBayes executable and returns output to R in string format. If coerce = TRUE, the function coerceRev()
 #'    will attempt to coerce output to a similar R object.
+#'
+#' ##NOTE - This function provides very limited interaction with RevBayes, and is
+#'          mostly intended to provide basic functionalities for other methods. For
+#'          more effective RevBayes calls, use doRev().
 #'
 #' @param ... String input to send to RevBayes.
 #' @param coerce If TRUE, attempts to coerce output to an R object. If FALSE, output

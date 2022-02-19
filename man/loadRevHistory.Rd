@@ -2,7 +2,7 @@
 % Please edit documentation in R/loadRevHistory.R
 \name{loadRevHistory}
 \alias{loadRevHistory}
-\title{Load in Rev history from a .Rev file}
+\title{Load Revticulate History from a .Rev File}
 \usage{
 loadRevHistory(filepath, overwrite = FALSE)
 }
@@ -11,8 +11,11 @@ loadRevHistory(filepath, overwrite = FALSE)
 
 \item{overwrite}{If TRUE, the code in the file at 'filepath' will overwrite current .Revhistory. If FALSE, it will be appended to the end of it.}
 }
+\value{
+No return - reads in new code to the .Revhistory file
+}
 \description{
-Reads in the code from a .Rev file and writes it into the current Rev history.
+Reads in the code from a .Rev file and writes it into the current Revticulate history.
 }
 \examples{
 \dontrun{
@@ -20,6 +23,5 @@ Reads in the code from a .Rev file and writes it into the current Rev history.
 
      loadRevHistory("someMoreCode.rev", overwrite=TRUE)
 }
-
 
 }

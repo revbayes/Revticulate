@@ -1,6 +1,6 @@
-#'Load in Rev history from a .Rev file
+#'Load Revticulate History from a .Rev File
 #'
-#'Reads in the code from a .Rev file and writes it into the current Rev history.
+#'Reads in the code from a .Rev file and writes it into the current Revticulate history.
 #'
 #'@param filepath File to load .Revhistory from
 #'@param overwrite If TRUE, the code in the file at 'filepath' will overwrite current .Revhistory. If FALSE, it will be appended to the end of it.
@@ -12,6 +12,7 @@
 #'      loadRevHistory("someMoreCode.rev", overwrite=TRUE)
 #' }
 #'
+#'@return No return - reads in new code to the .Revhistory file
 #'
 #'@export
 #'
