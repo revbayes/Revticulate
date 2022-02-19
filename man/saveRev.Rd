@@ -4,7 +4,7 @@
 \alias{saveRev}
 \title{Save Revticulate history in a .Rev file for use in RevBayes}
 \usage{
-saveRev(filepath)
+saveRev(filepath, use_wd = TRUE, use_quit = FALSE)
 }
 \arguments{
 \item{filepath}{File to save .Revhistory to}
