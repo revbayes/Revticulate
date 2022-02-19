@@ -58,5 +58,11 @@ doRev <- function(input, coerce = TRUE, evaluate = TRUE, viewCode = FALSE, timeo
     return(now)
   }
 
+  if(length(now) > 1){
+    if(str_squish(now[1]) == ""){
+      now <- now[2:length(now)]
+    }
+  }
+
   return(now)
 }

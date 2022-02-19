@@ -11,10 +11,10 @@ knitRev <- function(){
 
   knitr::knit_engines$set(rb = function(options) {
 
-    if(!any(names(options)=="rb_eval")){
+    if(!any(names(options) == "rb_eval")){
       options$rb_eval <- TRUE
     }
-    if(!any(names(options)=="coerce")){
+    if(!any(names(options) == "coerce")){
       options$coerce <- TRUE
     }
 
