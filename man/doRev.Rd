@@ -4,14 +4,14 @@
 \alias{doRev}
 \title{Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.}
 \usage{
-doRev(input, viewCode = FALSE, coerce = TRUE, timeout = 5)
+doRev(input, coerce = TRUE, evaluate = TRUE, viewCode = FALSE, timeout = 5)
 }
 \arguments{
 \item{input}{Code snippet to run in the RevBayes executable}
 
-\item{viewCode}{If TRUE, Rev code input and output will be displayed in the viewing pane.}
-
 \item{coerce}{If TRUE, the output from RevBayes will be coerced into R format with coerceRev()}
+
+\item{viewCode}{If TRUE, Rev code input and output will be displayed in the viewing pane.}
 
 \item{timeout}{Determines how long the system2() call should wait before timing out (seconds). Default is 5.}
 }
