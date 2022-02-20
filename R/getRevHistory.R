@@ -1,16 +1,23 @@
-#'Get full history of RevBayes code from RevEnv
+#'Get Revticulate History
 #'
-#'Returns a vector of the lines of code in the .Revhistory file
+#'Return the history of RevBayes code submitted with doRev() and similar functions
 #'
 #'@import comprehenr
 #'
-#'@return lines: character. Lines read from .Revhistory file.
+#'@return lines - character. A vector of the line-by-line Revticulate history
+#'
+#'@examples
+#' \dontrun{
+#' getRevHistory()
+#'
+#' cat(getRevHistory(), sep="\n")
+#' }
 #'
 #'@export
 #'
 getRevHistory <- function(){
 
-  lines <- readLines(Sys.getenv("RevHistory"), warn = FALSE)
+  lines <- readLines(Sys.getenv("revHistory"), warn = FALSE)
 
   return(lines)
 }

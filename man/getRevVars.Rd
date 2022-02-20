@@ -2,27 +2,20 @@
 % Please edit documentation in R/getRevVars.R
 \name{getRevVars}
 \alias{getRevVars}
-\title{Get variable definitions from RevEnv}
+\title{View RevBayes Variables}
 \usage{
-getRevVars(varName = NULL)
-}
-\arguments{
-\item{varName}{Only returns lines where specific variable names are defined. If NULL, all lines are returned}
+getRevVars()
 }
 \value{
-varList: character. Vector of lines from .Revhistory containing assignment variables.
-
-singleVar: character. Vector of lines from .Revhistory containing an assignment variable for a specific variable name.
+No return - wrapper for RevBayes ls() function to show variables in rb environment
 }
 \description{
-Returns vector of lines in .Revhistory containing variable definitions
+Wrapper for RevBayes ls() function. Displays variables that have been defined in the working RevBayes session.
 }
 \examples{
 \dontrun{
+
 getRevVars()
-}
-\dontrun{
-getRevVars("var1")
 }
 
 }

@@ -2,22 +2,40 @@
 % Please edit documentation in R/doRev.R
 \name{doRev}
 \alias{doRev}
-\title{Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.}
+\title{Call RevBayes with Continuous Session History}
 \usage{
-doRev(input, viewCode = FALSE, coerce = FALSE, timeout = 5)
+doRev(input, coerce = TRUE, evaluate = TRUE, viewCode = FALSE, timeout = 5)
 }
 \arguments{
-\item{input}{Code snippet to run in the RevBayes executable}
+\item{input}{character - Rev language expression to execute in RevBayes}
 
-\item{viewCode}{If TRUE, Rev code input and output will be displayed in the viewing pane.}
+\item{coerce}{logical - If TRUE, the output from RevBayes will be coerced into R format with coerceRev()}
 
-\item{coerce}{If TRUE, the output from RevBayes will be coerced into R format with coerceRev()}
+\item{evaluate}{logical - If FALSE, input will be written to the .Revhistory file, but will not be interpreted in RevBayes. Default is FALSE.}
 
-\item{timeout}{Determines how long the system2() call should wait before timing out (seconds). Default is 5.}
+\item{viewCode}{logical - If TRUE, Rev code input and output will be displayed in the viewing pane. Mostly used for development purposes.}
+
+\item{timeout}{integer - Determines how long the system2() call should wait before timing out. Default is 5 seconds. For longer calls, see 'callRevFromTerminal()'}
 }
 \value{
-now: type varies. If coerce = TRUE, coerceRev() will attempt to convert RevBayes output into an equivalent R object. Else, return type is character.
+now - RevBayes output, type varies. If coerce = TRUE, coerceRev() will attempt to convert RevBayes output into an equivalent R object. If else, the return type is character.
 }
 \description{
-Wrapper for callRev(). Runs previous code in the .Revhistory file to allow user-created Rev variables to persist between interactions.
+The basic Revticulate function for interacting with RevBayes
+}
+\details{
+This function allows users to make multiple calls to RevBayes, while maintaining a
+persistent input history. This means that variables defined in one call can be referenced in
+another call, giving the feel of a continuous RevBayes session.
+
+Because this function is the basis for repRev() and knitRev(), variables defined in RevBayes
+with any of these functions can be referenced by any of the others.
+}
+\examples{
+\dontrun{
+doRev("simTree(16)", coerce=FALSE)
+doRev("a <- 10")
+doRev("a * 100")
+}
+
 }
