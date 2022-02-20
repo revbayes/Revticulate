@@ -1,7 +1,3 @@
-
-[![Build Status](https://travis-ci.com/Paleantology/Revticulate.svg?branch=master)](https://travis-ci.com/Paleantology/Revticulate)
-
-
 ## RevBayes and R
 
 Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on PC, your copy will be called "rb.exe."
