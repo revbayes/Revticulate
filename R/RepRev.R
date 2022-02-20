@@ -1,48 +1,46 @@
-#'Continuous interactive session with rb.exe
+#' Interactive Session with RevBayes
 #'
-#'Allows user to continuously call rb.exe without having to retype function.
+#'    Simulates a continuous, interactive session with RevBayes. While this session is active, all code will be interpreted as Rev code, and attempting to run R code may result in error.
 #'
-#'    To exit session, type quit().
+#'    By default, the interactive session uses the present R working directory as the RevBayes working directory. This behavior can be turned off with use_wd = FALSE
 #'
-#'    ClearRev() and GetRev() can be called from within session for ease of use.
+#'    The exit the session, type 'quit()', 'q()', or hit the 'esc' key.
+#
+#'    clearRev(), getRevVars(), and getRevHistory() can still be called from within the session for user convenience
 #'
-#'@param path Path to rb.exe. Defaults to RevEnv$RevPath, so
-#'    InitRev() must typically be called first.
+#'@param path character - Path to the RevBayes executable. Defaults to Sys.getenv("rb"), which should be assigned upon first loading the package.
 #'
-#'@param viewCode If TRUE, String-formatted code in the temporary file used to interact with
-#'    rb.exe will be displayed in the viewing pane. Default is FALSE.
+#'@param viewCode logical - If TRUE, code from the temporary file used to interact with RevBayes will be displayed in
+#'                the viewing pane. Default is FALSE. The option is mostly for developer convenience, and can be ignored
+#'                by most users.
 #'
-#'@param coerce If FALSE, output from rb.exe will be returned in String format. If
-#'    TRUE, RepRev() will attempt to coerce output into a suitable R object. Default is TRUE.
+#'@param coerce logical - If FALSE, RevBayes output will be printed to the console in character format. If
+#'    TRUE, coerceRev() will attempt to coerce output into a suitable R object. Default is TRUE.
 #'
-#'@param use_wd If T, temporary rb.exe session will use the same working directory as
-#'    the active R session. If F, it will use its default. Default is T.
+#'@param use_wd logical - If TRUE, the simulated Revbayes session will use the same working directory as
+#'    the active R session. If FALSE, it will use the default for the RevBayes executable. Default is TRUE.
 #'
-#'@param sleep Integer. If a number of seconds are provided, Sys.sleep() will run after user
-#'    rb.exe input is provided for the given number of seconds. This will not occur if sleep is
-#'    NULL. This parameter was mostly made for testing purposes. Default is NULL.
+#'@return No return. RevBayes variables assigned within the session can be accessed externally via doRev() or viewed with getRevVars().
 #'
 #'@examples
-#'--The below example code enters, uses, and exits an interactive rb.exe session. Attempting to use
-#'R code before quit() may cause an error--
-#'
-#'RepRev()
+#' \dontrun{
+#'repRev()
 #'
 #'myNumber <- 4
 #'myNumber
 #'
 #'posteriorPredictiveProbability(v(2), 3)
-#'
-#'GetRev()
-#'ClearRev()
+
+#'getrRev()
+#'clearRev()
 #'quit()
+#'}
 #'@export
 #'
-RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd = T, sleep = NULL)
+repRev <- function (path = Sys.getenv("rb"), viewCode = FALSE, coerce = TRUE, use_wd = TRUE)
 {
   while (TRUE) {
-    ginput <- readline(prompt = "rb>>>")
-    timestamp(ginput, prefix = "", suffix = "", quiet = TRUE)
+    ginput <- readline(prompt = "rb>>> ")
 
     numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
     numberOfClosedBraces <- stringr::str_count(ginput, "\\}")
@@ -57,10 +55,10 @@ RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
 
       if(
         (numberOfOpenBraces < numberOfClosedBraces) |
-        (numberOfOpenBraces < numberOfClosedBraces)
+        (numberOfOpenParenthesis < numberOfClosedParenthesis)
       ) break();
 
-      ginput <- ginput %+% readline(prompt <- "rb>>>")
+      ginput <- ginput %+% "\n" %+% readline(prompt <- "rb>>> ")
 
       numberOfOpenBraces <- stringr::str_count(ginput, "\\{")
       numberOfClosedBraces <- stringr::str_count(ginput, "\\}")
@@ -73,34 +71,30 @@ RepRev <- function (path = RevEnv$RevPath, viewCode = F, coerce = TRUE, use_wd =
 
     }
 
-
-    if (ginput == "quit()") {
+    if (ginput == "quit()" || ginput == "q()") {
       break
     }
-
-    if (ginput == "ClearRev()"){
-      ClearRev()
+    else if (ginput == "clearRev()"){
+      clearRev()
       next
     }
-
-    if(ginput == "GetRev()"){
-      print(GetRev())
+    else if(str_detect(ginput, "clearRev\\(([0-9]+)\\)")){
+      clearRev(as.integer(str_extract(ginput, "[0-9]+")))
+      next
+    }
+    else if(ginput == "getRevVars()"){
+      cat(getRevVars(), sep = "\n")
       next()
     }
-
-    else{doRev(ginput, viewCode = viewCode, use_wd = use_wd, interactive = TRUE)}
-
-    RevEnv$Vars <- unique(RevEnv$Vars)
-
-    if(!is.null(sleep)){
-      Sys.sleep(sleep)
+    else if(ginput == "getRevHistory()"){
+      cat(getRevHistory(), sep = "\n")
+      next()
     }
-
+    else{
+      if(coerce)
+        cat(capture.output(doRev(ginput, viewCode = viewCode, coerce = coerce)), sep = "\n")
+      else
+        cat(doRev(ginput, viewCode = viewCode, coerce = coerce), sep = "\n")
+    }
   }
 }
-
-
-
-
-
-
