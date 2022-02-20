@@ -2,18 +2,30 @@
 
 Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on PC, your copy will be called "rb.exe."
 
+## Setup
+
 In the above chunk, you will see the command `initRev`. This is a function in the `Revticulate` R package. This R package can be installed using the popular `devtools` R package like so:
 
 ```{r}
 devtools::install_github("revbayes/Revticulate")
 library(Revticulate)
-initRev("/Users/april/software/rb")
-KnitRev()
 ```
 
-The `initRev` function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. `initRev` takes one argument: where RevBayes lives on your computer. Delete my sample path and enter your path above.
+To function properly, Revticulate package must be connected to the underlying RevBayes executeable. This is done via the `initRev` function, which accepts an absolute path to RevBayes. For example, below, my rb executeable is stored in my (April) user software folder. Delete my sample path and enter your path below.
+The `initRev` function creates a RevBayes running environment, which will allow you to interact with RevBayes through R. 
 
-The next line, `KnitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.
+```
+initRev("/Users/april/software/rb")
+```
+
+If you will be using RevBayes in the R or RStudio console, you should be good to go. The next line, `KnitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to. If you will be using RevBayes via Knitr, you will also need to begin a KnitR session like so:
+
+```
+knitRev()
+```
+
+**Please note** that you will need to call `initRev` whenever you open a new R or RStudio Console session. `initRev` and `knitRev` should be included in _each_ Knitr document you make.
+
 
 ## Using RevBayes in a KnitR Chunk
 
