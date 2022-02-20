@@ -440,7 +440,7 @@ We can  automate convergence assessment using the R package convenience [@fabret
 library(convenience)
 saveRev("mcmc_FBD.Rev", use_quit=FALSE)
 #callRevFromTerminal("mcmc_FBD.Rev")
-checkConvergence(path = "output/")
+#checkConvergence(path = "output/")
 ```
 
 We can also use RevGadgets [@tribble2021revgadgets] to visualize our tree with a geological time scale. In this example, we use RevBayes to compute a summary tree, then export to RevGadets. Because this can be a long computation, the summarizing is not run here, but is provided. We can also use functions in ggplot2 [@wickham1pkgdown] to export figures. In this way, Revticulate can enable full reproducibility of results and graphics generation.

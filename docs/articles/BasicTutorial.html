@@ -122,7 +122,7 @@ This check searches for and .Renviron file that contains a RevBayes path. If the
 <span class="co">## Phylogenetic tree with 18 tips and 16 internal nodes.</span>
 <span class="co">## </span>
 <span class="co">## Tip labels:</span>
-<span class="co">##   Melursus_ursinus, Ursus_arctos, Tremarctos_ornatus, Ursus_americanus, Indarctos_arctoides, Ailuropoda_melanoleuca, ...</span>
+<span class="co">##   Ailurarctos_lufengensis, Ursavus_primaevus, Zaragocyon_daamsi, Ailuropoda_melanoleuca, Kretzoiarctos_beatrix, Ursus_thibetanus, ...</span>
 <span class="co">## </span>
 <span class="co">## Rooted; includes branch lengths.</span></code></pre>
 <p>Anything entered in an <code>rb</code> block will be interpreted as Rev code, and all the normal Rev syntax will apply. For a nice overview of Rev language and syntax, please see <a href="https://revbayes.github.io/tutorials/intro/rev" class="external-link">this tutorial</a>.</p>
@@ -148,7 +148,7 @@ phylogeny'</span><span class="op">)</span></code></pre></div>
 <code class="sourceCode R"><span class="va">alpha_morpho</span> <span class="op">~</span> <span class="fu">dnUniform</span><span class="op">(</span> <span class="fl">0</span>, <span class="fl">1E6</span> <span class="op">)</span>;
 <span class="va">rates_morpho</span> <span class="op">:=</span> <span class="fu">fnDiscretizeGamma</span><span class="op">(</span> <span class="va">alpha_morpho</span>, <span class="va">alpha_morpho</span>, <span class="fl">4</span> <span class="op">)</span>
 <span class="va">alpha_morpho</span></code></pre></div>
-<pre><code><span class="co">## [1] 362826.3</span></code></pre>
+<pre><code><span class="co">## [1] 118757.5</span></code></pre>
 <p>If you aren’t a big stats person, this might not mean much to you, in terms of what this distribution actually looks like. But it is important to develop intuitions for what common distributions look like and what this says about our data. So, we can use R’s built-in graphics capabilities to have a look at what 1000 draws from this gamma will look like.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/doRev.html">doRev</a></span><span class="op">(</span><span class="st">'alpha_morpho ~ dnUniform( 0, 1E6 );
@@ -186,7 +186,7 @@ rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
 <span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span> <span class="op">(</span>n<span class="op">=</span><span class="fl">1</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span> <span class="op">[</span><span class="fl">1</span><span class="op">]</span>
 <span class="va">p</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.5734786</span></code></pre>
+<pre><code><span class="co">## [1] 0.7136949</span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="likelihood-function">Likelihood Function<a class="anchor" aria-label="anchor" href="#likelihood-function"></a>
@@ -195,7 +195,7 @@ rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
 <p>The function can then be executed in the next cell:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">likelihood</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 0.02671503</span></code></pre>
+<pre><code><span class="co">## [1] 3.31846e-06</span></code></pre>
 </div>
 </div>
 <div class="section level3">
