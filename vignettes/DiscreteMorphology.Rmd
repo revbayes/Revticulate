@@ -1,0 +1,480 @@
+
+---
+title: "Discrete morphology example"
+author: "Caleb Charpentier and April Wright"
+date: Sys.Date()
+output: rmarkdown::html_vignette
+bibliography: refs.bib
+
+vignette: >
+  %\VignetteIndexEntry{Discrete morphology example}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+library(Revticulate)
+knitRev()
+```
+# Installation
+
+Revticulate can be installed in two ways. 
+The first is via CRAN, using the default `install.packages` function in R:
+
+```{r, eval=FALSE}
+install.packages("Revticulate")
+```
+
+The second is via the remotes package, a lightweight package enabling installation from GitHub repositories. 
+
+```{r, eval=FALSE}
+remotes::install_github("revbayes/Revticulate")
+```
+
+ The GitHub repository for Revticulate contains cutting-edge features and may contain bugfixes, but the CRAN is known to be stable for everyday use.
+
+Upon first installation, Revticulate will run a package check.  
+This check searches for and .Renviron file that contains a RevBayes path. If the package doesn’t find this file, or finds it without the path, the package prompts the user to use `usethis::edit_r_environ()`. This opens the .Renviron file, and the user will enter `rb={absolute path to revbayes}`. This can be edited at any time if there are multiple installs on the system, or if you recompile RevBayes and want to use a new version.
+
+Before using Revticulate in knitr, make sure the following is in your setup chunk:
+
+```
+library(Revticulate)
+knitRev()
+```
+
+# Introduction 
+
+Morphological data is commonly used for estimating phylogenetic trees from fossils. This tutorial will focus on estimating phylogenetic trees from _discrete_ characters, those characters which can be broken into non-overlapping character states. This type of data has been used for estimation of phylogenetic trees for many years. In the past twenty years, Bayesian methods for estimating phylogeny from this type of data have become increasingly common.
+
+This tutorial will give an overview of common models and assumptions when estimating a tree from discrete morphological data. We will use a dataset from [@zamora2013]. This dataset contains 27 extinct echinoderm taxa and 60 binary and multistate characters.
+
+## Overview of Discrete Morphology Models
+
+As technologies for obtaining low-cost and high-throughput nucleotide sequence data have become available, many scientists have become reliant on molecular data for phylogenetics. However, morphological data remain the only direct observations we have of most extinct organisms, and are an independent data source for understanding phylogeny. Many of the phylogenetic methods we will discuss in this tutorial were invented for use with sequence data. However, these methods are still very useful for discrete morphological data. We will examine some common assumptions for modeling data in a phylogenetic context, then move on to look at relaxing these assumptions.
+
+Modeling discrete morphological data requires an understanding of the underlying properties of the data. When we work with molecular data, we know _a priori_ that certain types of changes are more likely than others. For example, changes within a type of base (purine and pyrimidine) are much more likely than changes between types of bases. This information can be used to add parameters to the phylogenetic model. There are no equivalent and generalizable truths across characters in a morphological data matrix. For example, while `0` and `1` are commonly coded to "presence" and "absence", this is not always the case, nor are all characters atomized at the same magnitude. For instance, at one character, changing character states may not reflect a large amount of genetic changes. Theca shape (character 2 in the Zamora et al. 2013 dataset), for example appears quite labile. At another, the changes to the character state may reflect a rearrangement of genetic elements, or might have larger ramifications for the organism's life and behavior. Character 38, the central plate of the lintel, may be one such character, as it changes seldom.
+
+When we work with morphological data in a Bayesian context, we are performing these analyses after a long history of workers performing phylogenetic analysis in a maximum parsimony framework. Under maximum parsimony, trees are proposed. The number of changes in the data implied by the tree are then counted. The tree implying the fewest changes is considered the best. There may be multiple most parsimonious trees in a dataset. Parsimony has been the dominant method for estimating phylogenetic trees from discrete morphological data. Characters that cannot be used to discriminate between tree topologies are not typically collected by workers using parsimony. For example, characters that do not vary are not collected, as they all have the same length (0 steps) on a tree. Likewise, autapomorphies are typically not collected. As we will see later, this has ramifications for how we model the data.
+
+<img src="Mk_model.png" width="800" />
+Graphical model showing the Mk model (left panel) and corresponding Rev code (right panel).
+
+
+For many years, parsimony was the only way to estimate a phylogenetic tree from morphological data. In 2001, Paul Lewis published the Mk model of morphological evolution. The Mk model [@Lewis2001] is a generalization of the Jukes-Cantor model [@Jukes1969] of nucleotide sequence evolution. This model, while simple, has allowed researchers to access the toolkit of phylogenetic methods available to researchers working with other discretely-valued data, such as nucleotides or amino acids.
+
+
+### The Mk Model 
+
+As mentioned above, the Mk model is a generalization of the JC model. This model assumes that all transitions between character states are equal, and that all characters in the matrix have the same transition matrix. The transition matrix for a binary trait looks like so:
+
+$$Q = \begin{pmatrix} -\mu_0 & \mu_{01} \\
+\mu_{10} & -\mu_1  &\\
+\end{pmatrix} \mbox{  ,}$$
+
+
+In this matrix, $\mu$ represents the transition probability between the two states that follow it. A transition matrix for multistate data simply expands.
+
+$$Q = \begin{pmatrix} -\mu_0 & \mu_{01} & \mu_{02} & \mu_{03} \\
+\mu_{10} & -\mu_1  & \mu_{12} & \mu_{13} \\
+\mu_{20} & \mu_{21} & -\mu_2  & \mu_{23} \\
+\mu_{30} & \mu_{31} & \mu_{32} & -\mu_3
+\end{pmatrix} \mbox{  ,}$$
+
+However, the Mk model sets transitions to be equal from any state to any other state. In that sense, our multistate matrix really looks like this:
+
+$$Q = \begin{pmatrix} -(k-1)\mu & \mu & \mu & \mu \\
+\mu & -(k-1)\mu  & \mu & \mu \\
+\mu & \mu & -(k-1)\mu  & \mu \\
+\mu & \mu & \mu & -(k-1)\mu \\
+\end{pmatrix} \mbox{  ,}$$
+
+You might notice that these transition rates are not different than what we might expect from an equal-weights parsimony matrix. In practice, the Mk model makes very few assumptions due to the complexity and non-generalizability of morphological data.
+
+This model may strike some readers as too simplistic to be adequate for morphological data. However, Bayesian methods are less likely to be mislead by homoplasy than is parsimony [@Felsenstein1985a]. More recent work has demonstrated that the model outperforms parsimony in many situations, particularly those in which there is high homoplasy [@Wright2014], with empirical work demonstrating that it fits many datasets reasonably well [@Wright2016].
+
+In the first part of this tutorial, we will estimate a tree under the Mk model as proposed by Lewis (2001). We will then relax core parameters of the model.
+
+{% subsubsection Ascertainment Bias %}
+
+One remaining component of the model we have not yet discussed is ascertainment bias. Because workers using parsimony do not collect invariant characters and seldom collect autapomorphies, our data are _biased_. Imagine, for a moment, that you were to measure the average height in a room. But first, you asked the 10 shortest people to leave. Your estimate of the average height would be too tall! In effect, this happens in the morphological data, as well. Because the characters with the fewest changes are not collected, we over estimate the amount of evolutionary change on the tree. At the time of publication, Lewis (2001) also included a correction factor for this bias.
+
+These original corrections involved simulating parsimony non-informative characters along each proposed tree. These would be used to normalize the likelihood value. While this procedure is statistically valid, it is a bit slow. There are multiple ways to perform this correction [@allman08b]. RevBayes uses a dynamic likelihood approach to avoid repeated simulations.
+
+# Example: Inferring a Phylogeny of Extinct Cinctans Using the Mk Model 
+
+## Tutorial Format
+
+This tutorial follows a specific format for issuing instructions and information.
+
+>The boxed instructions guide you to complete tasks that are not part of the RevBayes syntax, but rather direct you to create directories or files or similar.
+
+Information describing the commands and instructions will be written in paragraph-form before or after they are issued.
+
+All command-line text, including all Rev syntax, are given in
+`monotype font`. Furthermore, blocks of Rev code that are needed to build the model, specify the analysis, or execute the run are given in separate shaded boxes. For example, we will instruct you to create a constant node called `example` that is equal to `1.0` using the `<-` operator like this:
+
+
+```{rb}
+example <- 1.0
+example
+```
+
+It is important to be aware that some PDF viewers may render some characters given as differently. Thus, if you copy and paste text from this PDF, you may introduce some incorrect characters. Because of this, we recommend that you type the instructions in this tutorial or copy them from the scripts provided.
+
+## Data and Files 
+
+### Creating Rev Files 
+
+>In this exercise, we will build Rev scripts via the R Revticulate package. 
+
+## Load Data Matrices 
+
+RevBayes uses the function `readDiscreteCharacterData()` to load a data matrix to the workspace from a formatted file. This function can be used for both molecular sequences and discrete morphological characters. Import the morphological character matrix and assign it the variable `morpho`.
+
+```{r}
+clearRev()
+```
+
+```{rb}
+morpho <- readDiscreteCharacterData("Cinctans.nex")
+morpho
+```
+
+### Create Helper Variables 
+
+We will dig into the model momentarily. But first, we will create some variables that are used in our analysis, but are not parameters. We will assign these variables with the constant node assignment operator, `<-`. Even though these values are used in our scripts, they are not parameters of the model.
+
+We will first create a constant node called `num_taxa` that is equal to the number of species in our analysis (27). We will also create a constant node called `num_branches` representing the number of branches in the tree, and one of the taxon names. This list will be used to initialize the tree.
+
+
+```{rb}
+num_taxa <- morpho.size()
+num_branches <- 2 * num_taxa - 2
+taxa <- morpho.names()
+taxa
+```
+
+Next, create a workspace variable called `moves`, a vector containing all of the MCMC moves used to propose new states for every stochastic node in the model graph.
+
+
+```{rb}
+moves = VectorMoves()
+monitors = VectorMonitors()
+```
+
+One important distinction here is that `moves` is part of the RevBayes workspace and not the hierarchical model. Thus, we use the workspace assignment operator `=` instead of the constant node assignment `<-`.
+
+
+## The Fossilized Birth-Death Process 
+
+### Speciation and Extinction Rates 
+
+We will begin by specifying the speciation and extinction rates. These parameters govern the rate at which lineages are added to and removed from the population. From a previous study we know that an expoential distribution with a parameter of 1.471 is a reasonable distribution in which this value could lie. 
+```{rb}
+  speciation_rate ~ dnExponential(1.471)
+
+  moves.append(mvScale(speciation_rate, lambda=0.01, weight=5));
+  moves.append(mvScale(speciation_rate, lambda=0.10, weight=3));
+  moves.append(mvScale(speciation_rate, lambda=1.00, weight=1));
+```
+
+It is possible to set extinction as its own parameter, for example, like so:
+
+```{rb, eval=FALSE}
+  extinction_rate ~ dnExponential(10)
+```
+
+However, extinction and speciation rates are often correlated. And so we will instantiate a parameter called turnover, which is the ratio of extinction rate to speciation rate ($ \mu $ / $ \lambda $). The parameters to this lognormal distribution were arrived at by simulation of parameter values from the data.
+
+```{rb}
+	turnover ~ dnLognormal(0.945, 1.926745);
+	moves.append(mvSlide(turnover, delta=0.01, weight=5))
+	moves.append(mvSlide(turnover, delta=0.10, weight=3))
+	moves.append(mvSlide(turnover, delta=1.00, weight=1))
+```
+
+As discussed in previous lessons, moves specify how often (*weight*), we will sample new values for the parameters in our model. The *delta* of the slide move specifies how different from the initial value a propsed new parameter will be. More information on moves can be found in the [MCMC tutorial](https://revbayes.github.io/tutorials/mcmc/binomial.html). 
+
+Once our turnover is defined, we can also monitor our extinction values like so:
+```{rb}
+	extinction_rate := turnover*speciation_rate
+	diversification := speciation_rate - extinction_rate
+```
+
+Next, we will define the sampling in the present. Cinctans are extinct. We will rescale  our times such that the last appearance of Cinctans in the fossil record is the 'present'. Previous studies indicate that about half of Cinctans that existed them are in this analysis [@zamora2013]. We will treat $ \rho $ as a known quantity, a constant node. We will therefore, not specify any moves on this parameter.
+
+```{rb}
+    rho <- .506
+```
+
+Our data is made up of fossils. We also need to define the rate at which fossils are recovered on the tree. This is the fossil
+sampling rate ($\psi$ in Fig. 3). This is also referred to in the literature as the `recovery` rate. Prior research indicates that an exponential distribution with parameter 3.892 should be adequate. 
+```{rb}
+    psi ~ dnExponential(3.892) 
+    moves.append(mvScale(psi, lambda=0.01, weight=1))
+    moves.append(mvScale(psi, lambda=0.1,  weight=1))
+    moves.append(mvScale(psi, lambda=1,    weight=1))
+```
+
+If you do not have a good intution for what this distribution looks like, you can visualize it below.
+
+```{r}
+library(ggplot2)
+
+draws <- rexp(1000, 3.891)
+hist(draws)
+```
+
+### The Origin Time
+
+Finally, we need to define an origin time for the Cinctan group. Because we are rescaling the analysis to the treat the 'present' as last observation of Cinctans, our origin time will be drawn from a uniform distribution between 10.2 and 15.2 mya. In actuality, this corresponds to 508 to 513 million years ago.  
+```{rb}
+
+    origin_time ~ dnUnif(10.2, 15.2);
+    moves.append(mvSlide(origin_time, delta=0.01, weight=5.0))
+    moves.append(mvSlide(origin_time, delta=0.1,  weight=5.0))
+    moves.append(mvSlide(origin_time, delta=1,    weight=5.0))
+```
+
+### The FBD Distribution Object 
+
+All the parameters of the FBD process have now been specified. The next step is to use these parameters to define the FBD tree prior distribution, which we will call `fbd_dist`. We will use this distribution to simulate a starting tree.
+```{rb}
+
+    fbd_dist = dnFBDP(origin=origin_time, lambda=speciation_rate, mu=extinction_rate, psi=psi, rho=rho, taxa=taxa)
+```
+
+There has been a good amount of prior work on Cinctans, and we are able to define the ingroup for the Cinctans. For our taxa without phylogenetic characters, this allows us to tell the model that those taxa belong inside the ingroup. The model can then marginalize over their exact placement, and use the age information to date the total ingroup.
+
+```{rb}
+
+ingroup = clade("Ctenocystis_utahensis","Gyrocystis_platessa","Gyrocystis_testudiformis","Gyrocystis_cruzae","Gyrocystis_badulesiensis", "Gyrocystis_erecta","Progyrocystis_disjuncta","Protocinctus_mansillaensis","Elliptocinctus_barrandei","Elliptocinctus_vizcainoi","Sucocystis_theronensis","Sucocystis_bretoni","Lignanicystis_barriosensis","Undatacinctus_undata","Sucocystis_acrofera","Undatacinctus_quadricornuta","Undatacinctus_melendezi","Sotocinctus_ubaghsi","Ludwigicinctus_truncatus","Graciacystis_ambigua","Nelegerocystis_ivantzovi","Rozanovicystis_triangularis","Davidocinctus_pembrokensis")
+constraints = v(ingroup)
+```
+
+Next, we will draw a starting tree out of this distribution. This will be a tree that is feasible given our model parameters, and consistent with our clade constraints.
+
+```{rb}
+    fbd_tree ~ dnConstrainedTopology(fbd_dist, constraints=constraints)
+
+```
+
+We can look at this tree to ensure it exists and seems reasonable:
+
+```{r}
+
+phylogeny <- doRev("fbd_tree")
+
+phytools::plotTree(phylogeny)
+
+```
+
+### Moves on the Tree Topology and Node Ages 
+
+Fossils require some special moves we have not yet seen in any of the tutorials. Firstly, there is `mvFNPR`, which makes changes to the tree with the knowledge that some tips may not be contemporaneous. `mvCollapseExpandFossilBranch` allows fossils to transiton between being sampled ancestors and tips. The `TimeSlide` moves allow us to sample values for node and origin ages.
+```{rb}
+    moves.append(mvFNPR(fbd_tree, weight=15.0))
+    moves.append(mvCollapseExpandFossilBranch(fbd_tree, origin_time, weight=6.0))
+    moves.append(mvNodeTimeSlideUniform(fbd_tree, weight=40.0))
+    moves.append(mvRootTimeSlideUniform(fbd_tree, origin_time, weight=5.0))
+```
+
+### Sampling Fossil Occurrence Ages 
+
+Next, we need to account for uncertainty in the age estimates of our
+fossils using the observed minimum and maximum stratigraphic ages
+provided in the file `cinctans_fossil_intervals.tsv`. These values are were obtained and cleaned from the Paleobiology Database. First, we read this file into a matrix called `intervals`.
+```{rb}
+    intervals = readDataDelimitedFile(file="cincta_fossil_intervals_FA.tsv", header=true)
+```
+Next, we loop over this matrix. For each fossil observation, we create a
+uniform random variable representing the likelihood. In this equation $t_i$ is the fossil age. $a_i$ and $b_i$ are the minimum and maximum edges of the fossil age range. And so, we treat the fossil age as being drawn from a uniform distribution between $(t_i - b_i)$ and $(t_i - a_i)$
+
+```{rb}
+
+  intervals = readDataDelimitedFile(file="cincta_fossil_intervals_FA.tsv", header=true)
+  for(i in 1:intervals.size())
+  {
+      taxon  = intervals[i][1]
+      a_i = intervals[i][2]
+      b_i = intervals[i][3]
+      t[i] := tmrca(fbd_tree, clade(taxon))
+  
+      fossil[i] <- a_i
+      fossil[i] ~ dnSoftBoundUniformNormal(t[i] - b_i, t[i] - a_i, sd = 2, p = 0.025)
+      fossil[i].clamp( 0 )
+
+      
+  }
+```
+
+
+Finally, we add a move that samples the ages of the fossil nodes on the tree.
+```{rb}
+  moves.append(mvFossilTimeSlideUniform(fbd_tree, origin_time, weight=5.0))
+```
+
+We are also going to write the number of sampled ancestors in our analysis to our log files. You may be interested in this value.
+
+```{rb}
+    num_samp_anc := fbd_tree.numSampledAncestors()
+```
+
+# Clock model
+
+We will use the clock model we specified in the [this tutorial on morphological clocks](https://dwbapst.github.io/PaleoSoc_phylo_short_course_2019/articles/module_07_TripartiteModel2_clock_models/Clock_models_for_character_data.html) again. 
+```{rb}
+
+    ucln_mean ~ dnExponential(2.0)
+    # sigma
+    ucln_sigma ~ dnExponential(3.0) 
+    # Set a deterministic node on sigma^2 
+    ucln_var := ucln_sigma * ucln_sigma 
+    ucln_mu := ln(ucln_mean) - (ucln_var * 0.5)
+    moves.append(mvScale(ucln_mean, lambda=1.0, tune=true, weight=4.0))
+    moves.append(mvScale(ucln_sigma, lambda=0.5, tune=true, weight=4.0))
+    
+    for (i in 1:num_branches){
+    branch_rate_var[i] ~ dnLognormal(ucln_mu, ucln_sigma)
+    moves.append(mvScale(branch_rate_var[i], lambda=1, tune=true, weight=2.0))
+    }
+    moves.append(mvVectorScale(branch_rate_var,lambda=1.0,tune=true,weight=2.0))
+    moves.append(mvVectorSingleElementScale(branch_rate_var,lambda=30.0,tune=true,weight=1.0))
+
+
+```
+
+# Morphological Change Model
+
+We will also use the morphology model defined in this [tree inference tutorial](https://dwbapst.github.io/PaleoSoc_phylo_short_course_2019/articles/module_06_TripartiteModel1_morph_change_models/RB_MCMC_Discrete_Morph.html)
+```{rb}
+
+    alpha_morpho ~ dnUniform( 0, 1E6 )
+    rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
+    #Moves on the parameters of the Gamma distribution.
+    moves.append(mvScale(alpha_morpho, lambda=1, weight=2.0))
+
+    n_max_states <- 7
+    idx = 1
+    morpho_bystate[1] <- morpho
+    for (i in 2:n_max_states) {
+        # make local tmp copy of data
+        # only keep character blocks with state space equal to size i
+        morpho_bystate[i] <- morpho
+        morpho_bystate[i].setNumStatesPartition(i)
+    	# get number of characters per character size wth i-sized states
+        nc = morpho_bystate[i].nchar()
+        # for non-empty character blocks
+        if (nc > 0) {
+            # make i-by-i rate matrix
+            q[idx] <- fnJC(i)
+    # create model of evolution for the character block
+            m_morph[idx] ~ dnPhyloCTMC( tree=fbd_tree,
+                                        Q=q[idx],
+                                        nSites=nc,
+                                        siteRates=rates_morpho,
+                                        branchRates = branch_rate_var,
+                                        type="Standard")
+    
+            # attach the data
+    	    m_morph[idx].clamp(morpho_bystate[i])
+    
+            # increment counter
+            idx = idx + 1
+            idx
+        }
+    }
+```
+
+
+# Running our analysis
+
+As we have in prior sections, we will now initialize and execute our model. First, we create the model object that contains all of our character change, clock, and tree model parameters and priors.
+```{rb}
+    mymodel = model(fbd_tree)
+``` 
+
+Next, we inform RevBayes where we would like to write our sampled parameters.
+
+```{rb}
+
+    monitors.append(mnModel(filename="output/cinc_dated.log", printgen=10))
+```
+
+And where we would like to write our trees.
+
+```{rb}
+
+    monitors.append(mnFile(filename="output/cinc_dated.trees", printgen=10, fbd_tree))
+```
+
+We can also echo some facets to the screen
+
+```{rb}
+
+    monitors.append(mnScreen(printgen=10, num_samp_anc, origin_time))
+```
+And then we initialize the model.
+```{rb echo=T, results='hide'}
+
+     mymcmc = mcmc(mymodel, monitors, moves)
+```
+And run it. In a real analysis, you would want to run this for far more than 1000 generations.
+```{rb}
+
+    mymcmc.run(generations=10000)
+```
+And then we quit.
+```{rb}
+    q()
+```
+
+
+## Running the estimation
+
+We can  automate convergence assessment using the R package convenience [@fabreti2021]. First, we will save our Rev session to a .Rev Script. In this case, we will set `use_quit = FALSE` because we typed the quit command in the above cell. We use the command `callRevFromTerminal` to run the file, then diagnose convergence with the convenience package. Because this is a longer computation, it is not directly run in this tutorial, but can be run on the user's computer.
+
+```{r}
+library(convenience)
+saveRev("mcmc_FBD.Rev", use_quit=FALSE)
+#callRevFromTerminal("mcmc_FBD.Rev")
+checkConvergence(path = "output/")
+```
+
+We can also use RevGadgets [@tribble2021revgadgets] to visualize our tree with a geological time scale. In this example, we use RevBayes to compute a summary tree, then export to RevGadets. Because this can be a long computation, the summarizing is not run here, but is provided. We can also use functions in ggplot2 [@wickham1pkgdown] to export figures. In this way, Revticulate can enable full reproducibility of results and graphics generation.
+```{r}
+
+library(RevGadgets)
+library(ggplot2)
+
+#doRev('trace = readTreeTrace("output/cinc_dated.trees", burnin=.25)
+#      mccTree(trace, "sample.tre")', timeout=60)
+
+tree <- readTrees("sample.tre")
+tree_output <- plotFBDTree(tree = tree, 
+            timeline = T, 
+            geo_units = "epochs",
+            time_bars = T,
+            tip_labels_italics = T,
+            tip_labels_remove_underscore = T,
+            tip_labels_size = 3, 
+            node_pp = T,
+            tip_age_bars = T,
+            node_age_bars = T, 
+            age_bars_colored_by = "posterior")
+
+tree_output
+ggsave("Cinctans_maximum_clade_credibility.pdf", tree_output)
+
+```
+
+<img src="Cinctans_maximum_clade_credibility.pdf" width="800" />
+
+
+
+
+
+
+# References

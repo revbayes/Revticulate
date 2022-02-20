@@ -50,10 +50,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/Archery.html">Introduction to MCMC using RevBayes</a>
+      <a href="../articles/BasicTutorial.html">Usage of Revticulate</a>
     </li>
     <li>
-      <a href="../articles/BasicTutorial.html">Usage of Revticulate</a>
+      <a href="../articles/DiscreteMorphology.html">Discrete morphology example</a>
     </li>
   </ul>
 </li>
@@ -83,131 +83,153 @@
 
     
     
-<p>First, load the Revticulate package and tell it where to find the RevBayes executeable.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>Revticulate can be installed in two ways. The first is via CRAN, using the default <code>install.packages</code> function in R:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">Revticulate</span><span class="op">)</span>
-<span class="fu"><a href="../reference/knitRev.html">knitRev</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="section level2">
-<h2 id="revbayes-and-r">RevBayes and R<a class="anchor" aria-label="anchor" href="#revbayes-and-r"></a>
-</h2>
-<p>Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes <a href="https://revbayes.github.io/download" class="external-link">installed</a> on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called “rb” (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on Windows, your copy will be called “rb.exe.”</p>
-<p>In the above chunk, you will see the command <code>initRev</code>. This is a function in the <code>RevKnitR</code> R package. This R package can be installed using the popular <code>devtools</code> R package like so:</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"Revticulate"</span><span class="op">)</span></code></pre></div>
+<p>The second is via the remotes package, a lightweight package enabling installation from GitHub repositories.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"paleantology/Revticulate"</span><span class="op">)</span></code></pre></div>
-<p>The <code>initRev</code> function creates a RevBayes running environment, called “revEnv”, which will allow you to interact with RevBayes through R. <code>initRev</code> takes two arguments: path and useHistory. path is the file path to your RevBayes executable, and useHistory determines whether or not to load the RevBayes history from the last Revticulate session into the RevBayes running environment. Because useHistory defaults to FALSE, and there will be no history for the user’s first session, it is not shown in the example above. Delete my sample path and enter your path above.</p>
-<p>The next line, <code>knitRev</code> establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.</p>
-</div>
-<div class="section level2">
-<h2 id="using-revbayes-in-a-knitr-chunk">Using RevBayes in a KnitR Chunk<a class="anchor" aria-label="anchor" href="#using-revbayes-in-a-knitr-chunk"></a>
-</h2>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"revbayes/Revticulate"</span><span class="op">)</span></code></pre></div>
+<p>The GitHub repository for Revticulate contains cutting-edge features and may contain bugfixes, but the CRAN is known to be stable for everyday use.</p>
+<p>Upon first installation, Revticulate will run a package check.<br>
+This check searches for and .Renviron file that contains a RevBayes path. If the package doesn’t find this file, or finds it without the path, the package prompts the user to use <code><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">usethis::edit_r_environ()</a></code>. This opens the .Renviron file, and the user will enter <code>rb={absolute path to revbayes}</code>. This can be edited at any time if there are multiple installs on the system, or if you recompile RevBayes and want to use a new version.</p>
+<p>Before using Revticulate in knitr, make sure the following is in your setup chunk:</p>
+<pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">Revticulate</span><span class="op">)</span>
+<span class="fu"><a href="../reference/knitRev.html">knitRev</a></span><span class="op">(</span><span class="op">)</span></code></pre>
+<div class="section level3">
+<h3 id="using-revbayes-in-a-knitr-chunk">Using RevBayes in a KnitR Chunk<a class="anchor" aria-label="anchor" href="#using-revbayes-in-a-knitr-chunk"></a>
+</h3>
 <p>RevBayes can be used in a KnitR chunk by changing the header to <code>rb</code> instead of <code>r</code>. In the below chunk, we create an object called <code>example</code> and use the assignment operator to give it the value 1. Then we print it.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">example</span> <span class="op">&lt;-</span> <span class="fl">1.0</span>
 <span class="va">example</span></code></pre></div>
+<pre><code><span class="co">## [1] 1</span></code></pre>
 <p>This is not an overtly useful thing to do, however. Let’s erase the previous chunk using the <code><a href="../reference/clearRev.html">clearRev()</a></code> function. This removes prior code from the RevBayes environment. Very handy if you make a mistake!</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/clearRev.html">clearRev</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>We could, instead, choose to do something a little more useful. How about reading in a data matrix and making a quick starting tree?</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">morpho</span> <span class="op">&lt;-</span> <span class="fu">readDiscreteCharacterData</span><span class="op">(</span><span class="st">"Cinctans.nex"</span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">morpho</span> <span class="op">&lt;-</span> <span class="fu">readDiscreteCharacterData</span><span class="op">(</span><span class="st">"bears.nex"</span><span class="op">)</span>
 <span class="va">num_taxa</span> <span class="op">&lt;-</span> <span class="fu">morpho.size</span><span class="op">(</span><span class="op">)</span>
 <span class="va">num_branches</span> <span class="op">&lt;-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">num_taxa</span> <span class="op">-</span> <span class="fl">2</span>
 <span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu">morpho.names</span><span class="op">(</span><span class="op">)</span>
 <span class="va">br_len_lambda</span> <span class="op">~</span> <span class="fu">dnExp</span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span>
 <span class="va">phylogeny</span> <span class="op">~</span> <span class="fu">dnUniformTopologyBranchLength</span><span class="op">(</span><span class="va">taxa</span>, branchLengthDistribution<span class="op">=</span><span class="fu">dnExponential</span><span class="op">(</span><span class="va">br_len_lambda</span><span class="op">)</span><span class="op">)</span>
 <span class="va">phylogeny</span></code></pre></div>
+<pre><code><span class="co">## </span>
+<span class="co">## Phylogenetic tree with 18 tips and 16 internal nodes.</span>
+<span class="co">## </span>
+<span class="co">## Tip labels:</span>
+<span class="co">##   Melursus_ursinus, Ursus_arctos, Tremarctos_ornatus, Ursus_americanus, Indarctos_arctoides, Ailuropoda_melanoleuca, ...</span>
+<span class="co">## </span>
+<span class="co">## Rooted; includes branch lengths.</span></code></pre>
 <p>Anything entered in an <code>rb</code> block will be interpreted as Rev code, and all the normal Rev syntax will apply. For a nice overview of Rev language and syntax, please see <a href="https://revbayes.github.io/tutorials/intro/rev" class="external-link">this tutorial</a>.</p>
-<p>One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. The best way to accomplish this is with the <code><a href="../reference/doRev.html">doRev()</a></code> function. When using this function, the RevCode you’d like to run goes in the parentheses of the <code>doRev</code> function. These are then exportable to R.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/doRev.html">doRev</a></span><span class="op">(</span>input <span class="op">=</span> <span class="st">'morpho &lt;- readDiscreteCharacterData("Cinctans.nex")
+<p>One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. The best way to accomplish this is with the <code><a href="../reference/doRev.html">doRev()</a></code> function. When using this function, the RevCode you’d like to run goes in the parentheses of the <code>doRev</code> function. These are then exportable to R. In this example, we load the dataset used in the published tutorial “Estimating a time-calibrated phylogeny of fossil and extant taxa using RevBayes” {<span class="citation">Barido-Sottani et al. (2020)</span>}.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/doRev.html">doRev</a></span><span class="op">(</span>input <span class="op">=</span> <span class="st">'morpho &lt;- readDiscreteCharacterData("bears.nex")
 num_taxa &lt;- morpho.size()
 num_branches &lt;- 2 * num_taxa - 2
 taxa &lt;- morpho.names()
 br_len_lambda ~ dnExp(0.2)
 phylogeny ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda))
 phylogeny'</span><span class="op">)</span></code></pre></div>
-<p>The <code>getRevObj</code> function is then used to extract the object. In this case, a phylogeny is not a simple numeric type, and we use <code>coerce=TRUE</code> to coerce from a string to a Newick tree that can be read by Phytools or similar.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">phylogeny</span> <span class="op">&lt;-</span> <span class="fu">getRevObj</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"phylogeny"</span>, coerce <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<p>The <code>doRev</code> function is then used to extract the object. Note that knitr chunks can only have one language type. Thus, to use a Rev Object in another chunk, it must be exported. In this case, a phylogeny is not a simple numeric type, and Revticualte automates the coercion from a string to a Newick tree that can be read by Phytools or similar.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">phylogeny</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/doRev.html">doRev</a></span><span class="op">(</span><span class="st">"phylogeny"</span><span class="op">)</span>
 
 <span class="fu">phytools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/phytools/man/plotTree.html" class="external-link">plotTree</a></span><span class="op">(</span><span class="va">phylogeny</span><span class="op">)</span></code></pre></div>
 <p>We may choose to clear RevBayes objects out of memory so that they are not being consistently echoed to the screen.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/clearRev.html">clearRev</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>One nice facet of having RevBayes running in an R notebook is the ability to flip to visualizations of the different distributions we use. For example, here is the code for a common parameterization of the discrete Gamma distribution on site rates.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">alpha_morpho</span> <span class="op">~</span> <span class="fu">dnUniform</span><span class="op">(</span> <span class="fl">0</span>, <span class="fl">1E6</span> <span class="op">)</span>;
 <span class="va">rates_morpho</span> <span class="op">:=</span> <span class="fu">fnDiscretizeGamma</span><span class="op">(</span> <span class="va">alpha_morpho</span>, <span class="va">alpha_morpho</span>, <span class="fl">4</span> <span class="op">)</span>
 <span class="va">alpha_morpho</span></code></pre></div>
+<pre><code><span class="co">## [1] 362826.3</span></code></pre>
 <p>If you aren’t a big stats person, this might not mean much to you, in terms of what this distribution actually looks like. But it is important to develop intuitions for what common distributions look like and what this says about our data. So, we can use R’s built-in graphics capabilities to have a look at what 1000 draws from this gamma will look like.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/doRev.html">doRev</a></span><span class="op">(</span><span class="st">'alpha_morpho ~ dnUniform( 0, 1E6 );
 rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
 '</span><span class="op">)</span>
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
-<span class="va">alpha_value</span> <span class="op">&lt;-</span> <span class="fu">getRevObj</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"alpha_morpho"</span>, coerce <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">alpha_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/doRev.html">doRev</a></span><span class="op">(</span><span class="st">"alpha_morpho"</span><span class="op">)</span>
 <span class="va">alpha_value</span>
 
 <span class="va">draws</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html" class="external-link">rgamma</a></span><span class="op">(</span><span class="fl">1000</span>, shape <span class="op">=</span> <span class="va">alpha_value</span>, rate <span class="op">=</span> <span class="va">alpha_value</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">draws</span>, xlab <span class="op">=</span> <span class="st">"Value"</span><span class="op">)</span></code></pre></div>
-<div class="section level3">
-<h3 id="simulate-coin-flips">Simulate coin flips<a class="anchor" aria-label="anchor" href="#simulate-coin-flips"></a>
-</h3>
+<div class="section level4">
+<h4 id="simulate-coin-flips">Simulate coin flips<a class="anchor" aria-label="anchor" href="#simulate-coin-flips"></a>
+</h4>
 <p>It’s adviseable if you’re switching gears to a new activity to clear the Rev environment of workspace objects from old activities:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/clearRev.html">clearRev</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Note that <code>clearRev</code> is an R function, and must be executed in an R chunk.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The number of coin flips</span>
 <span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span>
 
 <span class="co"># The number of heads</span>
 <span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">50</span>
 <span class="va">x</span></code></pre></div>
+<pre><code><span class="co">## [1] 50</span></code></pre>
 </div>
-<div class="section level3">
-<h3 id="initialize-markov-chain">Initialize Markov Chain<a class="anchor" aria-label="anchor" href="#initialize-markov-chain"></a>
-</h3>
+<div class="section level4">
+<h4 id="initialize-markov-chain">Initialize Markov Chain<a class="anchor" aria-label="anchor" href="#initialize-markov-chain"></a>
+</h4>
 <p>We have to start MCMC off with some initial parameter values. One way to do this is to randomly draw values of the parameter (<span class="math inline">\(p\)</span>) from the prior distribution. We assume a flat beta prior distribution (<span class="math inline">\(\alpha = 1\)</span> and <span class="math inline">\(\beta = 1\)</span>).</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">1</span>
 <span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span>
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Beta.html" class="external-link">rbeta</a></span> <span class="op">(</span>n<span class="op">=</span><span class="fl">1</span>, <span class="va">alpha</span>, <span class="va">beta</span><span class="op">)</span> <span class="op">[</span><span class="fl">1</span><span class="op">]</span>
 <span class="va">p</span></code></pre></div>
+<pre><code><span class="co">## [1] 0.5734786</span></code></pre>
+</div>
+<div class="section level4">
+<h4 id="likelihood-function">Likelihood Function<a class="anchor" aria-label="anchor" href="#likelihood-function"></a>
+</h4>
+<p>We next specify the likelihood function. We use the binomial probability for the likelihood function. Since the likelihood is defined only for <span class="math inline">\(p\)</span> between 0 and 1, we return 0 if <span class="math inline">\(p\)</span> is outside this range.</p>
+<p>The function can then be executed in the next cell:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">likelihood</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## [1] 0.02671503</span></code></pre>
+</div>
 </div>
 <div class="section level3">
-<h3 id="likelihood-function">Likelihood Function<a class="anchor" aria-label="anchor" href="#likelihood-function"></a>
+<h3 id="the-reprev-environment">The RepRev() environment<a class="anchor" aria-label="anchor" href="#the-reprev-environment"></a>
 </h3>
-<p>We next specify the likelihood function. We use the binomial probability for the likelihood function. Since the likelihood is defined only for <span class="math inline">\(p\)</span> between 0 and 1, we return 0 if <span class="math inline">\(p\)</span> is outside this range.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode rb"><code class="sourceCode ruby"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>function likelihood(p) {</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>    <span class="kw">if</span>(p &lt; <span class="dv">0</span> || p &gt; <span class="dv">1</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>        <span class="kw">return</span> <span class="dv">0</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>    l&lt;-dbinomial(x,p,n,log=<span class="dv">false</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a>    <span class="kw">return</span> l</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a>    </span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a>}</span></code></pre></div>
-<p>The function can then be executed in the next cell:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">likelihood</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="the-reprev-environment">The RepRev() environment<a class="anchor" aria-label="anchor" href="#the-reprev-environment"></a>
-</h2>
 <p>The function <code><a href="../reference/repRev.html">repRev()</a></code> can be called in the console (or in non-RStudio versions of R) to use RevBayes directly to program interactively. The <code><a href="../reference/repRev.html">repRev()</a></code> environment is denoted with <code>rb&gt;&gt;&gt;</code>. To exit, type Ctrl + C. It is not compatible with KnitR, being a console tool.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># repRev()</span>
 
 <span class="co"># rb&gt;&gt;&gt; 1+2</span>
 
 <span class="co"># [1] 3</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="limitations-of-revknitr">Limitations of RevKnitR<a class="anchor" aria-label="anchor" href="#limitations-of-revknitr"></a>
-</h2>
-<p>Revticulate functions use a forced timeout to get output from rb. This may result in seemingly out-of-place timeout warnings. This is because it relies on System2 to run the underlying RevBayes executeable. To run your actual MCMC, it’s probably best to save your code to a script and run it in the terminal.</p>
-<p>RevBayes sometimes asks for user input when it is unsure of what to do. For example, if you try to overwrite a previously named function with a new function of the same name, it will ask if the user really wants to do this and will prompt them to answer yes/no. Because of the way Revticulate captures Rev output from the command line, it does not know how to handle this, and will only allow doRev() to output "" from then on. To circumvent this issue, you can clear the Rev environment, or use callRev(). Because callRev() does not access the Revhistory.Rhistory file, it will not cause this issue. However, anything defined in callRev() will not be used in future calls to rb.</p>
+<div class="section level3">
+<h3 id="running-long-computations">Running Long Computations<a class="anchor" aria-label="anchor" href="#running-long-computations"></a>
+</h3>
+<p>Perhaps we would like to run a longer computation from R using Revticulate. For example, maybe we have made an MCMC script, and would like to run it using Revticulate, and then automatically process the output in R. In the below example, we will run an MCMC and automatically evaluate it for convergence using the package conveience.</p>
+<p>Included with the package, we have a script called ‘mcmc_mk.Rev,’ which runs a short phylogenetic estimation for a small morphological dataset from bears using the Mk model {<span class="citation">Lewis (2001)</span>}. Once the computation is complete, convergence is diagnosed with the R package convenience {<span class="citation">Fabreti, Höhna, and Schliep (2021)</span>}. Please note that this will take about 5 minutes if executed.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">convenience</span><span class="op">)</span>
+<span class="fu"><a href="../reference/callRevFromTerminal.html">callRevFromTerminal</a></span><span class="op">(</span><span class="st">"mcmc_mk.Rev"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/convenience/man/checkConvergence.html" class="external-link">checkConvergence</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"vignettes/output/"</span><span class="op">)</span></code></pre></div>
+<div id="refs" class="references hanging-indent">
+<div id="ref-barido2020estimating">
+<p>Barido-Sottani, Joëlle, Joshua A Justison, April M Wright, Rachel CM Warnock, Walker Pett, and Tracy A Heath. 2020. “Estimating a Time-Calibrated Phylogeny of Fossil and Extant Taxa Using Revbayes.” No commercial publisher| Authors open access book.</p>
+</div>
+<div id="ref-fabreti2021">
+<p>Fabreti, Luiza, Sebastian Höhna, and Klaus Schliep. 2021. <em>Lfabreti/Convenience: Integration with Zenodo</em> (version zenodo). Zenodo. <a href="https://doi.org/10.5281/zenodo.5520581" class="external-link">https://doi.org/10.5281/zenodo.5520581</a>.</p>
+</div>
+<div id="ref-Lewis2001">
+<p>Lewis, Paul O. 2001. “A Likelihood Approach to Estimating Phylogeny from Discrete Morphological Character Data.” <em>Systematic Biology</em> 50 (6): 913–25. <a href="https://doi.org/10.1080/106351501753462876" class="external-link">https://doi.org/10.1080/106351501753462876</a>.</p>
+</div>
+</div>
+</div>
 </div>
   </div>
 

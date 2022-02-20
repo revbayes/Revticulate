@@ -12,30 +12,35 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
-```
-
-First, load the Revticulate package and tell it where to find the RevBayes executeable.
-
-```{r}
 library(Revticulate)
 knitRev()
 ```
+# Installation
 
-
-
-## RevBayes and R
-
-Calling external software from R can be a bit tricky, and RevBayes is no exception. In order to successfully use RevBayes in R, you must have RevBayes [installed](https://revbayes.github.io/download) on your computer. You must also know the system path to the RevBayes executeable. For example, on my computer, my RevBayes executeable is called "rb" (this will be the case for Mac and Linux users), and it is stored in my software folder. If you are on Windows, your copy will be called "rb.exe."
-
-In the above chunk, you will see the command `initRev`. This is a function in the `RevKnitR` R package. This R package can be installed using the popular `devtools` R package like so:
+Revticulate can be installed in two ways. 
+The first is via CRAN, using the default `install.packages` function in R:
 
 ```{r, eval=FALSE}
-devtools::install_github("paleantology/Revticulate")
+install.packages("Revticulate")
 ```
 
-The `initRev` function creates a RevBayes running environment, called "revEnv", which will allow you to interact with RevBayes through R. `initRev` takes two arguments: path and useHistory. path is the file path to your RevBayes executable, and useHistory determines whether or not to load the RevBayes history from the last Revticulate session into the RevBayes running environment. Because useHistory defaults to FALSE, and there will be no history for the user's first session, it is not shown in the example above. Delete my sample path and enter your path above.
+The second is via the remotes package, a lightweight package enabling installation from GitHub repositories. 
 
-The next line, `knitRev` establishes a KnitR environment to render Rev code in the attractive KnitR format many of us are used to.
+```{r, eval=FALSE}
+remotes::install_github("revbayes/Revticulate")
+```
+
+ The GitHub repository for Revticulate contains cutting-edge features and may contain bugfixes, but the CRAN is known to be stable for everyday use.
+
+Upon first installation, Revticulate will run a package check.  
+This check searches for and .Renviron file that contains a RevBayes path. If the package doesn’t find this file, or finds it without the path, the package prompts the user to use `usethis::edit_r_environ()`. This opens the .Renviron file, and the user will enter `rb={absolute path to revbayes}`. This can be edited at any time if there are multiple installs on the system, or if you recompile RevBayes and want to use a new version.
+
+Before using Revticulate in knitr, make sure the following is in your setup chunk:
+
+```
+library(Revticulate)
+knitRev()
+```
 
 ## Using RevBayes in a KnitR Chunk
 
@@ -54,7 +59,7 @@ clearRev()
 We could, instead, choose to do something a little more useful. How about reading in a data matrix and making a quick starting tree? 
 
 ```{rb}
-morpho <- readDiscreteCharacterData("Cinctans.nex")
+morpho <- readDiscreteCharacterData("bears.nex")
 num_taxa <- morpho.size()
 num_branches <- 2 * num_taxa - 2
 taxa <- morpho.names()
@@ -64,9 +69,9 @@ phylogeny
 ```
 Anything entered in an `rb` block will be interpreted as Rev code, and all the normal Rev syntax will apply. For a nice overview of Rev language and syntax, please see [this tutorial](https://revbayes.github.io/tutorials/intro/rev). 
 
-One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. The best way to accomplish this is with the `doRev()` function. When using this function, the RevCode you'd like to run goes in the parentheses of the `doRev` function. These are then exportable to R.
+One thing researchers are often interested in doing is making an object in Rev and then viewing it in R. The best way to accomplish this is with the `doRev()` function. When using this function, the RevCode you'd like to run goes in the parentheses of the `doRev` function. These are then exportable to R. In this example, we load the dataset used in the published tutorial "Estimating a time-calibrated phylogeny of fossil and extant taxa using RevBayes" {@barido2020estimating}.
 ```{r}
-doRev(input = 'morpho <- readDiscreteCharacterData("Cinctans.nex")
+doRev(input = 'morpho <- readDiscreteCharacterData("bears.nex")
 num_taxa <- morpho.size()
 num_branches <- 2 * num_taxa - 2
 taxa <- morpho.names()
@@ -75,10 +80,10 @@ phylogeny ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExpon
 phylogeny')
 ```
 
-The `getRevObj` function is then used to extract the object. In this case, a phylogeny is not a simple numeric type, and we use `coerce=TRUE` to coerce from a string to a Newick tree that can be read by Phytools or similar. 
+The `doRev` function is then used to extract the object. Note that knitr chunks can only have one language type. Thus, to use a Rev Object in another chunk, it must be exported. In this case, a phylogeny is not a simple numeric type, and Revticualte automates the coercion from a string to a Newick tree that can be read by Phytools or similar. 
 
 ```{r}
-phylogeny <- getRevObj(name = "phylogeny", coerce = TRUE)
+phylogeny <- doRev("phylogeny")
 
 phytools::plotTree(phylogeny)
 ```
@@ -109,7 +114,7 @@ rates_morpho := fnDiscretizeGamma( alpha_morpho, alpha_morpho, 4 )
 ')
 
 library(ggplot2)
-alpha_value <- getRevObj(name = "alpha_morpho", coerce = TRUE)
+alpha_value <- doRev("alpha_morpho")
 alpha_value
 
 draws <- rgamma(1000, shape = alpha_value, rate = alpha_value)
@@ -152,13 +157,12 @@ p
 ### Likelihood Function
 We next specify the likelihood function. We use the binomial probability for the likelihood function. Since the likelihood is defined only for $p$ between 0 and 1, we return 0 if $p$ is outside this range.
 
-```{rb}
+```{rb include=FALSE}
 function likelihood(p) {
     if(p < 0 || p > 1)
         return 0
     l<-dbinomial(x,p,n,log=false)
     return l
-    
 }
 ```
 
@@ -180,13 +184,17 @@ The function `repRev()` can be called in the console (or in non-RStudio versions
 # [1] 3
 ```
 
-## Limitations of RevKnitR
+## Running Long Computations
 
-Revticulate functions use a forced timeout to get output from rb. This may result in seemingly out-of-place timeout warnings. This is because it relies on System2 to run the underlying RevBayes executeable. To run your actual MCMC, it's probably best to save your code to a script and run it in the terminal.
+Perhaps we would like to run a longer computation from R using Revticulate. For example, maybe we have made an MCMC script, and would like to run it using Revticulate, and then automatically process the output in R. In the below example, we will run an MCMC and automatically evaluate it for convergence using the package conveience. 
 
-RevBayes sometimes asks for user input when it is unsure of what to do. For example, if you try to overwrite a previously named function with a new function of the same name, it will ask if the user really wants to do this and will prompt them to answer yes/no. Because of the way Revticulate captures Rev output from the command line, it does not know how to handle this, and will only allow doRev() to output "" from then on.
-To circumvent this issue, you can clear the Rev environment, or use callRev(). Because callRev() does not access the Revhistory.Rhistory file, it will not cause this issue. However, anything defined in callRev() will not be used in future calls to rb.
+Included with the package, we have a script called 'mcmc_mk.Rev,' which runs a short phylogenetic estimation for a small morphological dataset from bears using the Mk model {@Lewis2001}. Once the computation is complete, convergence is diagnosed with the R package convenience {@fabreti2021}. Please note that this will take about 5 minutes if executed.
 
+```{r}
+library(convenience)
+callRevFromTerminal("mcmc_mk.Rev")
+checkConvergence(path = "vignettes/output/")
+```
 
 
 

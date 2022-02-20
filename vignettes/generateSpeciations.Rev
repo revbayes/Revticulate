@@ -1,0 +1,13 @@
+setwd("/Users/april/projects/Revticulate/vignettes")
+
+#START
+
+draws <- 100
+for (i in 1:draws){
+     speciation_rate ~ dnExponential(10);
+     specs <- v(speciation_rate);
+     extinction_rate ~ dnExponential(10);
+     exts <- v(extinction_rate);
+     i <- i + 1}
+
+q()
