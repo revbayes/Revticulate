@@ -1,0 +1,8 @@
+pandoc: 2.10.1
+pkgdown: 2.0.2
+pkgdown_sha: ~
+articles:
+  Archery: Archery.html
+  BasicTutorial: BasicTutorial.html
+last_built: 2022-02-20T02:08Z
+
