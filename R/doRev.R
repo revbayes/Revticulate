@@ -1,145 +1,86 @@
-
-#'Wrapper for CallRev() and RevDefine()
+#'Call RevBayes with Continuous Session History
 #'
-#'A wrapper for CallRev() and RevDefine(). If a variable is assigned in the temporary
-#'    rb session, it will also be created in the RevEnv. Otherwise, functions like CallRev().
+#'The basic Revticulate function for interacting with RevBayes
 #'
-#'@param ... String of code that will be sent to rb.exe
+#'This function allows users to make multiple calls to RevBayes, while maintaining a
+#'persistent input history. This means that variables defined in one call can be referenced in
+#'another call, giving the feel of a continuous RevBayes session.
 #'
-#'@param viewCode If TRUE, code from the temporary file used to interact with rb.exe
-#'    will be displayed in the viewing pane. This option may be useful for diagnosing errors.
-#'    Default is FALSE.
+#'Because this function is the basis for repRev() and knitRev(), variables defined in RevBayes
+#'with any of these functions can be referenced by any of the others.
 #'
-#'@param coerce If FALSE, output from rb.exe will remain in String format. If TRUE, doRev()
-#'    will attempt to coerce output into an appropriate R object.
+#'@param input character - Rev language expression to execute in RevBayes
 #'
-#'@param interactive Ignore. Used to implement doRev() into RepRev().
+#'@param evaluate logical - If FALSE, input will be written to the .Revhistory file, but will not be interpreted in RevBayes. Default is FALSE.
 #'
-#'@param Det_Update If TRUE, previously created object in RevEnv that is redefined in rb.exe
-#'    will be updated. If FALSE, it will not. Default is TRUE.
+#'@param coerce logical - If TRUE, the output from RevBayes will be coerced into R format with coerceRev()
 #'
-#'@param use_wd If TRUE, the temporary rb.exe session will use the same working directory as
-#'    the current R session. Else, it will use its default.
+#'@param viewCode logical - If TRUE, Rev code input and output will be displayed in the viewing pane. Mostly used for development purposes.
 #'
-#'@return outobjs Prints output from rb.exe, if required.
+#'@param timeout integer - Determines how long the system2() call should wait before timing out. Default is 5 seconds. For longer calls, see 'callRevFromTerminal()'
+#'
+#'@return now - RevBayes output, type varies. If coerce = TRUE, coerceRev() will attempt to convert RevBayes output into an equivalent R object. If else, the return type is character.
 #'
 #'@examples
-#'doRev("sam <- 777")
-#'doRev("sam + 2", viewCode = TRUE)
+#' \dontrun{
+#' doRev("simTree(16)", coerce=FALSE)
+#' doRev("a <- 10")
+#' doRev("a * 100")
+#'}
 #'
 #'@export
 #'
-doRev <- function(..., viewCode = FALSE, coerce = TRUE, interactive = FALSE, Det_Update = TRUE, use_wd = T, knit = FALSE){
 
-  if(stringr::str_c(..., collapse = "") == ""){
+doRev <- function(input, coerce = TRUE, evaluate = TRUE, viewCode = FALSE, timeout = 5){
+
+  input <- unlist(input)
+
+  if(!evaluate){
+    cat(input, file = Sys.getenv("revHistory"), append = TRUE, sep = "\n")
     return("")
   }
 
-  #group elements by curly braces
-  clumpBrackets <- function(stringVector){
+  if(length(input) != 1)
+    stop("Input length must equal one.")
 
-    #get opening and closing curly braces
-    openBraces <- sum(stringr::str_count(stringVector, "\\{"))
-    closedBraces <- sum(stringr::str_count(stringVector, "\\}"))
-
-    if(openBraces == closedBraces){
-      return(stringVector)
-    }
-
-    if(all(openBraces == 0)){
-      return(stringVector)
-    }
-
-    allBraces <- openBraces - closedBraces
-    #get indices where there is a net change in the number of open or closed brackets and the net change at
-    #these indices. (-) indicates closing curly braces.
-    startsStops <- which(allBraces != 0)
-    startStopVals <- allBraces[startsStops]
-
-    #Get indices where outer curly braces close
-    stopIndexes <- c()
-    net <- startStopVals[1]
-    for(i in 2:length(startStopVals)){
-      net <- net + startStopVals[i]
-      if(net == 0){
-        stopIndexes <- c(stopIndexes, i)
-      }
-    }
-    #Get clusters of start and stop values
-    finalStopVals <- startsStops[stopIndexes]
-    finalStartVals <- c(startsStops[1], finalStopVals + 1)
-    finalStartVals <- finalStartVals[-c(length(finalStartVals))]
-    finalStartStopVals <- list(finalStartVals, finalStopVals)
-
-    #build final coerced vector
-    finalVector <- c(stringVector[which(1:length(stringVector) < startsStops[1])])
-    for(i in 1:length(finalStartStopVals[[1]])){
-      start <- finalStartStopVals[[1]][i]
-      stop <- finalStartStopVals[[2]][i]
-      finalVector <- c(finalVector, stringr::str_c(stringVector[start:stop], collapse = "\n"))
-    }
-    highestStopValue <- finalStopVals[length(finalStopVals)]
-    if(highestStopValue < length(stringVector)){
-      finalVector <- c(finalVector, stringVector[c((highestStopValue + 1):length(stringVector))])
-    }
-
-    finalVector <- stringr::str_c("\n", finalVector, sep = "")
-
-    return(finalVector)
+  if(!all((str_count(input, c("\\(", "\\{", "\\[")) == str_count(input, c("\\)", "\\}", "\\]"))))){
+    stop("RevBayes command must have an equal number of open and closing braces!")
   }
 
+  allCode <- getRevHistory()
 
-  if(knit){
-    coerce = FALSE}
+  try({
 
+    first <- callRev(getRevHistory(), coerce = FALSE, timeout = timeout)
+    cat(input, file = Sys.getenv("revHistory"), append = TRUE, sep = "\n")
+    last <- callRev(getRevHistory(), coerce = FALSE, viewCode = viewCode, timeout = timeout)
 
-  RevOut <- clumpBrackets(c(...))
-  RevOut <- stringr::str_squish(RevOut)
-  RevOut <- RevOut[which(RevOut != "")]
+  }, silent = TRUE)
+  if(length(first) != 0)
+    now <- last[-c(1:length(first))]
+  else now <- last
 
-  if(knit){
-    RevOut == stringr::str_c(RevOut, sep = "\n")
-  }
+  if(length(now) == 0)
+    now <- ""
 
-  outobjs <- list()
-
-  for(i in 1:length(RevOut)){
-    if(stringr::str_detect(RevOut[i], " = | := | <- | ~ ")){
-      RevDefine(RevOut[i], viewCode = viewCode)
-
-      if(length(RevEnv$Deterministic) != 0){
-        if(Det_Update == TRUE){
-          for(i in unique(RevEnv$Deterministic)){
-            RevDefine(i, viewCode = F, hideMessage = TRUE)
-          }
-        }
-      }
-
-    }
-
-    else{
-      out <- CallRev(RevOut[i], coerce = coerce, path = RevEnv$RevPath, viewCode = viewCode, use_wd = use_wd)
-      if(interactive == TRUE){
-        return(print(out))}
-      if(interactive == FALSE){
-        outobjs <- append(outobjs, list(out))
-      }
+  if (any(str_detect(now, pattern = "Error:|error|Missing Variable:"))) {
+    cat(allCode, file = Sys.getenv("revHistory"), append = FALSE, sep = "\n")
+    if(coerce){
+      cat(stringr::str_squish(now), file = stderr(), sep = "\n")
+      return(invisible())
     }
   }
 
-
-
-  if(length(outobjs) == 0){
-    return()
+  if(coerce){
+    now <- coerceRev(now)
+    return(now)
   }
 
-  if(length(outobjs) == 1){
-    outobjs <- outobjs[[1]]
+  if(length(now) > 1){
+    if(str_squish(now[1]) == ""){
+      now <- now[2:length(now)]
+    }
   }
 
-  if(knit == TRUE){
-    outobjs <- unlist(outobjs)
-  }
-
-  return(outobjs)
+  return(now)
 }

@@ -2,45 +2,40 @@
 % Please edit documentation in R/doRev.R
 \name{doRev}
 \alias{doRev}
-\title{Wrapper for CallRev() and RevDefine()}
+\title{Call RevBayes with Continuous Session History}
 \usage{
-doRev(
-  ...,
-  viewCode = FALSE,
-  coerce = TRUE,
-  interactive = FALSE,
-  Det_Update = TRUE,
-  use_wd = T,
-  knit = FALSE
-)
+doRev(input, coerce = TRUE, evaluate = TRUE, viewCode = FALSE, timeout = 5)
 }
 \arguments{
-\item{...}{String of code that will be sent to rb.exe}
+\item{input}{character - Rev language expression to execute in RevBayes}
 
-\item{viewCode}{If TRUE, code from the temporary file used to interact with rb.exe
-will be displayed in the viewing pane. This option may be useful for diagnosing errors.
-Default is FALSE.}
+\item{coerce}{logical - If TRUE, the output from RevBayes will be coerced into R format with coerceRev()}
 
-\item{coerce}{If FALSE, output from rb.exe will remain in String format. If TRUE, doRev()
-will attempt to coerce output into an appropriate R object.}
+\item{evaluate}{logical - If FALSE, input will be written to the .Revhistory file, but will not be interpreted in RevBayes. Default is FALSE.}
 
-\item{interactive}{Ignore. Used to implement doRev() into RepRev().}
+\item{viewCode}{logical - If TRUE, Rev code input and output will be displayed in the viewing pane. Mostly used for development purposes.}
 
-\item{Det_Update}{If TRUE, previously created object in RevEnv that is redefined in rb.exe
-will be updated. If FALSE, it will not. Default is TRUE.}
-
-\item{use_wd}{If TRUE, the temporary rb.exe session will use the same working directory as
-the current R session. Else, it will use its default.}
+\item{timeout}{integer - Determines how long the system2() call should wait before timing out. Default is 5 seconds. For longer calls, see 'callRevFromTerminal()'}
 }
 \value{
-outobjs Prints output from rb.exe, if required.
+now - RevBayes output, type varies. If coerce = TRUE, coerceRev() will attempt to convert RevBayes output into an equivalent R object. If else, the return type is character.
 }
 \description{
-A wrapper for CallRev() and RevDefine(). If a variable is assigned in the temporary
-   rb session, it will also be created in the RevEnv. Otherwise, functions like CallRev().
+The basic Revticulate function for interacting with RevBayes
+}
+\details{
+This function allows users to make multiple calls to RevBayes, while maintaining a
+persistent input history. This means that variables defined in one call can be referenced in
+another call, giving the feel of a continuous RevBayes session.
+
+Because this function is the basis for repRev() and knitRev(), variables defined in RevBayes
+with any of these functions can be referenced by any of the others.
 }
 \examples{
-doRev("sam <- 777")
-doRev("sam + 2", viewCode = TRUE)
+\dontrun{
+doRev("simTree(16)", coerce=FALSE)
+doRev("a <- 10")
+doRev("a * 100")
+}
 
 }
