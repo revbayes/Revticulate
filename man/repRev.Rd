@@ -39,7 +39,7 @@ myNumber <- 4
 myNumber
 
 posteriorPredictiveProbability(v(2), 3)
-getRev()
+getrRev()
 clearRev()
 quit()
 }
