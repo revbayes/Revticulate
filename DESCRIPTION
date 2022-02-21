@@ -20,6 +20,8 @@ Imports:
     knitr,
     utils,
     comprehenr,
+    knitr,
+    utils,
     jsonlite,
     usethis,
     rstudioapi
