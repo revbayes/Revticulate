@@ -21,7 +21,6 @@ Imports:
     knitr,
     utils,
     comprehenr,
-    phytools,
     jsonlite,
     usethis,
     rstudioapi
@@ -34,3 +33,4 @@ Suggests:
     devtools
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
