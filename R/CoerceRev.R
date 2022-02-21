@@ -14,7 +14,6 @@
 #'}
 #'@import stringr
 #'@import comprehenr
-#'@import phytools
 #'@import jsonlite
 #'@import usethis
 #'
