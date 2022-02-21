@@ -11,7 +11,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+knitr::opts_chunk$set(echo = TRUE, eval=TRUE)
 library(Revticulate)
 knitRev()
 ```
@@ -85,7 +85,7 @@ The `doRev` function is then used to extract the object. Note that knitr chunks 
 ```{r}
 phylogeny <- doRev("phylogeny")
 
-phytools::plotTree(phylogeny)
+ape::plot.phylo(phylogeny)
 ```
 
 
@@ -190,7 +190,7 @@ Perhaps we would like to run a longer computation from R using Revticulate. For 
 
 Included with the package, we have a script called 'mcmc_mk.Rev,' which runs a short phylogenetic estimation for a small morphological dataset from bears using the Mk model {@Lewis2001}. Once the computation is complete, convergence is diagnosed with the R package convenience {@fabreti2021}. Please note that this will take about 5 minutes if executed.
 
-```{r}
+```{r, eval = FALSE}
 library(convenience)
 callRevFromTerminal("mcmc_mk.Rev")
 checkConvergence(path = "vignettes/output/")

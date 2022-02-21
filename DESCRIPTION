@@ -31,7 +31,8 @@ Suggests:
     testthat,
     ggplot2,
     devtools,
-    qpdf
+    RevGadgets,
+    convenience
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

@@ -2,7 +2,7 @@
 ---
 title: "Discrete morphology example"
 author: "Caleb Charpentier and April Wright"
-date: Sys.Date()
+date: Feb. 20, 2022
 output: rmarkdown::html_vignette
 bibliography: refs.bib
 
@@ -13,7 +13,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+knitr::opts_chunk$set(echo = TRUE, eval=TRUE)
 library(Revticulate)
 knitRev()
 ```
@@ -267,7 +267,7 @@ We can look at this tree to ensure it exists and seems reasonable:
 
 phylogeny <- doRev("fbd_tree")
 
-phytools::plotTree(phylogeny)
+ape::plot.phylo(phylogeny)
 
 ```
 
@@ -422,7 +422,7 @@ And then we initialize the model.
      mymcmc = mcmc(mymodel, monitors, moves)
 ```
 And run it. In a real analysis, you would want to run this for far more than 1000 generations.
-```{rb}
+```{rb, eval = FALSE}
 
     mymcmc.run(generations=10000)
 ```
@@ -436,11 +436,11 @@ And then we quit.
 
 We can  automate convergence assessment using the R package convenience [@fabreti2021]. First, we will save our Rev session to a .Rev Script. In this case, we will set `use_quit = FALSE` because we typed the quit command in the above cell. We use the command `callRevFromTerminal` to run the file, then diagnose convergence with the convenience package. Because this is a longer computation, it is not directly run in this tutorial, but can be run on the user's computer.
 
-```{r}
+```{r, eval = FALSE, echo = TRUE}
 library(convenience)
 saveRev("mcmc_FBD.Rev", use_quit=FALSE)
-#callRevFromTerminal("mcmc_FBD.Rev")
-#checkConvergence(path = "output/")
+callRevFromTerminal("mcmc_FBD.Rev")
+checkConvergence(path = "output/")
 ```
 
 We can also use RevGadgets [@tribble2021revgadgets] to visualize our tree with a geological time scale. In this example, we use RevBayes to compute a summary tree, then export to RevGadets. Because this can be a long computation, the summarizing is not run here, but is provided. We can also use functions in ggplot2 [@wickham1pkgdown] to export figures. In this way, Revticulate can enable full reproducibility of results and graphics generation.
@@ -466,11 +466,11 @@ tree_output <- plotFBDTree(tree = tree,
             age_bars_colored_by = "posterior")
 
 tree_output
-ggsave("Cinctans_maximum_clade_credibility.pdf", tree_output)
+ggsave("Cinctans_maximum_clade_credibility.png", tree_output)
 
 ```
 
-<img src="Cinctans_maximum_clade_credibility.pdf" width="800" />
+<img src="Cinctans_maximum_clade_credibility.png" width="800" />
 
 
 
