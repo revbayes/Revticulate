@@ -1,7 +1,7 @@
 Package: Revticulate
 Type: Package
 Title: Interaction with "RevBayes" in R
-Version: 0.3.0
+Version: 1.0.0
 Authors@R: c(person(given = "Caleb",
                     family = "Charpentier",
                     role = c("aut", "cre"),
@@ -17,7 +17,6 @@ Depends:
 Imports:
     ape,
     stringr,
-    stringi,
     knitr,
     utils,
     comprehenr,
@@ -32,7 +31,5 @@ Suggests:
     ggplot2,
     devtools,
     RevGadgets,
-    convenience
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-VignetteBuilder: knitr
