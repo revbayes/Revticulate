@@ -35,3 +35,4 @@ Suggests:
     RevGadgets,
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+URL: https://github.com/revbayes/Revticulate
