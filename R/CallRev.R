@@ -116,6 +116,7 @@ callRev <- function (..., coerce = FALSE, path = Sys.getenv("rb"), viewCode = FA
     drop_idx <- c(seq_len(13), length(out) - 1, length(out))
     drop_idx <- drop_idx[drop_idx > 0 & drop_idx <= length(out)]
     out <- out[-drop_idx]
+    }
   
   cat("Input:\n -->  " %+% ret %+% "\n//", file = tf,
       sep = "\n", append = FALSE)
