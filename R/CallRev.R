@@ -100,8 +100,8 @@ callRev <- function (..., coerce = FALSE, path = Sys.getenv("rb"), viewCode = FA
     argu <- c("setwd(\"" %+% wd %+% "\")", argu)
   }
 
-  tf <- tempfile(pattern = "file", tmpdir = paste(Sys.getenv("revTemps"),
-                                                  "/", sep = ""), fileext = ".rev")
+  tf <- tempfile(pattern = "file", tmpdir = file.path(Sys.getenv("revTemps")), fileext = ".rev")
+
 
   tf <- suppressWarnings((gsub(pattern = "\\\\", "/", tf)))
 
