@@ -113,15 +113,9 @@ callRev <- function (..., coerce = FALSE, path = Sys.getenv("rb"), viewCode = FA
   has_banner <- any(grepl("RevBayes version", out))
   
   if (has_banner) {
-    # build safe drop indices
     drop_idx <- c(seq_len(13), length(out) - 1, length(out))
     drop_idx <- drop_idx[drop_idx > 0 & drop_idx <= length(out)]
     out <- out[-drop_idx]
-  } else {
-    warning("Banner not found; skipping header trim.")
-    # optionally still drop footer alone:
-    # if (length(out) > 1) out <- out[-c(length(out) - 1, length(out))]
-  }
   
   cat("Input:\n -->  " %+% ret %+% "\n//", file = tf,
       sep = "\n", append = FALSE)
