@@ -108,7 +108,7 @@ callRev <- function (..., coerce = FALSE, path = Sys.getenv("rb"), viewCode = FA
   fopen <- file(tf)
   ret <- unlist(argu)
   writeLines(ret, fopen, sep = "\n")
-  out <- system2(path, args = c(tf), stdout = TRUE, timeout=timeout)
+  out <- system2(path, args = c(tf), stdout = "", timeout=timeout)
   
   has_banner <- any(grepl("RevBayes version", out))
   
