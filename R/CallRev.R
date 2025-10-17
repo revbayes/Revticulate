@@ -100,16 +100,24 @@ callRev <- function (..., coerce = FALSE, path = Sys.getenv("rb"), viewCode = FA
     argu <- c("setwd(\"" %+% wd %+% "\")", argu)
   }
 
-  tf <- tempfile(pattern = "file", tmpdir = paste(Sys.getenv("revTemps"),
-                                                  "/", sep = ""), fileext = ".rev")
+  tf <- tempfile(pattern = "file", tmpdir = file.path(Sys.getenv("revTemps")), fileext = ".rev")
+
 
   tf <- suppressWarnings((gsub(pattern = "\\\\", "/", tf)))
 
   fopen <- file(tf)
   ret <- unlist(argu)
   writeLines(ret, fopen, sep = "\n")
-  out <- system2(path, args = c(tf), stdout = TRUE, timeout=timeout)
-  out <- out[-c(1:13, length(out) - 1, length(out))]
+  out <- system2(path, args = c(tf), stdout = "", timeout=timeout)
+  
+  has_banner <- any(grepl("RevBayes version", out))
+  
+  if (has_banner) {
+    drop_idx <- c(seq_len(13), length(out) - 1, length(out))
+    drop_idx <- drop_idx[drop_idx > 0 & drop_idx <= length(out)]
+    out <- out[-drop_idx]
+    }
+  
   cat("Input:\n -->  " %+% ret %+% "\n//", file = tf,
       sep = "\n", append = FALSE)
   cat("Output:\n -->  " %+% out %+% "\n//", file = tf,
